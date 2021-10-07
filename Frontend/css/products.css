@@ -1,0 +1,360 @@
+.demo2 {
+  margin-top: 60px;
+}
+
+.demo2 .demo2-container .demo2-title {
+  margin-bottom: 33px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.demo2 .demo2-container .demo2-title .big-title {
+  font-size: 24px;
+  font-weight: 500;
+  cursor: pointer;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  display: inline;
+}
+
+.demo2 .demo2-container .demo2-title .big-title:hover {
+  color: #2879fe;
+}
+
+.demo2 .demo2-container .demo2-title .small-title {
+  margin-top: 15px;
+  cursor: context-menu;
+  font-size: 16px;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin: 0 139.6px;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product {
+  -ms-flex-preferred-size: 23.75%;
+      flex-basis: 23.75%;
+  margin-bottom: 50px;
+  overflow: hidden;
+  height: 563px;
+  margin-right: 20px;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product:nth-child(4n) {
+  margin-right: 0;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product:hover .product-description {
+  -webkit-transform: translateY(-48px);
+          transform: translateY(-48px);
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image {
+  position: relative;
+  width: 100%;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .quickview,
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .heart,
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .compare {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: rgba(255, 255, 255, 0.9);
+  width: 46px;
+  height: 46px;
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  -webkit-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .quickview i,
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .heart i,
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .compare i {
+  font-size: 18px;
+  line-height: 1;
+  margin-top: 5px;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .quickview svg,
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .heart svg,
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .compare svg {
+  font-family: "wokiee_icons";
+  width: 16px;
+  height: 15px;
+  line-height: 1;
+  margin-top: -1px;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .quickview .mini-decrip,
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .heart .mini-decrip,
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .compare .mini-decrip {
+  position: absolute;
+  right: 60px;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .quickview .mini-decrip span,
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .heart .mini-decrip span,
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .compare .mini-decrip span {
+  text-transform: capitalize;
+  font-size: 14px;
+  text-align: center;
+  white-space: nowrap;
+  position: relative;
+  background-color: white;
+  padding: 7px;
+  border-radius: 3px;
+  -webkit-box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.2);
+          box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .quickview .mini-decrip span::before,
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .heart .mini-decrip span::before,
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .compare .mini-decrip span::before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-left: 7px solid white;
+  border-bottom: 5px solid transparent;
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .quickview:hover,
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .heart:hover,
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .compare:hover {
+  background-color: rgba(40, 121, 254, 0.9);
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .quickview:hover i,
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .heart:hover i,
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .compare:hover i {
+  color: white;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .quickview:hover svg path,
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .heart:hover svg path,
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .compare:hover svg path {
+  fill: white;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .quickview:hover .mini-decrip,
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .heart:hover .mini-decrip,
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .compare:hover .mini-decrip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .quickview {
+  top: 10px;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .heart {
+  top: 66px;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .compare {
+  top: 122px;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .main-image {
+  display: block;
+  height: 350px;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .main-image img {
+  width: 100%;
+  height: 100%;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .main-image .more {
+  white-space: nowrap;
+  position: absolute;
+  top: 10px;
+  left: 8px;
+  text-transform: capitalize;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .main-image .more .more-new {
+  background: #03a9f5;
+  padding: 3px;
+  border-radius: 3px;
+  color: white;
+  font-size: 12px;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-image .main-image .more .more-sale {
+  background: #f8353e;
+  padding: 3px;
+  border-radius: 3px;
+  color: white;
+  font-size: 12px;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-description {
+  padding-top: 15px;
+  text-align: center;
+  background-color: white;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-description .description-title {
+  text-transform: uppercase;
+  font-size: 12px;
+  color: #999999;
+  cursor: pointer;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-description .description-title:hover {
+  color: #2879fe;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-description .description-rating-star {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 35%;
+  margin: 10px auto;
+  cursor: pointer;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-description .description-rating-star li i {
+  color: #ffa52e;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-description .name-of-product {
+  text-transform: capitalize;
+  font-size: 14px;
+  cursor: pointer;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-description .name-of-product:hover {
+  color: #2879fe;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-description .description-price {
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 8px;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-description .color-options {
+  margin-top: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-description .color-options .option {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  border: 2px solid #2879fe;
+  margin-right: 3px;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-description .color-options .option:last-child {
+  margin-right: 0;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-description .color-options .option a img {
+  border-radius: 6px;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-description .size-options {
+  margin: 15px auto;
+  text-transform: uppercase;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-description .size-options span {
+  background: #f7f8fa;
+  font-size: 12px;
+  padding: 7px;
+  border-radius: 2px;
+  color: #777777;
+  cursor: pointer;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-description .size-options span:active {
+  background: #2879fe;
+  color: #ffffff;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-description .size-options span:hover {
+  background: #2879fe;
+  color: #ffffff;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-description .add-to-cart {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-bottom: 15px;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-description .add-to-cart .add-to-cart-container {
+  height: 100%;
+  background-color: #2879fe;
+  padding: 9px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-description .add-to-cart .add-to-cart-container .add-to-cart-btn {
+  font-size: 16px;
+  margin-right: 5px;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-description .add-to-cart .add-to-cart-container .add-to-cart-btn i {
+  color: white;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-description .add-to-cart .add-to-cart-container .add-to-cart-text {
+  text-transform: uppercase;
+  font-size: 14px;
+  color: white;
+}
+
+.demo2 .demo2-container .demo2-product .demo2-product-container .product .product-description .add-to-cart .add-to-cart-container:hover {
+  background-color: #2267d8;
+}
+/*# sourceMappingURL=demo2.css.map */

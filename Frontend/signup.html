@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng Ký</title>
+    <!-- Link google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+
+    <!-- Link font-awesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="css/SignUp.css" />
+    <link rel="stylesheet" href="css/reset.css" />
+</head>
+
+<body>
+    <div class="SignUp container">
+        <h1 class="SignUp-title underline-title m-b-20 m-t-20">
+            <b>Đăng ký tài khoản</b>
+        </h1>
+        <form id="signup_form" action="#" class="bg-form" method="POST">
+            <div class="ant-row input-border" style="margin: 0px; row-gap: 32px">
+                <div class="ant-col ant-col-24 p-b-0 ant-col-md-12" style="padding: 32px 32px 0 32px">
+                    <div class="ant-row" style="row-gap: 16px">
+                        <h2>Thông tin tài khoản</h2>
+                        <div class="ant-col ant-col-24">
+                            <span class="ant-input-affix-wrapper ant-input-affix-wrapper-lg input-form-common">
+                <input autocomplete="on" class="ant-input ant-input-lg" name="email" placeholder="Email *"
+                  maxlength="1000" type="text" value="" />
+                <span class="ant-input-suffix">
+                  <span role="img" aria-label="info-circle" class="anticon anticon-info-circle"
+                    style="color: rgba(0, 0, 0, 0.25)"><svg viewBox="64 64 896 896" focusable="false"
+                      data-icon="info-circle" width="1em" height="1em" fill="currentColor" aria-hidden="true">
+                      <path
+                        d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z">
+                      </path>
+                      <path
+                        d="M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z">
+                      </path>
+                    </svg></span></span>
+                            </span>
+                        </div>
+                        <div class="ant-col ant-col-12">
+                            <span class="
+                    ant-input-affix-wrapper ant-input-affix-wrapper-lg
+                    input-form-common
+                  "><input autocomplete="on" class="ant-input ant-input-lg" name="verifyCode"
+                  placeholder="Mã xác nhận *" maxlength="1000" type="text" value="" /><span
+                  class="ant-input-suffix"><span role="img" aria-label="info-circle" class="anticon anticon-info-circle"
+                    style="color: rgba(0, 0, 0, 0.25)"><svg viewBox="64 64 896 896" focusable="false"
+                      data-icon="info-circle" width="1em" height="1em" fill="currentColor" aria-hidden="true">
+                      <path
+                        d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z">
+                      </path>
+                      <path
+                        d="M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z">
+                      </path>
+                    </svg></span></span>
+                            </span>
+                        </div>
+                        <div class="ant-col ant-col-12">
+                            <button id="js_gui_ma" type="button" class="ant-btn ant-btn-primary ant-btn-lg w-100 verify-btn">
+                <span>Gửi mã</span>
+              </button>
+                        </div>
+                        <div class="ant-col ant-col-24">
+                            <span class="
+                    ant-input-affix-wrapper
+                    ant-input-affix-wrapper-lg
+                    ant-input-password
+                    input-form-common
+                    ant-input-password-large
+                  "><input autocomplete="on" name="password" placeholder="Mật khẩu *" maxlength="1000" action="click"
+                  type="password" class="ant-input ant-input-lg" /><span class="ant-input-suffix"><span role="img"
+                    aria-label="eye-invisible" tabindex="-1" class="
+                        anticon anticon-eye-invisible
+                        ant-input-password-icon
+                      "><svg viewBox="64 64 896 896" focusable="false" data-icon="eye-invisible" width="1em"
+                      height="1em" fill="currentColor" aria-hidden="true">
+                      <path
+                        d="M942.2 486.2Q889.47 375.11 816.7 305l-50.88 50.88C807.31 395.53 843.45 447.4 874.7 512 791.5 684.2 673.4 766 512 766q-72.67 0-133.87-22.38L323 798.75Q408 838 512 838q288.3 0 430.2-300.3a60.29 60.29 0 000-51.5zm-63.57-320.64L836 122.88a8 8 0 00-11.32 0L715.31 232.2Q624.86 186 512 186q-288.3 0-430.2 300.3a60.3 60.3 0 000 51.5q56.69 119.4 136.5 191.41L112.48 835a8 8 0 000 11.31L155.17 889a8 8 0 0011.31 0l712.15-712.12a8 8 0 000-11.32zM149.3 512C232.6 339.8 350.7 258 512 258c54.54 0 104.13 9.36 149.12 28.39l-70.3 70.3a176 176 0 00-238.13 238.13l-83.42 83.42C223.1 637.49 183.3 582.28 149.3 512zm246.7 0a112.11 112.11 0 01146.2-106.69L401.31 546.2A112 112 0 01396 512z">
+                      </path>
+                      <path
+                        d="M508 624c-3.46 0-6.87-.16-10.25-.47l-52.82 52.82a176.09 176.09 0 00227.42-227.42l-52.82 52.82c.31 3.38.47 6.79.47 10.25a111.94 111.94 0 01-112 112z">
+                      </path>
+                    </svg></span></span>
+                            </span>
+                        </div>
+                        <div class="ant-col ant-col-24">
+                            <span class="
+                    ant-input-affix-wrapper
+                    ant-input-affix-wrapper-lg
+                    ant-input-password
+                    input-form-common
+                    ant-input-password-large
+                  "><input autocomplete="on" name="repassword" placeholder="Xác nhận mật khẩu *" maxlength="1000"
+                  action="click" type="password" class="ant-input ant-input-lg" /><span class="ant-input-suffix"><span
+                    role="img" aria-label="eye-invisible" tabindex="-1" class="
+                        anticon anticon-eye-invisible
+                        ant-input-password-icon
+                      "><svg viewBox="64 64 896 896" focusable="false" data-icon="eye-invisible" width="1em"
+                      height="1em" fill="currentColor" aria-hidden="true">
+                      <path
+                        d="M942.2 486.2Q889.47 375.11 816.7 305l-50.88 50.88C807.31 395.53 843.45 447.4 874.7 512 791.5 684.2 673.4 766 512 766q-72.67 0-133.87-22.38L323 798.75Q408 838 512 838q288.3 0 430.2-300.3a60.29 60.29 0 000-51.5zm-63.57-320.64L836 122.88a8 8 0 00-11.32 0L715.31 232.2Q624.86 186 512 186q-288.3 0-430.2 300.3a60.3 60.3 0 000 51.5q56.69 119.4 136.5 191.41L112.48 835a8 8 0 000 11.31L155.17 889a8 8 0 0011.31 0l712.15-712.12a8 8 0 000-11.32zM149.3 512C232.6 339.8 350.7 258 512 258c54.54 0 104.13 9.36 149.12 28.39l-70.3 70.3a176 176 0 00-238.13 238.13l-83.42 83.42C223.1 637.49 183.3 582.28 149.3 512zm246.7 0a112.11 112.11 0 01146.2-106.69L401.31 546.2A112 112 0 01396 512z">
+                      </path>
+                      <path
+                        d="M508 624c-3.46 0-6.87-.16-10.25-.47l-52.82 52.82a176.09 176.09 0 00227.42-227.42l-52.82 52.82c.31 3.38.47 6.79.47 10.25a111.94 111.94 0 01-112 112z">
+                      </path>
+                    </svg></span></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ant-col ant-col-24 p-b-0 ant-col-md-12" style="padding: 32px 32px 0 32px">
+                    <div class="ant-row" style="row-gap: 16px">
+                        <h2>Thông tin chi tiết</h2>
+                        <div class="ant-col ant-col-24">
+                            <span class="
+                    ant-input-affix-wrapper ant-input-affix-wrapper-lg
+                    input-form-common
+                  "><input autocomplete="on" class="ant-input ant-input-lg" name="fullName" placeholder="Họ và tên *"
+                  maxlength="1000" type="text" value="" /><span class="ant-input-suffix"><span role="img"
+                    aria-label="info-circle" class="anticon anticon-info-circle" style="color: rgba(0, 0, 0, 0.25)"><svg
+                      viewBox="64 64 896 896" focusable="false" data-icon="info-circle" width="1em" height="1em"
+                      fill="currentColor" aria-hidden="true">
+                      <path
+                        d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z">
+                      </path>
+                      <path
+                        d="M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z">
+                      </path>
+                    </svg></span></span>
+                            </span>
+                        </div>
+                        <div class="ant-col ant-col-24">
+                            <div class="ant-picker ant-picker-large input-form-common">
+                                <div class="ant-picker-input">
+                                    <input type="date" placeholder="Ngày sinh" title="" size="12" name="birthday" autocomplete="off" value="" /><span class="ant-picker-suffix"><span role="img" aria-label="calendar"
+                      class="anticon anticon-calendar">
+                      <!-- <svg viewBox="64 64 896 896" focusable="false"
+                        data-icon="calendar" width="1em" height="1em" fill="currentColor" aria-hidden="true">
+                        <path
+                          d="M880 184H712v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H384v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H144c-17.7 0-32 14.3-32 32v664c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V216c0-17.7-14.3-32-32-32zm-40 656H184V460h656v380zM184 392V256h128v48c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-48h256v48c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-48h128v136H184z">
+                        </path>
+                      </svg> -->
+                    </span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ant-col ant-col-24">
+                            <div class=" ant-select ant-select-lg input-form-common gender-field ant-select-single ant-select-show-arrow" name="gender">
+                                <div class="ant-select-selector">
+                                    <span class="ant-select-selection-search">
+                                      <input autocomplete="off" type="search"
+                      class="ant-select-selection-search-input" role="combobox" aria-haspopup="listbox"
+                      aria-owns="rc_select_1_list" aria-autocomplete="list" aria-controls="rc_select_1_list"
+                      aria-activedescendant="rc_select_1_list_0" unselectable="on" value="" id="rc_select_1"
+                      style="opacity: 0" /></span><span class="ant-select-selection-placeholder">Giới tính *</span>
+                                </div>
+                                <span class="ant-select-arrow" unselectable="on" aria-hidden="true" style="user-select: none"><span
+                    role="img" aria-label="down" class="anticon anticon-down ant-select-suffix"><svg
+                      viewBox="64 64 896 896" focusable="false" data-icon="down" width="1em" height="1em"
+                      fill="currentColor" aria-hidden="true">
+                      <path
+                        d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z">
+                      </path>
+                    </svg></span></span>
+                            </div>
+                        </div>
+                        <div class="ant-col ant-col-24">
+                            <span class="
+                    ant-input-affix-wrapper ant-input-affix-wrapper-lg
+                    input-form-common
+                  "><input autocomplete="on" class="ant-input ant-input-lg" name="address" placeholder="Địa chỉ"
+                  maxlength="1000" type="text" value="" /><span class="ant-input-suffix"><span role="img"
+                    aria-label="info-circle" class="anticon anticon-info-circle" style="color: rgba(0, 0, 0, 0.25)"><svg
+                      viewBox="64 64 896 896" focusable="false" data-icon="info-circle" width="1em" height="1em"
+                      fill="currentColor" aria-hidden="true">
+                      <path
+                        d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z">
+                      </path>
+                      <path
+                        d="M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z">
+                      </path>
+                    </svg></span></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ant-col ant-col-24 p-t-8 p-b-0 t-center" style="padding-left: 32px; padding-right: 32px">
+                    <button type="submit" class="ant-btn ant-btn-primary ant-btn-lg SignUp-submit-btn w-100">
+            <span>Đăng Ký</span>
+          </button>
+                </div>
+                <div class="ant-col ant-col-24 p-t-0 t-center" style="padding: 0 32px 32px 32px">
+                    <div class="or-option" style="color: rgb(172, 172, 172)">HOẶC</div>
+                    <div class="login-gg m-0-auto login-with gg login-input">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAABmJLR0QA/wD/AP+gvaeTAAADC0lEQVRYhe2YWUgUYRzAf+PMrsYehR1bobYVREGHbodCdmAWEeFbRXRAUE9RRPRQUVA9FGEUET0WvhjdYWAQWVFQkmsO3SGpeUBsm5nOroq7s9ND7NpuO+3arNrD/p7mu3/M9/3/fDOQxhhC+KGhpKBDg+BoyoQRQHI9knMApHClBkEBpo2e1iAatIafM0ZTJBnSgkZJCxolLWgUKXGXaESrjaw8J6LFiur309fyiVBf73C4AUMQtLkKcWzegXXBQgRRjNRrwSBKfS2eqxX43sgjLyiYzOTtP0L2mvXx2yUJe9Ey7IXFNB3aQ4/7+cgJChkZzDh+BnthMQD9bS18vVmJT65D9SmYJ0/FOt/FpI3b+V5zL+VyCQUdW3dF5L5VXafjYjmaqkbagz3d9DZ+wFt1Ay0wkPSiBQ8bAJBXuf5d0JQ9Hsem7QD8ePKA9gunQdPi9h2K3FDRTTPjVqwmI2sMWmCAjotndOWGG11BW8ESABTZTaDTO2JCsehv8UQHAP2tzbqD5999imixAqCpKqFef6St/fwpuh7fBwbPXCyx9fHO5JATtR6CKCLa7INlc2ZK5tUVDHg9MGsOWc6ZuoObj+6PStqCycSME2cRJIkBz5dIfeybSUkUKw0vGLt0Jbb8RZgmTCLw7esffXyv6qPK2aXrECQJLRikr6kx4eLJoBskXU9qCPX3IZjM5Ow+AIKg1/XXRJmZOLbsBKCnvhZV6R5ewWBXJ56rFQCMW15K7t6DUdsZKzf9+Fmy8pyghfBUXkqJHCQIEk/lJSyz52IvWsaEsg1Y8xfjvVWJIrtRlW7MjilY5rlwbNwWiXrvnWv437/+66LJnL0wkX17WVLwOd5np2Ayk7vvMOPXliWcrLP6Nm3nToIWSlogHhq0LnwkOyGJNKMFBmgrP0ZXTfWv61b+4ujrViiE/90rPFcu01P3zJBYPJLOg4rsRpHdiBYrmblOJJsN1afQ39GesoAwJBhG9fvo/fh2OFzi8t9/k6QFjZIWNEpa0CiRPCiA9PufzdFESOFFOs1PkQ76xX8wzwoAAAAASUVORK5CYII="
+                            class="login-with__icon" /><span class="login-with__title">Đăng nhập với Gmail</span>
+                    </div>
+                    <div class="m-t-10 font-weight-500">
+                        Bạn đã có tài khoản ?<a href="/login" class="blue">&nbsp;Đăng nhập</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

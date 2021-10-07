@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
+    <!-- bootstrap -->
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="/themes/css/bootstrappage.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/themes/css/font-awesome.min.css">
+    <!-- <link rel="stylesheet" type="text/css" href="themes/css/font-awesome.min2.css"> -->
+    <link rel="stylesheet" type="text/css" href="themes/css/font-awesome.min3.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
+        integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+    <!-- global styles -->
+    <link href="/themes/css/flexslider.css" rel="stylesheet" />
+    <link href="/themes/css/main.css" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <!-- scripts -->
+    <script src="/themes/js/jquery-1.7.2.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/themes/js/superfish.js"></script>
+    <script src="/themes/js/jquery.scrolltotop.js"></script>
+
+</head>
+
+<body>
+    <!-- thanh header -->
+    <div id="top-bar" class="container">
+        <div class="row">
+            <div class="span4">
+                <form method="GET" class="search_form">
+                    <div class="input-group">
+                        <input type="text" class="search-query form-control input-group" Placeholder="My laptop.">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary rounded-circle btnpro" type="button" id="btn-search">
+                                <span class="fa fa-search"></span>
+                            </button>
+                        </span>
+
+                    </div>
+                </form>
+            </div>
+            <div class="span8">
+                <div class="account pull-right">
+                    <ul class="user-menu">
+                        <li><a href="cart.html"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
+                        <li><a href="checkout.html"><i class="fa fa-credit-card" aria-hidden="true"></i></a></li>
+                            
+                        <% if (user) { %>
+                            <li><a href="#">
+                                <%= user.fullName %>
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                            </a>
+                            </li>
+                            <li><a href="/account/logout">Đăng xuất</a></li>
+                        <% }else{ %>
+                            <li><a href="/account/login">Đăng nhập</a></li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="wrapper" class="container">
+
+        <!-- menu -->
+        <section class="navbar main-menu">
+            <div class="navbar-inner main-menu">
+                <a href="index.html" class="logo pull-left">
+                    <h4 class="title">ILAPTOP </h4>
+                </a>
+                <nav id="menu" class="pull-right">
+                    <ul>
+                        <li><a href="./products.html">Hãng sản xuất</a>
+                            <ul>
+                                <li><a href="./products.html">Apple</a></li>
+                                <li><a href="./products.html">Dell</a></li>
+                                <li><a href="./products.html">Asus</a></li>
+                                <li><a href="./products.html">HP</a></li>
+                                <li><a href="./products.html">Acer</a></li>
+                                <li><a href="./products.html">Lenovo</a></li>
+                            </ul>
+                        </li>
+
+                        <li><a href="./products.html">Loại sản phẩm</a>
+                            <ul>
+                                <li><a href="./products.html">Chơi game</a></li>
+                                <li><a href="./products.html">Học tập-văn phòng</a></li>
+                                <li><a href="./products.html">Đồ họa-kỹ thuật</a></li>
+                                <li><a href="./products.html">Cao cấp sang trọng</a></li>
+                            </ul>
+                        </li>
+                        <!-- <li><a href="./products.html">Man</a></li>						
+                                <li><a href="./products.html">Hangbag</a></li> -->
+                        <li><a href="./products.html">Bán chạy nhất</a></li>
+                        <li><a href="./products.html">Sản phẩm mới</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+        <!-- slide bar -->
+        <section class="homepage-slider" id="home-slider">
+            <div class="flexslider">
+                <ul class="slides">
+                    <li>
+                        <img src="/themes/images/carousel/slider_1.jpg" alt="anh bia 1" />
+                        <div class="intro">
+                            <!--<h1>Laptop mua online</h1>
+                                <p><span>Giảm thêm đến 1.000.000đ</span></p>
+                                <p><span>Áp dụng kèm theo khuyến mãi trả thẳng khác</span></p> -->
+                        </div>
+                    </li>
+                    <li>
+                        <img src="/themes/images/carousel/slider_4.png" alt="anh bia 2" />
+
+                    </li>
+                    <li>
+                        <img src="/themes/images/carousel/slider_5.png" alt="anh bia 3" />
+
+                    </li>
+                    <li>
+                        <img src="/themes/images/carousel/slider_6.png" alt="anh bia 4" />
+
+                    </li>
+                    <li>
+                        <img src="/themes/images/carousel/slider_7.png" alt="anh bia 5" />
+
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <section class="header_text">
+            Website chúng tôi chuyên cung cấp các sản phẩm chất lượng có uy tín và mới nhất trên thị trường hiện nay
+            <br />Hãy ghé thăm trang web của chúng tôi và đừng bỏ lỡ các sản phẩm mới nhé!
+        </section>
+        <br />
