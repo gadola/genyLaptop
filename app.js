@@ -12,12 +12,18 @@ const flash = require('connect-flash')
 const session = require('express-session')
 const MongoDBStore = require('connect-mongodb-session')(session);
 const passport = require('passport')
+// var busboyBodyParser = require('busboy-body-parser');
+const fileupload = require('express-fileupload'); 
 
 
 // ! Import local files
 var indexRouter = require('./routes/index.route');
 var usersRouter = require('./routes/users');
 var accountRouter = require('./routes/account.route');
+var adminRouter = require('./routes/admin.route');
+var productRouter = require('./routes/product.route')
+const isAuth = require('./middlewares/is.auth')
+const isLogin = require('./middlewares/is.login')
 
 var app = express();
 
@@ -63,6 +69,10 @@ app.use(
         saveUninitialized: false, // chắn chăn ko có session đc save mỗi request
         store: store
     }))
+//parse multipart/form-data    
+// app.use(busboyBodyParser());
+app.use(fileupload({useTempFiles: true}))
+
 
 // Dùng để đưa thông tin message 
 app.use(flash())
@@ -95,14 +105,18 @@ if (dev) {
 
 // ======== Router =========
 // trang chủ
-app.use('/', indexRouter);
+app.use('/',isLogin, indexRouter);
 
 // người dùng
-app.use('/users', usersRouter);
+app.use('/user', isAuth, usersRouter);
 
 // tài khoản
 app.use('/account', accountRouter);
 
+// admin
+app.use('/admin', adminRouter);
+
+app.use('/products', productRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

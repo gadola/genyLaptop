@@ -2,11 +2,12 @@ const AccountModel = require('../models/account.model')
 const UserModel = require('../models/user.model')
 const jwt = require('jsonwebtoken');
 
-
+// Đã login => lấy info user : next() 
 module.exports = async (req, res, next) => {
     try {
         if (!req.session.isLoggedIn) {
-            return res.redirect('/account/login');
+            next()
+            return
         }
         // lấy user từ token => gán req.user
         let token = req.session.token

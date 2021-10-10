@@ -5,7 +5,7 @@ const isAuth = require('../middlewares/is.auth')
 
 
 // GET / trang chủ
-router.get('/', isAuth, indexController.index);
+router.get('/', indexController.index);
 
 
 module.exports = router;

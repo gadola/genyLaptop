@@ -2,11 +2,12 @@ const AccountModel = require('../models/account.model')
 const UserModel = require('../models/user.model')
 const VerifyModel = require('../models/verify.model')
 const bcrypt = require('bcryptjs');
-// const jwtConfig = require('../configs/jwt.config');
+const jwtConfig = require('../configs/jwt.config');
 const jwt = require('jsonwebtoken');
 const mailConfig = require('../configs/email.config')
 const helper = require('../helper/index')
 const constants = require('../constants/index')
+
 
 // fn: Gửi mã xác thực để đăng ký
 const postSendVerifyCode = async (req, res) => {
@@ -60,7 +61,7 @@ const postSendVerifyCode = async (req, res) => {
 }
 
 // fn: đăng ký tài khoản
-const getSignUp = async (req, res, next)=>{
+const getSignUp = async (req, res, next) => {
     let message = req.flash('error')
     console.log(message);
     return res.render('account/signup', {
@@ -191,7 +192,7 @@ const postResetPassword = async (req, res, next) => {
         )
 
         const response = await AccountModel.updateOne({ email }, { password: hashPassword })
-        console.log('response',response);
+        console.log('response', response);
         // check response
         if (response.modifiedCount == 1) {
             //xoá mã xác nhận
@@ -204,11 +205,11 @@ const postResetPassword = async (req, res, next) => {
 
 
     } catch (error) {
-        return res.status(409).json({ message: 'Thay đổi mật khẩu thất bại 1',error:error });
+        return res.status(409).json({ message: 'Thay đổi mật khẩu thất bại 1', error: error });
 
     }
 }
-const getResetPassword = async (req, res, next)=>{
+const getResetPassword = async (req, res, next) => {
     let message = req.flash('error')
     return res.render('account/forgot', {
         path: "/account/forgot-pw",
@@ -256,12 +257,12 @@ const postLogin = async (req, res, next) => {
             req.user = user
 
             // tạo token
-            const token = jwt.sign(
+            const token = jwtConfig.encodedToken(
+                process.env.JWT_SECRET_KEY,
                 {
                     email: account.email,
                     accountId: user.accountId
-                },
-                process.env.JWT_SECRET_KEY
+                }
             )
             req.session.token = token
             return req.session.save(err => {
@@ -285,14 +286,72 @@ const postLogin = async (req, res, next) => {
 }
 
 //fn: đăng xuất => huỷ session
-const getLogout = async (req, res, next)=>{
-    req.session.destroy(err =>{
+const getLogout = async (req, res, next) => {
+    req.session.destroy(err => {
         console.log(err);
-         res.redirect('/');
+        res.redirect('/');
     })
 }
 
+// fn: Đổi mật khẩu
+const getChangePassword = async (req, res, next) => {
+    let message = req.flash('error')
+    return res.render('account/change-pw', {
+        path: "/account/change-pw",
+        pageTitle: "Đổi mật khẩu",
+        errorMessage: message,
+        user: req.user
+    });
+}
+const postChangePassword = async (req, res, next) => {
+    try {
+        // check account => hash password => change password
 
+        const { password, newPassword, reNewPassword } = req.body
+        const email = req.user.email
+
+        const account = await AccountModel.findOne({ email })
+        if (!account) {
+            return res.send('<script>alert("Hết phiên đăng nhập!"); window.location.href = "/"; </script>')
+        }
+
+        // Kiểm tra mật khẩu
+        const isMatch = await bcrypt.compare(password, account.password)
+
+        if (isMatch) {
+            const hashPassword = await bcrypt.hash(
+                password,
+                parseInt(process.env.SALT_ROUND)
+            )
+
+            const response = await AccountModel.updateOne({ email }, { password: hashPassword })
+            if (response.modifiedCount == 1) {
+                return res.render('account/login',{
+                    path:"/account/login",
+                    errorMessage:"Thay đổi mật khẩu thành công!",
+                });
+            } else {
+                return res.status(409).json({ message: 'Thay đổi mật khẩu thất bại' });
+            }
+        }else{
+            return res.render('account/change-pw', {
+                path: "/account/change-pw",
+                pageTitle: "Đổi mật khẩu",
+                errorMessage: "Mật khẩu không đúng",
+                user: req.user
+            });
+        }
+
+    } catch (error) {
+        console.log(error);
+        return res.render('account/change-pw', {
+            path: "/account/change-pw",
+            pageTitle: "Đổi mật khẩu",
+            errorMessage: "Thay đổi mật khẩu thất bại",
+            user: req.user
+        });
+    }
+}
 
 
 module.exports = {
@@ -305,4 +364,6 @@ module.exports = {
     getLogin,
     postLogin,
     getLogout,
+    getChangePassword,
+    postChangePassword,
 }

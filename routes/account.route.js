@@ -22,6 +22,8 @@ router.get('/logout',accountController.getLogout)
 router.get('/forgot-pw', accountController.getResetPassword)
 router.post('/forgot-pw', accountController.postResetPassword)
 
-
+// Đổi mật khẩu
+router.get('/change-pw', accountController.getChangePassword)
+router.post('/change-pw', accountController.postChangePassword)
 
 module.exports = router;

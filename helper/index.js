@@ -1,6 +1,8 @@
 const AccountModel = require('../models/account.model')
 const UserModel = require('../models/user.model')
 const VerifyModel = require('../models/verify.model')
+const ProductModel = require('../models/product.model')
+const LaptopModel = require('../models/laptop.model')
 const constants = require('../constants/index')
 
 
@@ -81,10 +83,107 @@ const convertAddress = async (address) => {
     }
 };
 
+//fn: chuyển loại sản phẩm từ số thành Model
+const convertProductType = (type = 0) => {
+    switch (type) {
+        case 0:
+            return LaptopModel;
+        //   case 1:
+        //     return DiskModel;
+        //   case 2:
+        //     return DisplayModel;
+        //   case 3:
+        //     return MainboardModel;
+        //   case 4:
+        //     return RamModel;
+        //   case 5:
+        //     return MobileModel;
+        //   case 6:
+        //     return BackupChargerModel;
+        //   case 7:
+        //     return HeadphoneModel;
+        //   case 8:
+        //     return KeyboardModel;
+        //   case 9:
+        //     return MonitorModel;
+        //   case 10:
+        //     return MouseModel;
+        //   case 11:
+        //     return RouterModel;
+        //   case 12:
+        //     return SpeakerModel;
+        //   case 13:
+        //     return CameraModel;
+        //   case 14:
+        //     return WebcamModel;
+        default:
+            return LaptopModel;
+    }
+};
+
+// Tính trung bình đánh giá
+const hanlderRate =(arr)=> {
+    var rate = []
+    for (var i = 1; i <= 5; i++) {
+        rate.push(arr[i - 1] * i)
+    }
+    return rate.reduce((p, c) => p + c, 0) / arr.length;
+}
+// đổi loại sản phẩm từ số thành string
+const converTypeToString = (number = 0)=> {
+    switch (number) {
+        case 0:
+            return "Laptop";
+        default:
+            return "Laptop";
+    }
+}
+
+// đổi số seris thành chữ
+const convertSerisToString = (number)=>{
+     // 0 - core i3, 1 - core i5, 2 - core i7, 3 - core i9,
+    // 4 - Ryzen 3, 5 - Ryzen 5, 6 - Ryzen 7, 7 - Pentium, 8 - Celeron, 9 -M1
+    switch (number) {
+        case 0:
+            return "i3";
+        case 1:
+            return "i5";
+        case 2:
+            return "i7";
+        case 3:
+            return "i9";
+        case 4:
+            return "Ryzen 3";
+        case 5:
+            return "Ryzen 5";
+        case 6:
+            return "Ryzen 7";
+        case 7:
+            return "Pentium";
+        case 8:
+            return "Celeron";
+        case 9:
+            return "M1";
+        default:
+            return "i3";
+    }
+}
+
+// // xử lý in tiền có dấu ,
+// const hanlderPrice = (number)=>{
+//     let s = `${number}`
+//     for (let i = 0; i < s.length; i+= 3) {
+        
+//     }
+// }
 
 module.exports = {
     generateVerifyCode,
     isVerifyEmail,
     convertAddress,
-  };
-  
+    convertProductType,
+    hanlderRate,
+    converTypeToString,
+    convertSerisToString,
+};
+

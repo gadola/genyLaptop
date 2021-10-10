@@ -1,16 +1,28 @@
 const AccountModel = require('../models/account.model')
 const UserModel = require('../models/user.model')
 const VerifyModel = require('../models/verify.model')
+const ProductModel = require('../models/product.model')
+const LaptopModel = require('../models/laptop.model')
+const helper = require('../helper/index')
 
 const mailConfig = require('../configs/email.config')
 
 
+// lấy 12 sản phẩm mới nhất
+const get12NewProduct = async (numOfProduct=12)=>{
+    const products = await ProductModel.find({})
+        .limit(numOfProduct)
+    return products
+}
+
 // Trang chủ
-// GET /
 const index = async (req, res, next) => {
-    console.log(req.user);
-    console.log(req.session.isLoggedIn);
-    return res.render('index', { user: req.user });
+    const newestProducts = await get12NewProduct(12)
+    return res.render('index', {
+        path: "/",
+        newestProducts: newestProducts,
+        user: req.user
+    });
 }
 
 

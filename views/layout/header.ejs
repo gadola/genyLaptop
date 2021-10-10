@@ -3,20 +3,25 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Register</title>
+
+    <title>hello</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
-    <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
+
     <!-- bootstrap -->
+    <link rel="stylesheet" href="/bootstrap/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/themes/css/font-awesome.min.css">
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
     <link href="/themes/css/bootstrappage.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="/themes/css/font-awesome.min.css">
-    <!-- <link rel="stylesheet" type="text/css" href="themes/css/font-awesome.min2.css"> -->
+
     <link rel="stylesheet" type="text/css" href="themes/css/font-awesome.min3.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
         integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+
     <!-- global styles -->
+    <link href="/themes/css/jquery.fancybox.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/themes/css/font-awesome.min3.css">
     <link href="/themes/css/flexslider.css" rel="stylesheet" />
     <link href="/themes/css/main.css" rel="stylesheet" />
 
@@ -29,6 +34,7 @@
     <script src="/bootstrap/js/bootstrap.min.js"></script>
     <script src="/themes/js/superfish.js"></script>
     <script src="/themes/js/jquery.scrolltotop.js"></script>
+    <script src="/themes/js/jquery.fancybox.js"></script>
 
 </head>
 
@@ -39,7 +45,7 @@
             <div class="span4">
                 <form method="GET" class="search_form">
                     <div class="input-group">
-                        <input type="text" class="search-query form-control input-group" Placeholder="My laptop.">
+                        <input type="text" class="search-query form-control input-group" Placeholder="Bạn muốn tìm gì?">
                         <span class="input-group-btn">
                             <button class="btn btn-primary rounded-circle btnpro" type="button" id="btn-search">
                                 <span class="fa fa-search"></span>
@@ -54,17 +60,17 @@
                     <ul class="user-menu">
                         <li><a href="cart.html"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
                         <li><a href="checkout.html"><i class="fa fa-credit-card" aria-hidden="true"></i></a></li>
-                            
+
                         <% if (user) { %>
                             <li><a href="#">
-                                <%= user.fullName %>
-                                <i class="fa fa-user" aria-hidden="true"></i>
-                            </a>
+                                    <%= user.fullName %>
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                </a>
                             </li>
                             <li><a href="/account/logout">Đăng xuất</a></li>
-                        <% }else{ %>
-                            <li><a href="/account/login">Đăng nhập</a></li>
-                        <% } %>
+                            <% }else{ %>
+                                <li><a href="/account/login">Đăng nhập</a></li>
+                                <% } %>
                     </ul>
                 </div>
             </div>

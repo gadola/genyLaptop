@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách sản phẩm</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <% if(message.length >0) { %> 
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Success!</strong> <%= message %> 
+              </div>
+        <% } %> 
+        <form id="productForm" action="/admin/products/update" method="post">
+            <fieldset class="form-group">
+                <legend>Sản Phẩm</legend>
+                <input type="text" name="id" id="" readonly value="">
+                <input type="text" name="code" id="">
+                <input type="text" name="name" id="">
+                <input type="text" name="price" id="">
+                <select name="type" id="">
+                    <option value="0">Laptop</option>
+                </select>
+                <input type="text" name="brand" id="">
+                <input type="text" name="stock" id="">
+                <input type="text" name="discount" id="">
+            </fieldset>
+            <input type="submit" name="" id="" value="Cập nhật">
+            <input type="reset" name="" id="" value="Huỷ bỏ">
+        </form>
+        <table class="table-striped table">
+            <tr>
+                <th>Mã</th>
+                <th>Tên</th>
+                <th>Giá</th>
+                <th>Loại</th>
+                <th>Thương hiệu</th>
+                <th>Tồn kho</th>
+                <th>Mức giảm giá</th>
+                <th>Đánh giá</th>
+                <th>Hành động</th>
+            </tr>
+            <% for(var item of data) {%>
+                <tr>
+                    <td><a href="">
+                            <%= item.code %>
+                        </a></td>
+                    <td>
+                        <%= item.name %>
+                    </td>
+                    <td>
+                        <%= item.price %>
+                    </td>
+                    <td>
+                        <%= converTypeToString(item.type) %>
+                    </td>
+                    <td>
+                        <%= item.brand %>
+                    </td>
+                    <td>
+                        <%= item.stock %>
+                    </td>
+                    <td>
+                        <%= item.discount %>
+                    </td>
+                    <td>
+                        <%= hanlderRate(item.rate) %>
+                    </td>
+                    <td>
+                        <i id="edit_<%= item._id %>" class="fa fa-pencil-square-o js_icon_edit" style=" cursor: pointer;"
+                            aria-hidden="true"></i>
+                        <i id="view_<%= item._id %>" class="fa fa-eye js_icon_edit" style="color: blue; cursor: pointer;"
+                            aria-hidden="true"></i>
+                        <i id="delete_<%= item._id %>" class="fa fa-trash-o js_icon_delete" style="color: red;cursor: pointer;"
+                            aria-hidden="true"></i>
+                    </td>
+                </tr>
+                <% } %>
+        </table>
+    </div>
+
+    <script src="/javascripts/admin/products.js"></script>
+</body>
+
+</html>

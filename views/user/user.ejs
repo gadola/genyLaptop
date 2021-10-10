@@ -130,7 +130,7 @@
 		<div class="row">
 			<div class="span5">					
 				<h4 class="title"><span class="text"><strong>Thông tin</strong> cá nhân</span></h4>
-				<form action="customer.html" method="post">
+				<form action="/user/update" method="POST">
 					<input type="hidden" name="next" value="/">
 					<fieldset>
 						<div class="control-group">
@@ -142,19 +142,19 @@
 						<div class="control-group">
 							<label class="control-label">Họ tên</label>
 							<div class="controls">
-								<input type="text"  class="output-xlarge" id="name" value="<%= user.fullName%>">
+								<input type="text" name="fullName"  class="output-xlarge" id="fullName" value="<%= user.fullName%>">
 							</div>
 						</div>
 						<div class="control-group">
 							<label class="control-label">Ngày tháng năm sinh</label>
 							<div class="controls">
-								<input type="date"  class="output-xlarge" id="address" value="<%= moment(user.birthday).format('YYYY-MM-DD') %>" >
+								<input type="date" name="birthday"  class="output-xlarge" id="address" value="<%= moment(user.birthday).format('YYYY-MM-DD') %>" >
 							</div>
 						</div>
 						<div class="control-group">
 							<label class="control-label">Địa chỉ</label>
 							<div class="controls">
-								<input type="text"  class="output-xlarge" id="address" value="<%= user.address%>" >
+								<input type="text" name="address" class="output-xlarge" id="address" value="<%= user.address%>" >
 							</div>
 						</div>
 						<div class="control-group">
