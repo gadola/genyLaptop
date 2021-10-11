@@ -15,7 +15,7 @@
     <link href="/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
     <link href="/themes/css/bootstrappage.css" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="themes/css/font-awesome.min3.css">
+    <link rel="stylesheet" type="text/css" href="/themes/css/font-awesome.min3.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
         integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
 
@@ -43,15 +43,14 @@
     <div id="top-bar" class="container">
         <div class="row">
             <div class="span4">
-                <form method="GET" class="search_form">
+                <form action="/products/search" method="GET" class="search_form">
                     <div class="input-group">
-                        <input type="text" class="search-query form-control input-group" Placeholder="Bạn muốn tìm gì?">
+                        <input name="value" type="text" class="search-query form-control input-group" Placeholder="Bạn muốn tìm gì?">
                         <span class="input-group-btn">
-                            <button class="btn btn-primary rounded-circle btnpro" type="button" id="btn-search">
+                            <button class="btn btn-primary rounded-circle btnpro" type="submit" id="btn-search">
                                 <span class="fa fa-search"></span>
                             </button>
                         </span>
-
                     </div>
                 </form>
             </div>

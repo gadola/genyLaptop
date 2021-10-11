@@ -5,9 +5,10 @@
     </section>
     <section class="main-content">
         <div class="row">
-            <div class="span9">
+            <div class="span12">
                 <div class="row">
-                    <div class="span4">
+                    <!-- tên -->
+                    <div class="span5">
                         <a href="<%= product.avt %>" class="thumbnail" data-fancybox-group="group1"
                             title="Description 1"><img alt="" src="<%= product.avt %>"></a>
                         <ul class="thumbnails small">
@@ -33,7 +34,8 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="span5">
+                    <!-- thông tin chi tiếT -->
+                    <div class="span6">
                         <h3>
                             <%= product.name %>
                         </h3>
@@ -90,7 +92,7 @@
                                 <%= product.price.toLocaleString() %>đ
                             </strong></h2>
                     </div>
-                    <div class="span5">
+                    <div class="span6">
                         <form class="form-inline">
                             <p>&nbsp;</p>
                             <label>SL:</label>
@@ -100,7 +102,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="span9">
+                    <div class="span1"></div>
+                    <div class="span10">
                         <ul class="nav nav-tabs" id="myTab">
                             <li class="active"><a href="#home">Miêu tả</a></li>
                             <li class=""><a href="#profile">Thông tin sản phẩm</a></li>
@@ -157,8 +160,9 @@
                             </div>
                         </div>
                     </div>
+                    <div class="span1"></div>
 
-                    <div class="span9">
+                    <div class="span11">
                         <br>
                         <h4 class="title">
                             <span class="pull-left"><span class="text"><strong>Sản phẩm</strong> cùng loại</span></span>
@@ -241,7 +245,7 @@
                         </div>
                     </div>
 
-                    <div class="span9">
+                    <div class="span11">
                         <br>
                         <h4 class="title">
                             <span class="pull-left"><span class="text"><strong>Sản phẩm</strong> cùng nhà sản
@@ -324,7 +328,7 @@
                     </div>
                 </div>
             </div>
-            <div class="span3 col">
+            <!-- <div class="span3 col">
                 <div class="block">
                     <ul class="nav nav-list">
                         <li class="nav-header">Danh mục</li>
@@ -408,7 +412,7 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div> -->
         </div>
     </section>
     <script src="/themes/js/common.js"></script>

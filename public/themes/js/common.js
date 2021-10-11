@@ -5,13 +5,13 @@
 })();
 
 var ww = document.body.clientWidth;
-$(document).ready(function(){
-	$("#btn-search").click(function(){
-		window.location.href = "products.html";
+// $(document).ready(function(){
+// 	$("#btn-search").click(function(){
+// 		window.location.href = "products.html";
 
 
-	});
-});
+// 	});
+// });
 
 $(document).ready(function() {		
 	$("._toggleMenu .nav li a").each(function() {
