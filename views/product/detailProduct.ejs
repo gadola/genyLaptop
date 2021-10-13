@@ -88,16 +88,25 @@
                                 <%= productDetail.warranty %> tháng
                             </span><br>
                         </address>
-                        <h2><strong>
-                                <%= product.price.toLocaleString() %>đ
-                            </strong></h2>
+                        <h2><%= product.price.toLocaleString() %>đ</h2>
+                        <% if(product.discount > 0){ %> 
+                        <h5>
+                            <strike><%= (product.price/((100-product.discount)/100)).toLocaleString() %>đ</strike>
+                            <span style="color: green;"><%= product.discount %>% </span>
+                        </h5>
+                        <% } %> 
                     </div>
                     <div class="span6">
-                        <form class="form-inline">
+                        <form id="form_add_to_cart" class="form-inline">
                             <p>&nbsp;</p>
-                            <label>SL:</label>
-                            <input type="text" class="span1" placeholder="1">
-                            <button class="btn btn-inverse" type="submit">Thêm vào giỏ</button>
+                            <input type="hidden" name="_id" value="<%= product._id %> ">
+                            <input type="hidden" name="code" value="<%= product.code %> ">
+                            <input type="hidden" name="name" value="<%= product.name %> ">
+                            <input type="hidden" name="avt" value="<%= product.avt %> ">
+                            <input type="hidden" name="price" value="<%= product.price %> ">
+                            <label>Số lượng:</label>
+                            <input type="text" name="number" class="span1" value="1" min="1">
+                            <button class="btn btn-success" type="submit">Thêm vào giỏ</button>
                         </form>
                     </div>
                 </div>
@@ -435,6 +444,6 @@
             });
         });
     </script>
-
+<script src="/javascripts/addtocart.js"></script>
 
     <%- include("../layout/footer.ejs") %>

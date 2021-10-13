@@ -31,6 +31,20 @@ const dashboard = async (req, res, next) => {
     });
 }
 
+// api: lấy sản phẩm theo id
+const getProductById = async (req, res, next) => {
+    try {
+        const { id } = req.params
+        const product = await ProductModel.findById(id)
+        return res.status(200).json(product);
+    } catch (error) {
+        console.log(error);
+        return res.json("lỗi get product by id ",error)
+    }
+
+
+}
+
 // Lấy danh sách sản phẩm theo loại và trang hiện tra quản lý
 const getProductList = async (req, res, next) => {
     try {
@@ -59,7 +73,6 @@ const getProductList = async (req, res, next) => {
         throw error;
     }
 }
-
 
 
 // Thêm sản phẩm
@@ -179,20 +192,20 @@ const updateProduct = async (req, res, next) => {
 // xoá sản phẩm
 const deleteProduct = async (req, res, next) => {
     try {
-        const {id}= req.body
+        const { id } = req.body
         const response = await ProductModel.findById(id).select('type')
-        if(response){
+        if (response) {
             // xoá sản phẩm
-            await ProductModel.deleteOne({_id:id})
+            await ProductModel.deleteOne({ _id: id })
             // xoá chi tiết sản phẩm
             const Model = helper.convertProductType(type)
-            await Model.deleteOne({idProduct:id})
+            await Model.deleteOne({ idProduct: id })
         }
-        req.flash('info',"Xoá sản phẩm thành công")
+        req.flash('info', "Xoá sản phẩm thành công")
         return res.redirect('/admin/products')
 
     } catch (error) {
-        req.flash('info',"Xoá sản phẩm thất bại")
+        req.flash('info', "Xoá sản phẩm thất bại")
         return res.redirect('/admin/products')
     }
 
@@ -209,11 +222,13 @@ const testFields = async (req, res, next) => {
 
 module.exports = {
     dashboard,
+    getProductById,
     getProductList,
     getAddProduct,
     postProduct,
     updateProduct,
     deleteProduct,
     testFields,
+
 
 }

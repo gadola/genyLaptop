@@ -17,10 +17,11 @@ const get12NewProduct = async (numOfProduct=12)=>{
 
 // Trang chủ
 const index = async (req, res, next) => {
-    const newestProducts = await get12NewProduct(12)
+    const products = await get12NewProduct(12)
     return res.render('index', {
         path: "/",
-        newestProducts: newestProducts,
+        pageTitle: "GENY Store",
+        products: products,
         user: req.user
     });
 }

@@ -25,20 +25,24 @@
 								<!-- Mỗi khối chỉ show 4 sản phẩm 1 lúc -->
 								<div class="active item">
 									<ul class="thumbnails">
-										<% for(let item of newestProducts){ %>
+										<% for(let item of products) {%>
 											<li class="span3">
 												<div class="product-box">
 													<span class="sale_tag"></span>
-													<p><a href="/products/<%= item.code %>"><img src="<%= item.avt %>"
-																alt="" /></a></p>
+													<a href="/products/<%= item.code %>"><img alt=""
+															src="<%= item.avt %>"></a><br />
 													<a href="/products/<%= item.code %>" class="title">
 														<%= item.name %>
 													</a><br />
-													<a href="/products/<%= item.code %>" class="category">
-														<p class="price">
-															<%= item.price %> đ
-														</p>
-													</a>
+													<h4 class="price">
+														<%= item.price.toLocaleString() %>đ
+													</h4>
+													<% if(item.discount > 0){ %> 
+													<h5>
+														<strike><%= (item.price/((100-item.discount)/100)).toLocaleString() %>đ</strike>
+														<span style="color: green;"><%= item.discount %>% </span>
+													</h5>
+													<% } %> 
 												</div>
 											</li>
 											<% } %>

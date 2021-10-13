@@ -35,14 +35,15 @@ const insertDataToForm = (product, productDetail) => {
 
 // thêm sự kiện click => auto fill data để update sản phẩm
 iconsEdit.forEach(item => {
-    item.addEventListener('click', (e) => {
+    item.addEventListener('click',async (e) => {
         console.log("click ", e.target.id);
         const id = e.target.id.split("_")[1]
-        console.log("click ", id);
-        let url = `/products?id=${id}`
+        let url = `/admin/products/${id}`
         fechGetProduct(url).then(data => {
-            insertDataToForm(data.product, data.productDetail)
+            console.log(data);
+            insertDataToForm(data)
         })
+        console.log("click ", id);
     })
 })
 

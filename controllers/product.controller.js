@@ -34,18 +34,25 @@ const getProducts = async (req, res, next) => {
         return res.render('product/products', {
             products: products,
             user: req.user,
+            pageTitle:"Sản Phẩm",
         });
     } catch (error) {
         console.log(error)
-        return res.json("lỗi",error);
+        return res.json("lỗi", error);
     }
 
 }
 
-// tìm kiếm sản phẩm
+// tìm kiếm sản phẩm theo tên theo thương hiệu
 const getSearchProducts = async (req, res, next) => {
     try {
-        var {value,price , page, perPage } = req.query
+        // ex: value ="laptop", priceMin=10000000, priceMax = 20000000, 
+        //page = 2, perPage=8, sortBy ="price"|"-price", discount="discount"|"-discount"
+        var { value, min, max, page, perPage, sortby } = req.query
+        if (!value) value = ""
+        if (!sortby) sortby = 'name'
+        if (!min) min = 0
+        if (!max) max = 1000000000
 
         // pagination
         if (!page) page = 1;
@@ -55,37 +62,54 @@ const getSearchProducts = async (req, res, next) => {
         // query
         let numOfProduct = 0
         let result = []
-        let query = {
-            $text: {
-                $search: `${value}`,
+        let query = {}
+        if (!value) {
+            query = {
+                "price": {
+                    $gt: min,
+                    $lt: max
+                }
+            }
+        } else {
+            query = {
+                $text: {
+                    $search: `${value}`,
+                },
+                "price": {
+                    $gt: min,
+                    $lt: max
+                }
             }
         }
 
         // lọc theo điều kiện nếu có
-        if (value !== "") {
-            numOfProduct=await ProductModel.find(query).countDocuments();
+        // if (!value) {
+            numOfProduct = await ProductModel.find(query).countDocuments();
             result = await ProductModel.find(query)
                 .skip(nSkip)
                 .limit(parseInt(perPage))
-        } else {
-            // trả về tất cả
-            numOfProduct=await ProductModel.find({}).countDocuments();
-            result = await ProductModel.find({})
-                .skip(nSkip)
-                .limit(parseInt(perPage))
-        }
-        if(result){
-            return res.render('product/searchProducts',{
-                products:result,
-                numOfProduct:numOfProduct,
-                key:value,
-                user:req.user,
+                .sort(sortby)
+        // } else {
+        //     // trả về tất cả
+        //     numOfProduct = await ProductModel.find({}).countDocuments();
+        //     result = await ProductModel.find({})
+        //         .skip(nSkip)
+        //         .limit(parseInt(perPage))
+        //         .sort(sortby)
+        // }
+        if (result) {
+            return res.render('product/searchProducts', {
+                products: result,
+                numOfProduct: numOfProduct,
+                key: value,
+                user: req.user,
+                pageTitle:"Sản Phẩm",
             });
         }
 
     } catch (error) {
         console.error('Search product error: ', error);
-        return res.json("lỗi search:",error)
+        return res.json("lỗi search:", error)
     }
 }
 
@@ -105,16 +129,26 @@ const getProductByCode = async (req, res, next) => {
                 productDetail: productDetail,
                 convertSerisToString: helper.convertSerisToString,
                 hanlderRate: helper.hanlderRate,
-                user: req.user
+                user: req.user,
+                pageTitle:"Sản Phẩm "+product.code,
+
             }
             return res.render('product/detailProduct', context);
         }
-        return res.json("code",code);
+        return res.status(400).json("code", code);
     } catch (error) {
         return res.json(error);
     }
 }
 
+
+// lấy sản phẩm => display cart
+const getCart = async (req, res, next)=>{
+    return res.render('product/cart',{
+        pageTitle:"Giỏ hàng",
+        user:req.user
+    });
+}
 
 
 
@@ -123,4 +157,5 @@ module.exports = {
     getProductByCode,
     getProducts,
     getSearchProducts,
+    getCart,
 }

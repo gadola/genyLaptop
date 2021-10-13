@@ -7,6 +7,9 @@ const adminController = require('../controllers/admin.controller')
 // dashboard
 router.get('/', adminController.dashboard);
 
+//api: Lấy sản phẩm id
+router.get('/products/:id', adminController.getProductById);
+
 // Lấy danh sách sản phẩm theo loại và trang
 router.get('/products', adminController.getProductList);
 

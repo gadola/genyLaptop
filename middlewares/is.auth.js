@@ -6,15 +6,16 @@ const jwt = require('jsonwebtoken');
 module.exports = async (req, res, next) => {
     try {
         if (!req.session.isLoggedIn) {
+            console.log(req.session);
             return res.redirect('/account/login');
         }
         // lấy user từ token => gán req.user
         let token = req.session.token
-        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
-        const accountId = decoded.accountId
+        const decoded = await jwt.verify(token , process.env.JWT_SECRET_KEY)
+        const accountId = decoded.sub.accountId
         const user = await UserModel.findOne({accountId:accountId})
         req.user = user
-        req.user.email = decoded.email
+        req.user.email = decoded.sub.email
         next();
     } catch (error) {
         console.log(error);

@@ -1,0 +1,120 @@
+<%- include("../layout/header.ejs") %>
+
+    <section class="header_text sub">
+        <img class="pageBanner" src="/themes/images/baner.jpg" alt="New products">
+        <br />
+        <h4><span>Shopping Cart</span></h4>
+    </section>
+    <section class="main-content">
+        <div class="row">
+            <div class="span9">
+                <h4 class="title"><span class="text"><strong>Giỏ Hàng</strong> Của Bạn </span></h4>
+                <table id="table_cart" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Xóa</th>
+                            <th>Mặt hàng</th>
+                            <th> Tên Sản Phẩm </th>
+                            <th> Số Lượng </th>
+                            <th> Giá Tiền </th>
+                            <th> Tổng </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+                <div id="div_verify">
+                    <h4> Bạn muốn làm gì tiếp theo? </h4>
+                    <p>Chọn 1 đáp án nếu bạn có mã giảm giá hoặc điểm thưởng mà bạn muốn sử dụng hoặc ước tính chi phí
+                        vận
+                        chuyển của bạn</p>
+                    <label class="radio">
+                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+                        Sử dụng mã giảm giá
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                        Ước lượng chi phí mua hàng &amp; cả thuế
+                    </label>
+                    <hr>
+                    <p id="price_pay" class="cart-total right">
+                        <strong>Tiền Hàng</strong>: 93.789.000đ<br>
+                        <strong>Thuế môi trường (-50.000)</strong>: 50.000đ<br>
+                        <strong>Thuế GTGT (9.0%)</strong>: 8.441.010đ<br>
+                        <strong> Tổng </strong>: 102.280.010đ<br>
+                    </p>
+                    <hr />
+                    <p class="buttons center">
+                        <button class="btn" type="button"> Cập Nhật </button>
+                        <button class="btn" type="button"> Tiếp Tục </button>
+                        <button class="btn btn-inverse" type="submit" id="checkout">Thanh Toán</button>
+                    </p>
+                </div>
+            </div>
+            <div class="span3 col">
+                <div class="block">
+                    <ul class="nav nav-list">
+                        <li class="nav-header">Laptop khác</li>
+                        <li><a href="products.html">LapTop Dell</a></li>
+                        <li class="active"><a href="products.html">Laptop Apple</a></li>
+                        <li><a href="products.html">Laptop ASUS</a></li>
+                        <li><a href="products.html">Laptop HP </a></li>
+                        <li><a href="products.html">Laptop Lenovo </a></li>
+                        <li><a href="products.html">LapTop Acer </a></li>
+                    </ul>
+                    <br />
+                    <ul class="nav nav-list below">
+                        <li class="nav-header">Loại Laptop</li>
+                        <li><a href="products.html">Chơi Game</a></li>
+                        <li><a href="products.html">Tin học - văn phòng</a></li>
+                        <li><a href="products.html">Đồ họa</a></li>
+                    </ul>
+                </div>
+                <div class="block">
+                    <h4 class="title">
+                        <span class="pull-left"><span class="text">Đề xuất</span></span>
+                        <span class="pull-right">
+                            <a class="left button" href="#myCarousel" data-slide="prev"></a><a class="right button"
+                                href="#myCarousel" data-slide="next"></a>
+                        </span>
+                    </h4>
+                    <div id="myCarousel" class="carousel slide">
+                        <div class="carousel-inner">
+                            <div class="active item">
+                                <ul class="thumbnails listing-products">
+                                    <li class="span3">
+                                        <div class="product-box">
+                                            <span class="sale_tag"></span>
+                                            <a href="product_detail.html"><img alt=""
+                                                    src="themes/images/cloth/anh13.png"></a><br />
+                                            <a href="product_detail.html" class="title">Asus X441NA
+                                                N4200/4GB/500GB/Win10</a><br />
+                                            <a href="#" class="category">ASUS Laptop</a>
+                                            <p class="price">7.490.000đ</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="item">
+                                <ul class="thumbnails listing-products">
+                                    <li class="span3">
+                                        <div class="product-box">
+                                            <a href="product_detail.html"><img alt=""
+                                                    src="themes/images/cloth/anh18.png"></a><br />
+                                            <a href="product_detail.html" class="title">Laptop HP 15 bs161TU i5
+                                                8250U/4GB/1TB/Win10/</a><br />
+                                            <a href="#" class="category">HP Laptop</a>
+                                            <p class="price">13.990.000đ</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="/javascripts/displaycart.js"></script>
+    <%- include("../layout/footer.ejs") %>

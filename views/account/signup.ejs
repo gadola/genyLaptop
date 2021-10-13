@@ -2,9 +2,11 @@
 
 
     <!-- content đăng nhập và đăng ký -->
-    <h3 style="margin-left: 44%; color: blue;"><span>Đăng nhập</span></h3>
+    <h3 style="margin-left: 44%; color: blue;"><span>Đăng ký</span></h3>
     <div class="">
         <form class="" action="/account/signup" method="POST">
+            <fieldset>
+                <legend>Tài khoản</legend>
             <div class="message">
                 <% if (errorMessage) { %>
                     <div class="">
@@ -17,13 +19,16 @@
             <label for="verifyCode">Mã xác nhận</label>
             <input required type="text" name="verifyCode" id="verifyCode" placeholder="Mã xác nhận">
 
-            <input type="button" name="" id="btnSendVerifyCode" value="Gửi mã">
+            <input type="button" class="btn btn-success" id="btnSendVerifyCode" value="Gửi mã">
 
             <label for="password">Mật khẩu</label>
             <input required type="password" name="password" id="password" placeholder="Mật khẩu của bạn">
 
             <label for="password">Xác nhận mật khẩu</label>
             <input required type="password" name="repassword" id="repassword" placeholder="Xác nhận mật khẩu">
+        </fieldset>
+<fieldset>
+    <legend>Thông tin người dùng</legend>
 
             <label for="fullName">Họ và tên</label>
             <input required type="text" name="fullName" id="fullName" placeholder="">
@@ -39,8 +44,8 @@
 
             <label for="address">Địa chỉ</label>
             <input type="text" name="address" id="address" placeholder="">
-
-            <input type="submit" value="Đăng nhập">
+        </fieldset>
+            <input class="btn btn-primary" type="submit" value="Đăng nhập">
         </form>
     </div>
 
@@ -115,7 +120,7 @@
         const btnSend = document.querySelector('#btnSendVerifyCode')
         const inpEmail = document.querySelector('#email')
 
-        async function fetchPostSendVerifyCode() {
+        const fetchPostSendVerifyCode = async ()=>{
             let email = inpEmail.value
             console.log("tiến hành gửi email");
             let url = '/account/verify'
@@ -127,8 +132,21 @@
                 },
                 body: JSON.stringify({ email: email })
             })
-            return response.json()
+            if(!response.ok){
+                const error ="mail đã được sử dụng"
+                throw new Error(error);
+            }
+            const data = await response.json()
+            return data
         }
 
-        btnSend.addEventListener('click', fetchPostSendVerifyCode)
+        btnSend.addEventListener('click', e=>{
+            fetchPostSendVerifyCode()
+                .then(data=>{
+                    alert("Đã gửi mã thành công!")
+                })
+                .catch(error=>{
+                    alert(error)
+                })
+        })
     </script>

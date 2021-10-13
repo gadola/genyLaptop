@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
-
-    <title>hello</title>
+    <title><%= pageTitle %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
 
@@ -24,10 +22,10 @@
     <link rel="stylesheet" type="text/css" href="/themes/css/font-awesome.min3.css">
     <link href="/themes/css/flexslider.css" rel="stylesheet" />
     <link href="/themes/css/main.css" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="themes/css/jquery-ui.min.css">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
 
     <!-- scripts -->
     <script src="/themes/js/jquery-1.7.2.min.js"></script>
@@ -35,6 +33,7 @@
     <script src="/themes/js/superfish.js"></script>
     <script src="/themes/js/jquery.scrolltotop.js"></script>
     <script src="/themes/js/jquery.fancybox.js"></script>
+	<script type="text/javascript" src="themes/js/jquery-ui.min.js"></script>
 
 </head>
 
@@ -43,7 +42,7 @@
     <div id="top-bar" class="container">
         <div class="row">
             <div class="span4">
-                <form action="/products/search" method="GET" class="search_form">
+                <form action="/products" method="GET" class="search_form">
                     <div class="input-group">
                         <input name="value" type="text" class="search-query form-control input-group" Placeholder="Bạn muốn tìm gì?">
                         <span class="input-group-btn">
@@ -61,7 +60,7 @@
                         <li><a href="checkout.html"><i class="fa fa-credit-card" aria-hidden="true"></i></a></li>
 
                         <% if (user) { %>
-                            <li><a href="#">
+                            <li><a href="/user">
                                     <%= user.fullName %>
                                         <i class="fa fa-user" aria-hidden="true"></i>
                                 </a>
@@ -80,19 +79,19 @@
         <!-- menu -->
         <section class="navbar main-menu">
             <div class="navbar-inner main-menu">
-                <a href="index.html" class="logo pull-left">
-                    <h4 class="title">ILAPTOP </h4>
+                <a href="/" class="logo pull-left">
+                    <h4 class="title">GENY Laptop </h4>
                 </a>
                 <nav id="menu" class="pull-right">
                     <ul>
-                        <li><a href="./products.html">Hãng sản xuất</a>
+                        <li><a href="/">Hãng sản xuất</a>
                             <ul>
-                                <li><a href="./products.html">Apple</a></li>
-                                <li><a href="./products.html">Dell</a></li>
-                                <li><a href="./products.html">Asus</a></li>
-                                <li><a href="./products.html">HP</a></li>
-                                <li><a href="./products.html">Acer</a></li>
-                                <li><a href="./products.html">Lenovo</a></li>
+                                <li><a href="/products?value=apple">Apple</a></li>
+                                <li><a href="/products?value=dell">Dell</a></li>
+                                <li><a href="/products?value=asus">Asus</a></li>
+                                <li><a href="/products?value=hp">HP</a></li>
+                                <li><a href="/products?value=acer">Acer</a></li>
+                                <li><a href="/products?value=lenovo">Lenovo</a></li>
                             </ul>
                         </li>
 

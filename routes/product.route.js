@@ -8,15 +8,15 @@ const productController = require('../controllers/product.controller')
 
 
 // lấy tất cả sản phẩm và phân trang
-router.get('/',productController.getProducts)
+// router.get('/',productController.getProducts)
 
 // tìm sản phẩm
-router.get('/search', productController.getSearchProducts);
+router.get('/cart',productController.getCart)
 
 // Lấy 1 sản phẩm theo code
 router.get('/:code', productController.getProductByCode);
 
-
+router.get('/', productController.getSearchProducts);
 
 
 module.exports  = router

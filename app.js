@@ -104,19 +104,20 @@ if (dev) {
 
 
 // ======== Router =========
-// trang chủ
-app.use('/',isLogin, indexRouter);
 
 // người dùng
-app.use('/user', isAuth, usersRouter);
+app.use('/user',isAuth, usersRouter);
 
 // tài khoản
 app.use('/account', accountRouter);
 
 // admin
-app.use('/admin', adminRouter);
+app.use('/admin',isAuth, adminRouter);
 
 app.use('/products', productRouter)
+
+// trang chủ
+app.use('/',isLogin ,indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -257,13 +257,14 @@ const postLogin = async (req, res, next) => {
             req.user = user
 
             // tạo token
-            const token = jwtConfig.encodedToken(
+            const token = await jwtConfig.encodedToken(
                 process.env.JWT_SECRET_KEY,
                 {
                     email: account.email,
                     accountId: user.accountId
                 }
             )
+            console.log("token",token);
             req.session.token = token
             return req.session.save(err => {
                 res.redirect('/');
