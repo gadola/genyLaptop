@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form id="formAddress" action="">
+        <select name="tinh" id="tinh"></select>
+        <select name="huyen" id="huyen"></select>
+        <select name="xa" id="xa"></select>
+    </form>
+    <script>
+        const form = document.querySelector('#form')
+        const tinh = document.querySelector('#tinh')
+        const huyen = document.querySelector('#huyen')
+        const xa = document.querySelector('#xa')
+
+
+        // get all provinces
+        const urlTinh = 'https://provinces.open-api.vn/api/'
+            // thiếu code https://provinces.open-api.vn/api/p/{id}?depth=2
+        const urlHuyen = 'https://provinces.open-api.vn/api/p/'
+            //thiếu code https://provinces.open-api.vn/api/d/{id}?depth=2
+        const urlXa = 'https://provinces.open-api.vn/api/d/'
+
+        // gọi api kèm them url
+        async function getInfoProvince(url) {
+            var respone = await fetch(url)
+            var data = await respone.json()
+            return data // trả về 1 promise
+        }
+
+        // điền option cho những select trong form
+        function fillProvinceForm(provinces) {
+            provinces.forEach(item => {
+                let opt = document.createElement("option")
+                opt.value = item.code
+                opt.textContent = item.name
+                tinh.appendChild(opt)
+            });
+        }
+
+        function fillDistrictsForm(districts) {
+            districts.forEach(item => {
+                let opt = document.createElement("option")
+                opt.value = item.code
+                opt.textContent = item.name
+                huyen.appendChild(opt)
+            });
+        }
+
+        function fillWardsForm(wards) {
+            wards.forEach(item => {
+                let opt = document.createElement("option")
+                opt.value = item.code
+                opt.textContent = item.name
+                xa.appendChild(opt)
+            });
+        }
+
+        // get api và điền vào select tỉnh
+        getInfoProvince(urlTinh).then(data => {
+            fillProvinceForm(data)
+        })
+
+        // chọn tỉnh => call api => show option huyện
+        tinh.addEventListener('input', (e) => {
+            let provinceCode = e.target.value
+            huyen.innerHTML = ''
+            let urlFull = urlHuyen + provinceCode + '?depth=2'
+            getInfoProvince(urlFull).then(data => {
+                let districts = data.districts
+                fillDistrictsForm(districts)
+            })
+        })
+
+        // chọn huyện => call api => show option xã
+        huyen.addEventListener('input', (e) => {
+            let districtCode = e.target.value
+            xa.innerHTML = ''
+            let urlFull = urlXa + districtCode + '?depth=2'
+            getInfoProvince(urlFull).then(data => {
+                let wards = data.wards
+                fillWardsForm(wards)
+            })
+        })
+    </script>
+</body>
+
+</html>

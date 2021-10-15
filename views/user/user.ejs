@@ -3,7 +3,7 @@
 	</section>			
 	<section class="main-content">		
 		<div class="row">
-			<div class="span5">					
+			<div class="span4">					
 				<h4 class="title"><span class="text"><strong>Thông tin</strong> cá nhân</span></h4>
 				<form action="/user/update" method="POST">
 					<input type="hidden" name="next" value="/">
@@ -53,47 +53,30 @@
 					</fieldset>
 				</form>				
 			</div>
-			<div class="span7">					
+			<div class="span8">					
 				<h4 class="title"><span class="text"><strong>Lịch sử</strong> mua hàng</span></h4>
 				<form action="newcustomer.html" method="post" class="form-stacked">
 					<fieldset>
 						<div class="control-group">
 							<label class="control-label"><strong>Các sản phẩm đã mua</strong> </label>
-						</div>
-						<li class="span3">
-							<div class="product-box">												
-								<a href="product_detail.html"><img alt="" src="themes/images/cloth/laptop1.png"></a><br/>
-								<a href="product_detail.html" class="title">ASUS VivoBook Swift SF315</a><br/>
-								<a href="#" class="category">i5 8250U/4GB/1TB/Win10</a>
-								<p class="price">16.990.000 đ</p>
-							</div>
-						</li>
-						<li class="span3">
-							<div class="product-box">
-								<span class="sale_tag"></span>												
-								<a href="product_detail.html"><img alt="" src="themes/images/cloth/laptop2.jpg"></a><br/>
-								<a href="product_detail.html" class="title">ASUS Vivobook Max X441UA</a><br/>
-								<a href="#" class="category">intel Core i3, RAM 4GB DDR4</a>
-								<p class="price">9.790.000 đ</p>
-							</div>
-						</li>
-						<li class="span3">
-							<div class="product-box">												
-								<span class="sale_tag"></span>
-								<a href="product_detail.html"><img alt="" src="themes/images/cloth/anh4.png"></a><br/>
-								<a href="product_detail.html" class="title">Acer Chromebook R11 CB5-132T 11.6-Inch</a><br/>
-								<a href="#" class="category">i5 8250U/4GB/1TB/Win10</a>
-								<p class="price">16.500.000 đ</p>
-							</div>
-						</li>
-						<li class="span3">
-							<div class="product-box">												
-								<a href="product_detail.html"><img alt="" src="themes/images/cloth/anh8.png"></a><br/>
-								<a href="product_detail.html" class="title">ROG ZENPHYRUS(GX501)</a><br/>
-								<a href="#" class="category">Intel Core i7-7700HQ/24GB RAM/1TB SSD PCie</a>
-								<p class="price">16.500.000 đ</p>
-							</div>
-						</li>
+							<table class="table table-striped" id="table_orders">
+								<tr>
+									<th>Mã đơn hàng</th>
+									<th>Ngày mua</th>
+									<th>Sản phẩm</th>
+									<th>Tổng tiền</th>
+									<th>Trạng thái đơn hàng</th>
+								</tr>
+								<% for (const order of orders) { %>
+									<tr>
+										<td><a href="/user/order?id=<%= order._id %>"><%= order._id %></a></td>
+										<td><%= moment(order.orderDate).format('DD-MM-YYYY')%></td>
+										<td><a href="/products/<%= order.orderProd.code %>"><%= order.orderProd.name %></a></td>
+										<td><%= order.totalPrice.toLocaleString() %>đ</td>
+										<td><%= toString(order.orderStatus) %></td>
+									</tr>
+								<% }  %> 
+							</table>
 					</fieldset>
 					
 				</form>					

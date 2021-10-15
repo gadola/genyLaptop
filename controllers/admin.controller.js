@@ -5,7 +5,8 @@ const ProductModel = require('../models/product.model')
 const LaptopModel = require('../models/laptop.model')
 const helper = require('../helper/index')
 const { cloudinary } = require('../configs/cloudinary.config');
-
+const OrderModel = require("../models/order.model")
+const moment = require('moment')
 
 
 
@@ -39,7 +40,7 @@ const getProductById = async (req, res, next) => {
         return res.status(200).json(product);
     } catch (error) {
         console.log(error);
-        return res.json("lỗi get product by id ",error)
+        return res.json("lỗi get product by id ", error)
     }
 
 
@@ -212,9 +213,73 @@ const deleteProduct = async (req, res, next) => {
 }
 
 
+// quản lý người dùng
+const getUsers = async (req, res, next) => {
+    try {
+        const { page = 1, perPage = 10 } = req.query
+        const nSkip = (parseInt(page) - 1) * parseInt(perPage)
+        const users = await UserModel.find({})
+            .skip(nSkip)
+            .limit(perPage)
+        for (let i = 0; i < users.length; i++) {
+            const id = users[i].accountId
+            let account = await AccountModel.findById(id)
+            users[i].email = account.email
+        }
+        return res.render('admin/seeUsers', {
+            user: req.user,
+            users: users
+        });
 
-const testFields = async (req, res, next) => {
-    return res.json(req.body.product)
+    } catch (error) {
+
+    }
+}
+
+
+
+const getOrders = async (req, res, next) => {
+    try {
+        const { page = 1, perPage = 10 } = req.query
+        const nSkip = (parseInt(page) - 1) * parseInt(perPage)
+        const orders = await OrderModel.find({})
+            .skip(nSkip)
+            .limit(perPage)
+        return res.render('admin/seeOrders', {
+            user: req.user,
+            orders: orders,
+            toStatusString: helper.convertNumberToOrderStatus,
+            toPaymentMethodString: helper.convertNumberToPaymentMethod,
+            moment: moment
+
+        });
+    } catch (error) {
+
+    }
+}
+
+const postOrders = async (req, res, next) => {
+    try {
+        const { id, orderStatus } = req.body
+        const order = await OrderModel.findById(id)
+        if (!order) {
+            return res.status(400).json("k tìm thấy đơn hàng");
+        }
+        const result = await OrderModel.updateOne(
+            { _id: id },
+            { orderStatus: orderStatus }
+        )
+        if (result.modifiedCount == 1) {
+            req.flash('info',"cập nhật thành công")
+            return  res.redirect('/admin/orders');
+        } else {
+            req.flash('error',"cập nhật thất bại")
+            return  res.redirect('/admin/orders');
+        }
+    } catch (error) {
+        console.log(error);
+        return  res.json("lỗi cập nhật");
+    }
 }
 
 
@@ -228,7 +293,7 @@ module.exports = {
     postProduct,
     updateProduct,
     deleteProduct,
-    testFields,
-
-
+    getUsers,
+    getOrders,
+    postOrders,
 }

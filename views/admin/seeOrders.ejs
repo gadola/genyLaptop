@@ -1,0 +1,37 @@
+<table>
+    <tr>
+        <th>Khách hàng</th>
+        <th>Mã</th>
+        <th>Ngày đặt</th>
+        <th>Sản phẩm</th>
+        <th>Tổng tiền</th>
+        <th>HT Thanh toán</th>
+        <th>Trạng thái đơn hàng</th>
+        <th>Hành động</th>
+    </tr>
+    <% for(order of orders) {%>
+        <tr>
+            <td><%= order.owner %></td>
+            <td><%= order.id %></td>
+            <td><%= moment(order.orderDate).format('DD-MM-YYYY') %></td>
+            <td><%= order.orderProd.name %></td>
+            <td><%= order.totalPrice %></td>
+            <td><%= toPaymentMethodString(order.paymentMethod) %></td>
+            <td><%= toStatusString(order.orderStatus) %></td>
+            <td><button class="js_btn_update" id="<%= order.id %>">Cập nhật</button></td>
+        </tr>
+        <% } %>  
+</table>
+<form id="update_form" action="/admin/orders" method="post">
+    <input type="hidden" name="id">
+    <input type="radio" name="orderStatus" value="0"><label for="">Đặt hàng thành công</label>
+    <input type="radio" name="orderStatus" value="1"><label for="">Đã tiếp nhận</label>
+    <input type="radio" name="orderStatus" value="2"><label for="">Đang lấy hàng</label>
+    <input type="radio" name="orderStatus" value="3"><label for="">Đóng gói xong</label>
+    <input type="radio" name="orderStatus" value="4"><label for="">Bàn giao vận chuyển</label>
+    <input type="radio" name="orderStatus" value="5"><label for="">Đang vận chuyển</label>
+    <input type="radio" name="orderStatus" value="6"><label for="">Giao hàng thành công</label>
+    <input type="submit" value="Cập nhật">
+</form>
+
+<script src="/javascripts/admin/orders.js"></script>

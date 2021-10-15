@@ -4,6 +4,7 @@
     <h3 style="margin-left: 44%; color: blue;"><span>Đăng nhập</span></h3>
     <div class="">
         <form class="" action="/account/login" method="POST">
+            <input type="hidden" name="nextPage" id="next_page">
             <div class="message">
                 <% if (errorMessage) { %>
                     <div class="">
@@ -22,5 +23,8 @@
         </form>
         <p>Chưa có tài khoản? <a href="/account/signup">Đăng ký</a></p> <a href="/account/forgot-pw">Quên mật khẩu?</a>
     </div>
-
+<script>
+    const inpNextPage = document.querySelector("#next_page")
+    inpNextPage.value = document.referrer
+</script>
     <%- include('../layout/footer.ejs') %>

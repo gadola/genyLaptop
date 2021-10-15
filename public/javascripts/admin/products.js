@@ -1,6 +1,7 @@
 
 const form = document.querySelector('#productForm')
 const iconsEdit = document.querySelectorAll('.js_icon_edit')
+const iconsView = document.querySelectorAll('.js_icon_view')
 const iconsDelete = document.querySelectorAll('.js_icon_delete')
 
 

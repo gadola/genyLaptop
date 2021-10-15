@@ -23,8 +23,15 @@ router.post('/products/update', adminController.updateProduct);
 // xoá sản phẩm
 router.post('/products/delete', adminController.deleteProduct);
 
+// Lấy danh sách người dùng và phân trang
+router.get('/users', adminController.getUsers)
+
+// Lấy danh sách đơn hàng và phân trang
+router.get('/orders', adminController.getOrders)
+
+// cập nhật đơn hàng
+router.post('/orders', adminController.postOrders)
 // test
-router.post('/test', adminController.testFields);
 
 
 module.exports = router;

@@ -1,17 +1,27 @@
 const AccountModel = require('../models/account.model')
 const UserModel = require('../models/user.model')
+const OrderModel = require("../models/order.model")
+const DetailOrderModel = require("../models/detailOder.model")
 const moment = require('moment')
 const jwt = require("jsonwebtoken")
+const helper = require('../helper')
 
-// Info user
+// Info user lấy lịch sử đơn hàng
 const getUser = async (req, res, next) => {
+    const accountId = req.user.accountId
+    const user = await UserModel.findOne({ accountId })
+
+    // lấy orders đã đặt
+    const orders = await OrderModel.find({ owner: user._id })
     let message = req.flash('error')
     return res.render('user/user', {
         path: "/user",
         pageTitle: "Tài khoản",
         errorMessage: message,
         user: req.user,
+        orders: orders,
         moment: moment,
+        toString: helper.convertNumberToOrderStatus,
     })
 }
 const putUpdateUserInfo = async (req, res, next) => {
@@ -28,8 +38,8 @@ const putUpdateUserInfo = async (req, res, next) => {
                 }
             })
             if (response) {
-                req.flash("info","cập nhật thành công")
-                return  res.redirect('/user');
+                req.flash("info", "cập nhật thành công")
+                return res.redirect('/user');
             }
         } else {
             return res.render('user/user', {
@@ -53,7 +63,26 @@ const putUpdateUserInfo = async (req, res, next) => {
     }
 }
 
+
+// lấy lịch sử chi tiết đơn hàng
+const getOrder = async (req, res, next) => {
+    try {
+        const {id} = req.query
+        const detailOrders = await DetailOrderModel.find({ idOrder:id })
+
+        // lấy orders đã đặt
+        return res.render('user/order', {
+            user: req.user,
+            pageTitle: "GENY Laptop",
+            detailOrders: detailOrders,
+        });
+    } catch (error) {
+
+    }
+}
+
 module.exports = {
     getUser,
     putUpdateUserInfo,
+    getOrder,
 }

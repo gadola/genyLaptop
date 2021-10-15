@@ -114,7 +114,7 @@ app.use('/account', accountRouter);
 // admin
 app.use('/admin',isAuth, adminRouter);
 
-app.use('/products', productRouter)
+app.use('/products',isLogin , productRouter)
 
 // trang chủ
 app.use('/',isLogin ,indexRouter);

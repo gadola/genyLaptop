@@ -1,0 +1,126 @@
+<%- include("../layout/header.ejs") %>
+
+    <section class="header_text sub">
+        <h4><span>Thanh Toán</span></h4>
+    </section>
+    <section class="main-content">
+        <div class="row">
+            <div class="span12">
+                <div class="accordion" id="accordion2">
+                    <div class="accordion-group">
+                        <div class="accordion-heading">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
+                                href="#collapseTwo">Thông tin giao hàng</a>
+                        </div>
+                        <div id="collapseTwo" class="accordion-body in collapse">
+                            <div class="accordion-inner">
+                                <div class="row-fluid">
+                                    <div class="span6">
+                                        <h4>Thông tin người nhận</h4>
+                                        <div class="control-group">
+                                            <label class="control-label">Tên</label>
+                                            <div class="controls">
+                                                <input required type="text" value="<%= user.fullName %>"
+                                                    class="input-xlarge">
+                                            </div>
+                                        </div>
+
+                                        <div class="control-group">
+                                            <label class="control-label">Địa chỉ Email</label>
+                                            <div class="controls">
+                                                <input readonly type="text" value="<%= user.email %>"
+                                                    class="input-xlarge">
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label">Điện thoại</label>
+                                            <div class="controls">
+                                                <input required type="text" value="<%= user.phone %>"
+                                                    class="input-xlarge">
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label">Địa chỉ</label>
+                                            <div class="controls">
+                                                <input required type="text" value="<%= user.address %>"
+                                                    class="input-xlarge">
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label">Ghi chú (tuỳ chọn)</label>
+                                            <div class="controls">
+                                                <input required type="text" name="note" class="input-xlarge">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="span6">
+                                        <h4>Thông tin vật chuyển</h4>
+                                        <div class="control-group">
+                                            <div class="controls">
+                                                <input checked type="radio" name="shipMethod" value="0">
+                                                <label for="">giao hàng tiêu chuẩn</label>
+                                                <input type="radio" name="shipMethod" value="1">
+                                                <label for="">giao hàng tiết kiệm</label>
+                                                <input type="radio" name="shipMethod" value="2">
+                                                <label for="">giao hàng nhanh</label>
+                                            </div>
+                                        </div>
+                                        <div id="menu-filter">
+                                            <h4>Phương thức thanh toán</h4>
+                                            <div>
+                                                <div class="">
+                                                    <input checked value="0" type="radio" name="paymentMethod" class="input-lg">
+                                                    <label for="">
+                                                        Thanh toán khi nhận hàng (COD)
+                                                    </label>
+                                                    <p>Thanh toán bằng tiền mặt khi nhận hàng tại nhà hoặc showroom.</p>
+                                                </div>
+                                                <div class="">
+                                                    <input id="" value="1" type="radio" name="paymentMethod" class="input-lg">
+                                                    <label for="">
+                                                        Thanh toán Online qua cổng VNPAY
+                                                    </label>
+                                                    <p>Thanh toán qua Internet Banking, Visa, Master, JCB, VNPAY-QR.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-group">
+                        <div class="accordion-heading">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
+                                href="#collapseThree">Xác nhận đơn hàng</a>
+                        </div>
+                        <div id="collapseThree" class="accordion-body collapse">
+                            <div class="accordion-inner">
+                                <div class="row-fluid">
+                                    <table id="table_cart" class="table table-hover">
+                                        <tr>
+                                            <th>Mặt hàng</th>
+                                            <th>Tên sản phẩm</th>
+                                            <th>Đơn giá</th>
+                                            <th>Số lượng</th>
+                                            <th>Tổng</th>
+                                        </tr>
+                                    </table>
+                                    <table id="total_table_cart" class="table table-hover">
+                                        <tr>
+                                            <th>Tạm tính</th>
+                                            <th>Chi phí vận chuyển</th>
+                                            <th>Tổng cộng</th>
+                                        </tr>
+                                    </table>
+                                    <button id="btn_checkout" class="btn btn-primary pull-right">Đặt hàng ngay</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="/javascripts/checkout.js"></script>
+    <%- include("../layout/footer.ejs") %>

@@ -1,7 +1,11 @@
 const ProductModel = require("../models/product.model")
 const LaptopModel = require("../models/laptop.model")
+const OrderModel = require("../models/order.model")
+const DetailOrderModel = require("../models/detailOder.model")
 const { Model } = require('mongoose');
-const helper = require("../helper/index")
+const helper = require("../helper/index");
+const AccountModel = require("../models/account.model");
+const UserModel = require("../models/user.model");
 
 
 // lấy 12 sản phẩm mới nhất
@@ -34,7 +38,7 @@ const getProducts = async (req, res, next) => {
         return res.render('product/products', {
             products: products,
             user: req.user,
-            pageTitle:"Sản Phẩm",
+            pageTitle: "Sản Phẩm",
         });
     } catch (error) {
         console.log(error)
@@ -84,11 +88,11 @@ const getSearchProducts = async (req, res, next) => {
 
         // lọc theo điều kiện nếu có
         // if (!value) {
-            numOfProduct = await ProductModel.find(query).countDocuments();
-            result = await ProductModel.find(query)
-                .skip(nSkip)
-                .limit(parseInt(perPage))
-                .sort(sortby)
+        numOfProduct = await ProductModel.find(query).countDocuments();
+        result = await ProductModel.find(query)
+            .skip(nSkip)
+            .limit(parseInt(perPage))
+            .sort(sortby)
         // } else {
         //     // trả về tất cả
         //     numOfProduct = await ProductModel.find({}).countDocuments();
@@ -103,7 +107,7 @@ const getSearchProducts = async (req, res, next) => {
                 numOfProduct: numOfProduct,
                 key: value,
                 user: req.user,
-                pageTitle:"Sản Phẩm",
+                pageTitle: "Sản Phẩm",
             });
         }
 
@@ -130,7 +134,7 @@ const getProductByCode = async (req, res, next) => {
                 convertSerisToString: helper.convertSerisToString,
                 hanlderRate: helper.hanlderRate,
                 user: req.user,
-                pageTitle:"Sản Phẩm "+product.code,
+                pageTitle: "Sản Phẩm " + product.code,
 
             }
             return res.render('product/detailProduct', context);
@@ -143,11 +147,66 @@ const getProductByCode = async (req, res, next) => {
 
 
 // lấy sản phẩm => display cart
-const getCart = async (req, res, next)=>{
-    return res.render('product/cart',{
-        pageTitle:"Giỏ hàng",
-        user:req.user
+const getCart = async (req, res, next) => {
+    return res.render('product/cart', {
+        pageTitle: "Giỏ hàng",
+        user: req.user
     });
+}
+
+
+// trang thanh toán
+const getCheckout = async (req, res, next) => {
+    return res.render('product/checkout', {
+        pageTitle: "Thanh toán",
+        user: req.user,
+    });
+}
+const postCheckout = async (req, res, next) => {
+    try {
+        const { data, paymentMethod, shipMethod, note } = req.body
+        const accountId = req.user.accountId
+
+        // kiểm tra user
+        const user = await UserModel.findOne({ accountId })
+
+        if (!user) {
+            return res.status(400).json("User không tồn tại!");
+        }
+
+        for (let i = 0; i < data.length; i++) {
+            await OrderModel.create({
+                owner: user._id,
+                deliveryAdd: {
+                    name: user.fullName,
+                    phone: user.phone,
+                    address: user.address
+                },
+                orderDate: new Date(),
+                orderProd: {
+                    id: data[i].id,
+                    code: data[i].code,
+                    name: data[i].name,
+                    price: data[i].price,
+                    discount: data[i].discount
+                },
+                numOfProd: data[i].number,
+                orderStatus: 0,
+                paymentMethod: paymentMethod,
+                transportFee: 0,
+                totalPrice: data[i].price * data[i].number,
+                transportMethod: shipMethod,
+                note: note
+            })
+        }
+
+        return res.status(200).json("đặt oke");
+
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json(error);
+
+    }
 }
 
 
@@ -158,4 +217,6 @@ module.exports = {
     getProducts,
     getSearchProducts,
     getCart,
+    getCheckout,
+    postCheckout
 }

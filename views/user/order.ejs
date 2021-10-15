@@ -1,0 +1,72 @@
+<%- include("../layout/header.ejs") %>
+<div class="main-content">
+    <div class="row">
+        <div class="span2"></div>
+        <div class="span8">					
+            <h4 class="title"><span class="text"><strong>Chi tiết đơn hàng <%= detailOrders.idOrder %> </span></h4>
+            <form action="newcustomer.html" method="post" class="form-stacked">
+                <fieldset>
+                    <div class="control-group">
+                        <label class="control-label"><strong>Các đơn hàng của bạn</strong> </label>
+                    </div>
+                    <table class="table table-striped" id="table_orders">
+                        <tr>
+                            <th>Tên</th>
+                            <th>Giá</th>
+                            <th>Số lượng</th>
+                            <th>Giảm giá</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                        <% for (const order of detailOrders) { %>
+                            <tr>
+                                <td><a href="/products/<%=order.code%>"><%= order.orderProd.name%></a></td>
+                                <td><%= order.orderProd.price.toLocaleString() %>đ</td>
+                                <td><%= order.numOfProd %></td>
+                                <td><%= order.orderProd.discount %>%</td>
+                                <td><%= (order.orderProd.price*order.numOfProd).toLocaleString() %>đ</td>
+                            </tr>
+                        <% }  %> 
+                    </table>
+                    <!-- <li class="span3">
+                        <div class="product-box">												
+                            <a href="product_detail.html"><img alt="" src="themes/images/cloth/laptop1.png"></a><br/>
+                            <a href="product_detail.html" class="title">ASUS VivoBook Swift SF315</a><br/>
+                            <a href="#" class="category">i5 8250U/4GB/1TB/Win10</a>
+                            <p class="price">16.990.000 đ</p>
+                        </div>
+                    </li>
+                    <li class="span3">
+                        <div class="product-box">
+                            <span class="sale_tag"></span>												
+                            <a href="product_detail.html"><img alt="" src="themes/images/cloth/laptop2.jpg"></a><br/>
+                            <a href="product_detail.html" class="title">ASUS Vivobook Max X441UA</a><br/>
+                            <a href="#" class="category">intel Core i3, RAM 4GB DDR4</a>
+                            <p class="price">9.790.000 đ</p>
+                        </div>
+                    </li>
+                    <li class="span3">
+                        <div class="product-box">												
+                            <span class="sale_tag"></span>
+                            <a href="product_detail.html"><img alt="" src="themes/images/cloth/anh4.png"></a><br/>
+                            <a href="product_detail.html" class="title">Acer Chromebook R11 CB5-132T 11.6-Inch</a><br/>
+                            <a href="#" class="category">i5 8250U/4GB/1TB/Win10</a>
+                            <p class="price">16.500.000 đ</p>
+                        </div>
+                    </li>
+                    <li class="span3">
+                        <div class="product-box">												
+                            <a href="product_detail.html"><img alt="" src="themes/images/cloth/anh8.png"></a><br/>
+                            <a href="product_detail.html" class="title">ROG ZENPHYRUS(GX501)</a><br/>
+                            <a href="#" class="category">Intel Core i7-7700HQ/24GB RAM/1TB SSD PCie</a>
+                            <p class="price">16.500.000 đ</p>
+                        </div>
+                    </li> -->
+                </fieldset>
+                
+            </form>					
+        </div>
+        <div class="span2"></div>
+    </div>
+</div>
+
+<%- include("../layout/footer.ejs") %>

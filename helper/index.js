@@ -122,7 +122,7 @@ const convertProductType = (type = 0) => {
 };
 
 // Tính trung bình đánh giá
-const hanlderRate =(arr)=> {
+const hanlderRate = (arr) => {
     var rate = []
     for (var i = 1; i <= 5; i++) {
         rate.push(arr[i - 1] * i)
@@ -130,7 +130,7 @@ const hanlderRate =(arr)=> {
     return rate.reduce((p, c) => p + c, 0) / arr.length;
 }
 // đổi loại sản phẩm từ số thành string
-const converTypeToString = (number = 0)=> {
+const converTypeToString = (number = 0) => {
     switch (number) {
         case 0:
             return "Laptop";
@@ -140,8 +140,8 @@ const converTypeToString = (number = 0)=> {
 }
 
 // đổi số seris thành chữ
-const convertSerisToString = (number)=>{
-     // 0 - core i3, 1 - core i5, 2 - core i7, 3 - core i9,
+const convertSerisToString = (number) => {
+    // 0 - core i3, 1 - core i5, 2 - core i7, 3 - core i9,
     // 4 - Ryzen 3, 5 - Ryzen 5, 6 - Ryzen 7, 7 - Pentium, 8 - Celeron, 9 -M1
     switch (number) {
         case 0:
@@ -169,13 +169,44 @@ const convertSerisToString = (number)=>{
     }
 }
 
-// // xử lý in tiền có dấu ,
-// const hanlderPrice = (number)=>{
-//     let s = `${number}`
-//     for (let i = 0; i < s.length; i+= 3) {
-        
-//     }
-// }
+// đổi số => tình trạng đơn hàng
+const convertNumberToOrderStatus = (number = 0) => {
+    switch (number) {
+        case 0:
+            return "Đặt hàng thành công"
+
+        case 1:
+            return "GENY đã tiếp nhận"
+
+        case 2:
+            return "Đang lấy hàng"
+
+        case 3:
+            return "Đóng gói xong"
+
+        case 4:
+            return "Bàn giao vận chuyển"
+
+        case 5:
+            return "Đang vận chuyển"
+        case 6:
+            return "Giao hàng thành công"
+    }
+}
+
+// đổi số => hình thức thanh toán
+const convertNumberToPaymentMethod = (number = 0) => {
+    switch (number) {
+        case 0:
+            return "Tiền mặt"
+
+        case 1:
+            return "Online"
+
+        default:
+            return "Tiền mặt"
+    }
+}
 
 module.exports = {
     generateVerifyCode,
@@ -185,5 +216,7 @@ module.exports = {
     hanlderRate,
     converTypeToString,
     convertSerisToString,
+    convertNumberToOrderStatus,
+    convertNumberToPaymentMethod,
 };
 

@@ -13,6 +13,11 @@ var userSchema = new Schema({
         required: true,
         trim: true
     },
+    phone: {
+        type: String,
+        required: true,
+        trim: true
+    },
     birthday: {
         type: String,
         default: '1970-01-01',

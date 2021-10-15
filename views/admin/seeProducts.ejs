@@ -64,7 +64,7 @@
                         <%= item.name %>
                     </td>
                     <td>
-                        <%= item.price %>
+                        <%= item.price.toLocaleString() %>đ
                     </td>
                     <td>
                         <%= converTypeToString(item.type) %>
@@ -84,8 +84,8 @@
                     <td>
                         <i id="edit_<%= item._id %>" class="fa fa-pencil-square-o js_icon_edit" style=" cursor: pointer;"
                             aria-hidden="true"></i>
-                        <i id="view_<%= item._id %>" class="fa fa-eye js_icon_edit" style="color: blue; cursor: pointer;"
-                            aria-hidden="true"></i>
+                        <a href="/products/<%= item.code %> "><i id="view_<%= item._id %>" class="fa fa-eye js_icon_view" style="color: blue; cursor: pointer;"
+                            aria-hidden="true"></i></a>
                         <i id="delete_<%= item._id %>" class="fa fa-trash-o js_icon_delete" style="color: red;cursor: pointer;"
                             aria-hidden="true"></i>
                     </td>

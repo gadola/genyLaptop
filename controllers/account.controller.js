@@ -79,6 +79,7 @@ const postSignUp = async (req, res, next) => {
             password,
             repassword,
             fullName,
+            phone,
             birthday,
             gender,
             address,
@@ -108,6 +109,7 @@ const postSignUp = async (req, res, next) => {
                 await UserModel.create({
                     accountId: newAcc._id,
                     fullName,
+                    phone,
                     birthday,
                     gender,
                     address,
@@ -235,7 +237,7 @@ const getLogin = async (req, res, next) => {
 // Note : login success -> create token -> save session -> redirect /
 const postLogin = async (req, res, next) => {
     try {
-        const { email, password, keepLogin } = req.body
+        const { email, password, keepLogin ,nextPage} = req.body
         // Kiểm tra tài khoản có tồn tại không
         const account = await AccountModel.findOne({ email })
         if (!account) {
@@ -267,7 +269,7 @@ const postLogin = async (req, res, next) => {
             console.log("token",token);
             req.session.token = token
             return req.session.save(err => {
-                res.redirect('/');
+                res.redirect(nextPage);
             })
         }
         return res.render('account/login', {

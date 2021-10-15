@@ -8,6 +8,8 @@ router.get('/', userController.getUser)
 // Cập nhật thông tin user
 router.post('/update', userController.putUpdateUserInfo)
 
+// Lịch sử giao dịch
+router.get('/order', userController.getOrder)
 
 
 module.exports = router;
