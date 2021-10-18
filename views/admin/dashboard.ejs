@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Dashboard</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <!-- Popper JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <style>
+    /* canvas {
+            width: 752px !important;
+            height: 376px !important;
+            margin: 0;
+        } */
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <nav class="navbar navbar-expand-sm bg-light navbar-light justify-content-end">
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown active">
+          <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+            Admin
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Đăng xuất</a>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/">Xem trang web</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Disabled</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <div class="row">
+    <div class="col-sm-1">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" href="/admin">Dashboard</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="/admin/products">Products</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/products">See Products</a>
+            <a class="dropdown-item" href="/admin/products/add">Add Product</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/orders">Orders</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/users">Users</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Disabled</a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-sm-11">
+      <canvas class="col-sm-6" id="monthlyChart"></canvas>
+      <canvas class="col-sm-6" id="annualChart"></canvas>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-1"></div>
+    <canvas class="col-sm-5" id="annualChart2"></canvas>
+  </div>
+  <script src="/javascripts/admin/dashboard.js"></script>
+</body>
+
+</html>

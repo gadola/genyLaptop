@@ -444,6 +444,9 @@ section.navbar{
 .product-box:hover a{
 	color:#fff !important;
 }
+.product-box:hover h4{
+	color:#fff !important;
+}
 .product-box img{
 	overflow:hidden;
 }

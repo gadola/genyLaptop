@@ -26,10 +26,74 @@ const uploadProductAvt = async (avtFile, productCode) => {
 
 // dashboard
 const dashboard = async (req, res, next) => {
-    let message = req.flash('error')
-    return res.render('admin/dashboard', {
-        message: message
-    });
+    try {
+        const year = 2021
+        // lấy danh sách đơn hàng trong năm thống kê (Chỉ lấy đơn hàng đã thanh toán)
+        const thisYearOrder = await OrderModel.find({
+            orderDate: {
+                $gte: new Date(`${year}-01-01`),
+                $lte: new Date(`${year}-12-31`),
+            },
+            orderStatus: 6,
+        }).select('-_id');
+
+        // kết quả sau thống kê
+        let thisYear = [...Array(12).fill(0)]
+
+        // thống kê
+        if (thisYearOrder) {
+            thisYearOrder.forEach((item) => {
+                const month = new Date(item.orderDate).getMonth();
+                const totalMoney =
+                    item.orderProd.price * item.numOfProd + item.transportFee;
+                thisYear[month] += totalMoney;
+            });
+        }
+        console.log(thisYearOrder);
+        return res.render('admin/dashboard',{
+            user:req.user,
+            thisYear:thisYear,
+        });
+
+    } catch (error) {
+        console.log(error);
+        return  res.json("looix roi");
+    }
+}
+const dashboard2 = async (req, res, next) => {
+    try {
+        const year = 2021
+        // lấy danh sách đơn hàng trong năm thống kê (Chỉ lấy đơn hàng đã thanh toán)
+        const thisYearOrder = await OrderModel.find({
+            orderDate: {
+                $gte: new Date(`${year}-01-01`),
+                $lte: new Date(`${year}-12-31`),
+            },
+            orderStatus: 6,
+        }).select('-_id');
+
+        // kết quả sau thống kê
+        let thisYear = [...Array(12).fill(0)]
+
+        // thống kê
+        if (thisYearOrder) {
+            thisYearOrder.forEach((item) => {
+                const month = new Date(item.orderDate).getMonth();
+                const totalMoney =
+                    item.orderProd.price * item.numOfProd + item.transportFee;
+                thisYear[month] += totalMoney;
+            });
+        }
+        console.log(thisYearOrder);
+        return res.render('admin/testDashboard',{
+            user:req.user,
+            thisYear:thisYear,
+        });
+
+    } catch (error) {
+        console.log(error);
+        return  res.json("looix roi");
+    }
 }
 
 // api: lấy sản phẩm theo id
@@ -74,12 +138,45 @@ const getProductList = async (req, res, next) => {
         throw error;
     }
 }
+const getProductList2 = async (req, res, next) => {
+    try {
+        const { type, page = 1, perPage = 10 } = req.query
+        const nSkip = (parseInt(page) - 1) * parseInt(perPage)
+        if (type == null) {
+            var numOfProduct = await ProductModel.countDocuments({})
+            var result = await ProductModel.find({})
+                // .skip(nSkip)
+                // .limit(parseInt(perPage))
+        } else {
+            var numOfProduct = await ProductModel.countDocuments({ type })
+            var result = await ProductModel.find({ type })
+                // .skip(nSkip)
+                // .limit(parseInt(perPage))
+        }
+        let message = req.flash("info")
+        return res.render('admin/testProducts', {
+            message: message,
+            count: numOfProduct,
+            data: result,
+            hanlderRate: helper.hanlderRate,// xử lý rate
+            converTypeToString: helper.converTypeToString // đổi số thành loại hàng
+        });
+    } catch (error) {
+        throw error;
+    }
+}
 
 
 // Thêm sản phẩm
 const getAddProduct = async (req, res, next) => {
     let message = req.flash('error')
     return res.render('admin/addProduct', {
+        message: message
+    });
+}
+const getAddProduct2 = async (req, res, next) => {
+    let message = req.flash('error')
+    return res.render('admin/testAddProduct', {
         message: message
     });
 }
@@ -235,6 +332,27 @@ const getUsers = async (req, res, next) => {
 
     }
 }
+const getUsers2 = async (req, res, next) => {
+    try {
+        const { page = 1, perPage = 10 } = req.query
+        const nSkip = (parseInt(page) - 1) * parseInt(perPage)
+        const users = await UserModel.find({})
+            // .skip(nSkip)
+            // .limit(perPage)
+        for (let i = 0; i < users.length; i++) {
+            const id = users[i].accountId
+            let account = await AccountModel.findById(id)
+            users[i].email = account.email
+        }
+        return res.render('admin/testUsers', {
+            user: req.user,
+            users: users
+        });
+
+    } catch (error) {
+
+    }
+}
 
 
 
@@ -246,6 +364,25 @@ const getOrders = async (req, res, next) => {
             .skip(nSkip)
             .limit(perPage)
         return res.render('admin/seeOrders', {
+            user: req.user,
+            orders: orders,
+            toStatusString: helper.convertNumberToOrderStatus,
+            toPaymentMethodString: helper.convertNumberToPaymentMethod,
+            moment: moment
+
+        });
+    } catch (error) {
+
+    }
+}
+const getOrders2 = async (req, res, next) => {
+    try {
+        const { page = 1, perPage = 10 } = req.query
+        const nSkip = (parseInt(page) - 1) * parseInt(perPage)
+        const orders = await OrderModel.find({})
+            // .skip(nSkip)
+            // .limit(perPage)
+        return res.render('admin/testOrder', {
             user: req.user,
             orders: orders,
             toStatusString: helper.convertNumberToOrderStatus,
@@ -270,15 +407,15 @@ const postOrders = async (req, res, next) => {
             { orderStatus: orderStatus }
         )
         if (result.modifiedCount == 1) {
-            req.flash('info',"cập nhật thành công")
-            return  res.redirect('/admin/orders');
+            req.flash('info', "cập nhật thành công")
+            return res.redirect('/admin/orders');
         } else {
-            req.flash('error',"cập nhật thất bại")
-            return  res.redirect('/admin/orders');
+            req.flash('error', "cập nhật thất bại")
+            return res.redirect('/admin/orders');
         }
     } catch (error) {
         console.log(error);
-        return  res.json("lỗi cập nhật");
+        return res.json("lỗi cập nhật");
     }
 }
 
@@ -296,4 +433,9 @@ module.exports = {
     getUsers,
     getOrders,
     postOrders,
+    getOrders2,
+    getProductList2,
+    getUsers2,
+    getAddProduct2,
+    dashboard2,
 }

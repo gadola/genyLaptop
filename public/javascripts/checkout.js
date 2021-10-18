@@ -27,16 +27,17 @@ function handlerCheckoutSubmit(cart) {
         note:note.value,
     }
 
-    btnCheckout.addEventListener('click', (e) => {
+    btnCheckout.addEventListener('click',(e) => {
         console.log("submit order nè",data);
         fetchPostOrder(data).then(data=>{
             console.log(data);
-            alert("Đặt hàng thành công")
+            alert("Đặt hàng thành công!")
             localStorage.removeItem('cart')
             window.location.href = "/"
         })
         .catch(error=>{
-            console.log(error);
+            alert(error.message)
+
         })
     })
 }
@@ -52,7 +53,7 @@ const fetchPostOrder = async (cart) => {
         body: JSON.stringify(cart)
     })
     if (!response.ok) {
-        const message = `Lỗi đặt hàng: ${response.json()}`;
+        const message = await response.json()
         throw new Error(message);
     }
     const data = await response.json()
@@ -64,10 +65,10 @@ const fetchPostOrder = async (cart) => {
 function displayItem(table, item) {
     var tr = document.createElement('tr')
     var textHtml = `<td><a href="/products/${item.code}"><img alt="" width="150px" height="150px" src="${item.avt}"></a></td>
-                    <td><a href="/products/${item.code}">${item.name}</a></td>
-                    <td>${item.price.toLocaleString()}đ</td>
-                    <td>${item.number}</td>
-                    <td>${(item.number * item.price).toLocaleString()}đ</td>`
+                    <td style="font-size:15px"><a href="/products/${item.code}">${item.name}</a></td>
+                    <td style="font-size:15px">${item.price.toLocaleString()}đ</td>
+                    <td style="font-size:15px">${item.number}</td>
+                    <td style="font-size:15px"><b>${(item.number * item.price).toLocaleString()}đ</b></td>`
     tr.innerHTML = textHtml
     table.appendChild(tr)
 }
@@ -80,9 +81,9 @@ function displayTotalPrice(cart, table) {
         total += item.price * item.number
     })
     var textHtml = `
-                    <td>${total.toLocaleString()}đ</td>
-                    <td>Miễn phí</td>
-                    <td>${total.toLocaleString()}đ</td>`
+                    <td style="font-size:15px">${total.toLocaleString()}đ</td>
+                    <td style="font-size:15px">Miễn phí</td>
+                    <td style="font-size:15px"><b>${total.toLocaleString()}đ</b></td>`
     tr.innerHTML = textHtml
     table.appendChild(tr)
 

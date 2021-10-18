@@ -139,11 +139,11 @@ function displayItem(table, item) {
     // tdNumber.innerHTML = `<input type="number" id="${item.id}" value="${item.number}" min="0" class="input-mini">`
     // tdTotal.innerHTML = `${(item.number * item.price).toLocaleString()}đ`
     var textHtml = `<td><i style="color:red;cursor:pointer;font-size:20px" id="remove_${item.id}" class="fa fa-trash-o nutxoa" aria-hidden="true"></i></td>
-                    <td><a href="/products/${item.code}"><img alt="" width="150px" height="150px" src="${item.avt}"></a></td>
-                    <td><a href="/products/${item.code}">${item.name}</a></td>
-                    <td>${item.price.toLocaleString()}đ</td>
+                    <td><a href="/products/${item.code}"><img alt="" width="120px" height="120px" src="${item.avt}"></a></td>
+                    <td style="font-size:15px"><a href="/products/${item.code}">${item.name}</a></td>
+                    <td style="font-size:15px">${item.price.toLocaleString()}đ</td>
                     <td><input type="number" id="${item.id}" value="${item.number}" min="0" class="input-mini"></td>
-                    <td>${(item.number * item.price).toLocaleString()}đ</td>`
+                    <td style="font-size:15px">${(item.number * item.price).toLocaleString()}đ</td>`
     tr.innerHTML = textHtml
     table.appendChild(tr)
 }
@@ -167,7 +167,7 @@ function displayTotalPrice(cart, table) {
     cart.forEach(item => {
         total += item.price * item.number
     })
-    tdTotal.innerHTML = `<strong>${total.toLocaleString()}đ</strong>`
+    tdTotal.innerHTML = `<strong style="font-size:15px" >${total.toLocaleString()}đ</strong>`
 }
 
 

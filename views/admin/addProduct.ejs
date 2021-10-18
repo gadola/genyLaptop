@@ -2,88 +2,124 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product admin</title>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- Popper JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- Font awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product admin</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- Popper JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Font awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
-    <form action="/admin/products/add" method="post" enctype="multipart/form-data">
-        <fieldset>
-            <legend>Thông tin cơ bản sản phẩm</legend>
+  <div class="container">
+    <nav class="navbar navbar-expand-sm bg-light navbar-light justify-content-end">
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown active">
+          <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+            Admin
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Đăng xuất</a>
+          </div>
+        </li>
 
-            <select name="type" id="">
-                <option value="0">Laptop</option>
-            </select>
-            <!-- <input type="number" name="type" value="0"> -->
-            <input required type="text" name="code" value="" placeholder="Mã sản phẩm">
-            <input required type="text" name="name" value="" placeholder="Tên sản phẩm">
-            <input required type="number" name="price" value="" placeholder="Giá">
-            <input required type="text" name="brand" value="" placeholder="Thương hiệu">
-            <input required type="number" name="stock" value="" placeholder="Số lượng hàng tồn kho">
-            <input required type="number" min="0" max="30" step="1" name="discount" value="0"
-                placeholder="Phần trăm khuyến mãi">
-            <input required type="number" name="warranty" value="12" placeholder="Thời gian bảo hành (Tháng)">
-            <input required type="file" name="avt">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Xem trang web</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Disabled</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <div class="row">
+    <div class="col-sm-1">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" href="/admin">Dashboard</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="/admin/products">Products</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/products">See Products</a>
+            <a class="dropdown-item" href="/admin/products/add">Add Product</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/orders">Orders</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/users">Users</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Disabled</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="col-sm-11">
+      <form action="/admin/products/add" method="post" enctype="multipart/form-data">
+        <fieldset>
+          <legend>Thông tin cơ bản sản phẩm</legend>
+
+          <select name="type" id="">
+            <option value="0">Laptop</option>
+          </select>
+          <!-- <input type="number" name="type" value="0"> -->
+          <input required type="text" name="code" value="" placeholder="Mã sản phẩm">
+          <input required type="text" name="name" value="" placeholder="Tên sản phẩm">
+          <input required type="number" name="price" value="" placeholder="Giá">
+          <input required type="text" name="brand" value="" placeholder="Thương hiệu">
+          <input required type="number" name="stock" value="" placeholder="Số lượng hàng tồn kho">
+          <input required type="number" min="0" max="30" step="1" name="discount" value="0"
+            placeholder="Phần trăm khuyến mãi">
+          <input required type="number" name="warranty" value="12" placeholder="Thời gian bảo hành (Tháng)">
+          <input required type="file" name="avt">
         </fieldset>
         <br>
         <fieldset>
-            <legend>Thông tin chi tiết cho Laptop</legend>
-            <input required type="text" name="chipBrand" value="" placeholder="Nhãn hiệu cpu">
-            <input required type="number" name="processorCount" value="" placeholder="Số lượng core">
-            <select name="series" id="">
-                <option value="0">Core i3</option>
-                <option value="1">Core i5</option>
-                <option value="2">Core i7</option>
-                <option value="3">Core i9</option>
-                <option value="4">Ryzen 3</option>
-                <option value="5">Ryzen 5</option>
-                <option value="6">Ryzen 7</option>
-                <option value="7">Pentium</option>
-                <option value="8">Celeron</option>
-                <option value="9">M1</option>
-            </select>
-            <input required type="text" name="detail" value="" placeholder="Chi tiết cpu">
-            <input required type="text" name="displaySize" value="" placeholder="Kích thước màn hình">
-            <input required type="text" name="display" value="" placeholder="Card màn hình">
-            <input required type="text" name="operating" value="" placeholder="Hệ điều hành">
-            <input required type="text" name="disk" value="" placeholder="Ổ cứng">
-            <input required type="text" name="ram" value="" placeholder="RAM">
-            <input required type="text" name="pin" value="" placeholder="Dung lượng pin">
-            <input required type="number" name="weight" min="0" step="0.01" value="" placeholder="Khối lượng">
+          <legend>Thông tin chi tiết cho Laptop</legend>
+          <input required type="text" name="chipBrand" value="" placeholder="Nhãn hiệu cpu">
+          <input required type="number" name="processorCount" value="" placeholder="Số lượng core">
+          <select name="series" id="">
+            <option value="0">Core i3</option>
+            <option value="1">Core i5</option>
+            <option value="2">Core i7</option>
+            <option value="3">Core i9</option>
+            <option value="4">Ryzen 3</option>
+            <option value="5">Ryzen 5</option>
+            <option value="6">Ryzen 7</option>
+            <option value="7">Pentium</option>
+            <option value="8">Celeron</option>
+            <option value="9">M1</option>
+          </select>
+          <input required type="text" name="detail" value="" placeholder="Chi tiết cpu">
+          <input required type="text" name="displaySize" value="" placeholder="Kích thước màn hình">
+          <input required type="text" name="display" value="" placeholder="Card màn hình">
+          <input required type="text" name="operating" value="" placeholder="Hệ điều hành">
+          <input required type="text" name="disk" value="" placeholder="Ổ cứng">
+          <input required type="text" name="ram" value="" placeholder="RAM">
+          <input required type="text" name="pin" value="" placeholder="Dung lượng pin">
+          <input required type="number" name="weight" min="0" step="0.01" value="" placeholder="Khối lượng">
         </fieldset>
         <br>
         <input type="submit" value="Thêm">
-    </form>
+      </form>
+    </div>
+  </div>
 
 
-    <!-- <form id="formProduct" action="/admin/test" method="post">
-        <fieldset name="product">
-            <legend>Product:</legend>
-            <input type="text" name="name">
-            <input type="text" name="price">
-        </fieldset>
-        <fieldset name="laptop">
-            <legend>Laptop:</legend>
-            <input type="text" name="code">
-        </fieldset>
+  <script>
 
-        <input type="submit" value="add">
-    </form> -->
-    <script>
-
-    </script>
+  </script>
 </body>
 
 </html>

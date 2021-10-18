@@ -20,81 +20,149 @@
 
 <body>
     <div class="container">
-        <% if(message.length >0) { %> 
-            <div class="alert alert-success alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <strong>Success!</strong> <%= message %> 
-              </div>
-        <% } %> 
-        <form id="productForm" action="/admin/products/update" method="post">
-            <fieldset class="form-group">
-                <legend>Sản Phẩm</legend>
-                <input type="text" name="id" id="" readonly value="">
-                <input type="text" name="code" id="">
-                <input type="text" name="name" id="">
-                <input type="text" name="price" id="">
-                <select name="type" id="">
-                    <option value="0">Laptop</option>
-                </select>
-                <input type="text" name="brand" id="">
-                <input type="text" name="stock" id="">
-                <input type="text" name="discount" id="">
-            </fieldset>
-            <input type="submit" name="" id="" value="Cập nhật">
-            <input type="reset" name="" id="" value="Huỷ bỏ">
-        </form>
-        <table class="table-striped table">
-            <tr>
-                <th>Mã</th>
-                <th>Tên</th>
-                <th>Giá</th>
-                <th>Loại</th>
-                <th>Thương hiệu</th>
-                <th>Tồn kho</th>
-                <th>Mức giảm giá</th>
-                <th>Đánh giá</th>
-                <th>Hành động</th>
-            </tr>
-            <% for(var item of data) {%>
-                <tr>
-                    <td><a href="">
-                            <%= item.code %>
-                        </a></td>
-                    <td>
-                        <%= item.name %>
-                    </td>
-                    <td>
-                        <%= item.price.toLocaleString() %>đ
-                    </td>
-                    <td>
-                        <%= converTypeToString(item.type) %>
-                    </td>
-                    <td>
-                        <%= item.brand %>
-                    </td>
-                    <td>
-                        <%= item.stock %>
-                    </td>
-                    <td>
-                        <%= item.discount %>
-                    </td>
-                    <td>
-                        <%= hanlderRate(item.rate) %>
-                    </td>
-                    <td>
-                        <i id="edit_<%= item._id %>" class="fa fa-pencil-square-o js_icon_edit" style=" cursor: pointer;"
-                            aria-hidden="true"></i>
-                        <a href="/products/<%= item.code %> "><i id="view_<%= item._id %>" class="fa fa-eye js_icon_view" style="color: blue; cursor: pointer;"
-                            aria-hidden="true"></i></a>
-                        <i id="delete_<%= item._id %>" class="fa fa-trash-o js_icon_delete" style="color: red;cursor: pointer;"
-                            aria-hidden="true"></i>
-                    </td>
-                </tr>
-                <% } %>
-        </table>
+        <nav class="navbar navbar-expand-sm bg-light navbar-light justify-content-end">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                      Admin
+                    </a>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" href="#">Đăng xuất</a>
+                    </div>
+                  </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/">Xem trang web</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#">Disabled</a>
+              </li>
+            </ul>
+          </nav>
     </div>
+    <div class="row">
+        <div class="col-sm-1 bg-light">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin">Dashboard</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="/admin/products">Products</a>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" href="/admin/products">See Products</a>
+                      <a class="dropdown-item" href="/admin/products/add">Add Product</a>
+                    </div>
+                  </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/orders">Orders</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/users">Users</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- nội dung  -->
+        <div class="col-sm-10">
+            <div class="">
+                <% if(message.length >0) { %> 
+                    <!-- <script>alert("<%= message %>")</script> -->
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>Success!</strong> <%= message %> 
+                      </div>
+                <% } %> 
+                <form id="productForm" action="/admin/products/update" method="post">
+                    <fieldset class="form-group">
+                        <legend>Sản Phẩm</legend>
+                        <input placeholder="ID" type="text" name="id" id="" readonly value="">
+                        <input placeholder="Mã" type="text" name="code" id="">
+                        <input placeholder="Tên" type="text" name="name" id="">
+                        <input placeholder="Giá" type="text" name="price" id="">
+                        <select name="type" id="">
+                            <option value="0">Laptop</option>
+                        </select>
+                        <input placeholder="Thương hiệu" type="text" name="brand" id="">
+                        <input placeholder="Tồn kho" type="text" name="stock" id="">
+                        <input placeholder="Giảm giá" type="text" name="discount" id="">
+                    </fieldset>
+                        <input class="btn btn-success" type="submit" name="" id="" value="Cập nhật">
+                        <input class="btn btn-secondary" type="reset" name="" id="" value="Huỷ bỏ">
+                        
+                </form>
+                <table class="table-striped table">
+                    <tr>
+                        <th>Mã</th>
+                        <th>Tên</th>
+                        <th>Giá</th>
+                        <th>Loại</th>
+                        <th>Thương hiệu</th>
+                        <th>Tồn kho</th>
+                        <th>Mức giảm giá</th>
+                        <th>Đánh giá</th>
+                        <th>Hành động</th>
+                    </tr>
+                    <% for(var item of data) {%>
+                        <tr>
+                            <td><a href="">
+                                    <%= item.code %>
+                                </a></td>
+                            <td>
+                                <%= item.name %>
+                            </td>
+                            <td>
+                                <%= item.price.toLocaleString() %>đ
+                            </td>
+                            <td>
+                                <%= converTypeToString(item.type) %>
+                            </td>
+                            <td>
+                                <%= item.brand %>
+                            </td>
+                            <td>
+                                <%= item.stock %>
+                            </td>
+                            <td>
+                                <%= item.discount %>
+                            </td>
+                            <td>
+                                <%= hanlderRate(item.rate) %>
+                            </td>
+                            <td>
+                                <i id="edit_<%= item._id %>" class="fa fa-pencil-square-o js_icon_edit" style=" cursor: pointer;"
+                                    aria-hidden="true"></i>
+                                <a href="/products/<%= item.code %> "><i id="view_<%= item._id %>" class="fa fa-eye js_icon_view" style="color: blue; cursor: pointer;"
+                                    aria-hidden="true"></i></a>
+                                <i id="delete_<%= item._id %>" class="fa fa-trash-o js_icon_delete" style="color: red;cursor: pointer;"
+                                    aria-hidden="true"></i>
+                            </td>
+                        </tr>
+                        <% } %>
+                </table>
+               
+                    
+            </div>
+            
+        </div>
+
+    </div> 
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="page-item"><a class="page-link" href="">Previous</a></li>
+          <li class="page-item"><a class="page-link" href="/admin/products">1</a></li>
+          <li class="page-item"><a class="page-link" href="/admin/products?page=2">2</a></li>
+          <li class="page-item"><a class="page-link" href="/admin/products?page=3">3</a></li>
+          <li class="page-item"><a class="page-link" href="">Next</a></li>
+        </ul>
+    </nav>
 
     <script src="/javascripts/admin/products.js"></script>
+    <script>
+        // phân trang
+
+    </script>
 </body>
 
 </html>

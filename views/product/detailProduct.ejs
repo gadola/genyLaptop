@@ -87,6 +87,7 @@
                             <strong>Bảo hành:</strong> <span>
                                 <%= productDetail.warranty %> tháng
                             </span><br>
+                            
                         </address>
                         <h2><%= product.price.toLocaleString() %>đ</h2>
                         <% if(product.discount > 0){ %> 
@@ -98,6 +99,7 @@
                     </div>
                     <div class="span6">
                         <form id="form_add_to_cart" class="form-inline">
+                            <% if(product.stock > 0){ %> 
                             <p>&nbsp;</p>
                             <input type="hidden" name="_id" value="<%= product._id %>">
                             <input type="hidden" name="code" value="<%= product.code %>">
@@ -105,8 +107,11 @@
                             <input type="hidden" name="avt" value="<%= product.avt %>">
                             <input type="hidden" name="price" value="<%= product.price %>">
                             <label>Số lượng:</label>
-                            <input type="text" name="number" class="span1" value="1" min="1">
+                            <input type="number" name="number" class="span1" value="1" min="1" max="<%= product.stock %>">
                             <button class="btn btn-success" type="submit">Thêm vào giỏ</button>
+                        <% }else{ %> 
+                            <input type="button" value="Hết hàng" class="btn btn-success" disabled="disabled">
+                        <% } %> 
                         </form>
                     </div>
                 </div>

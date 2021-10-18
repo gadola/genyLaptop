@@ -24,7 +24,7 @@
 					<div class="row">
 
 						<div class="span9">
-							<ul class="thumbnails listing-products">
+							<ul id="js_search_products" class="thumbnails listing-products">
 								<% for(let item of products) {%>
 									<li class="span3">
 										<div class="product-box">
@@ -51,91 +51,10 @@
 										</div>
 									</li>
 									<% } %>
-
-										<li class="span3">
-											<div class="product-box">
-												<a href="product_detail.html"><img alt=""
-														src="/themes/images/cloth/laptop1.png"></a><br />
-												<a href="product_detail.html" class="title">ASUS VivoBook Swift
-													SF315</a><br />
-												<a href="#" class="category">i5 8250U/4GB/1TB/Win10</a>
-												<p class="price">16.990.000 đ</p>
-											</div>
-										</li>
-										<li class="span3">
-											<div class="product-box">
-												<span class="sale_tag"></span>
-												<a href="product_detail.html"><img alt=""
-														src="/themes/images/cloth/laptop2.jpg"></a><br />
-												<a href="product_detail.html" class="title">ASUS Vivobook Max
-													X441UA</a><br />
-												<a href="#" class="category">intel Core i3, RAM 4GB DDR4</a>
-												<p class="price">9.790.000 đ</p>
-											</div>
-										</li>
-										<li class="span3">
-											<div class="product-box">
-												<span class="sale_tag"></span>
-												<a href="product_detail.html"><img alt=""
-														src="themes/images/cloth/laptop4.png"></a><br />
-												<a href="product_detail.html" class="title">Asus VivoBook
-													S510UA</a><br />
-												<a href="#" class="category">i5 8250U/4GB/1TB/Win10</a>
-												<p class="price">16.290.000đ</p>
-											</div>
-										</li>
-										<li class="span3">
-											<div class="product-box">
-												<a href="product_detail.html"><img alt=""
-														src="themes/images/cloth/laptop3.png"></a><br />
-												<a href="product_detail.html" class="title">Asus VivoBook ES1</a><br />
-												<a href="#" class="category">N3350/2GB/500GB/Win10</a>
-												<p class="price">6.290.000đ</p>
-											</div>
-										</li>
-										<li class="span3">
-											<div class="product-box">
-												<a href="product_detail.html"><img alt=""
-														src="themes/images/cloth/laptop1.png""></a><br/>
-							<a href=" product_detail.html" class="title">ASUS VivoBook S15 S510UA</a><br />
-												<a href="#" class="category">Intel Core i3-i5/RAM 4GB</a>
-												<p class="price">15.990.000 đ</p>
-											</div>
-										</li>
-										<li class="span3">
-											<div class="product-box">
-												<a href="product_detail.html"><img alt=""
-														src="themes/images/cloth/laptop4.png"></a><br />
-												<a href="product_detail.html" class="title">ROG GL553VE</a><br />
-												<a href="#" class="category">Intel Core i7-7700HQ/ 8/16GB RAM/1TB
-													HDD/GTX 1050 Ti 4GB</a>
-												<p class="price">27.490.000 đ</p>
-											</div>
-										</li>
-										<li class="span3">
-											<div class="product-box">
-												<a href="product_detail.html"><img alt=""
-														src="themes/images/cloth/laptop2.jpg"></a><br />
-												<a href="product_detail.html" class="title">ROG
-													ZENPHYRUS(GX501)</a><br />
-												<a href="#" class="category">Intel Core i7-7700HQ/24GB RAM/1TB SSD
-													PCie</a>
-												<p class="price">79.990.000 đ</p>
-											</div>
-										</li>
-										<li class="span3">
-											<div class="product-box">
-												<a href="product_detail.html"><img alt=""
-														src="themes/images/cloth/laptop3.png"></a><br />
-												<a href="product_detail.html" class="title">ASUSPRO P2540UV</a><br />
-												<a href="#" class="category">Intel Core i5-7200U/8GB RAM</a>
-												<p class="price">15.800.000 đ</p>
-											</div>
-										</li>
 							</ul>
 							<hr>
-							<div class="pagination pagination-small pagination-centered">
-								<ul>
+							<div id="pagination" class="pagination pagination-small pagination-centered">
+								<!-- <ul>
 									<li><a href="#" aria-label="Previous">
 											<span aria-hidden="true">&laquo;</span>
 											<span>Prev</span>
@@ -150,7 +69,7 @@
 											<span aria-hidden="true">&raquo;</span>
 										</a>
 									</li>
-								</ul>
+								</ul> -->
 							</div>
 						</div>
 						<div class="span3 col">
@@ -270,8 +189,6 @@
 										</label>
 									</div>
 								</div>
-
-
 							</div>
 							<div class="block">
 								<h4 class="title">
@@ -416,5 +333,103 @@
 						console.log('ok ', min, max);
 						filterByPrice(min, max)
 					})
+				</script>
+
+				<script src="/javascripts/pagination.min.js"></script>
+				<script>
+					// phân trang
+					$('#pagination').pagination({
+						dataSource: [...Array(<%=numOfProduct %>).fill(0)],
+						pageSize: 9,
+						afterPageOnClick: function (event, pageNumber){
+							getProducts(pageNumber).then(data=>{
+								console.log(data);
+								displayProduct(data.products)
+							})
+							.catch(error=>{
+								console.log(error);
+							})
+						},
+						afterPreviousOnClick:function (event, pageNumber){
+							console.log(pageNumber);
+							getProducts(pageNumber).then(data=>{
+								console.log(data);
+								displayProduct(data.products)
+							})
+							.catch(error=>{
+								console.log(error);
+							})
+						},
+						afterNextOnClick:function (event, pageNumber){
+							console.log(pageNumber);
+							getProducts(pageNumber).then(data=>{
+								console.log(data);
+								displayProduct(data.products)
+							})
+							.catch(error=>{
+								console.log(error);
+							})
+						},
+					})
+
+					const getProducts = async (page) => {
+						let query = window.location.search
+						if(query.indexOf("?")==-1){
+							var keySearch = "?"
+						}else{
+							var keySearch = query.split("&")[0]
+						}
+						const response = await fetch(`/products/api${keySearch}&page=${page}`)
+						if(!response.ok){
+							throw new Error("lỗi")
+						}
+						const data = await response.json()
+						return data
+					}
+					const displayProduct = async (data)=>{
+						const ul = document.querySelector('#js_search_products')
+						let html = ""
+						data.forEach(item => {
+							if(item.discount>0){
+								html += `<li class="span3">
+										<div class="product-box">
+											<span class="sale_tag"></span>
+											<a href="/products/${item.code}"><img alt=""
+													src="${item.avt}"></a><br />
+											<a href="/products/${item.code}" class="title">
+												${item.name}
+											</a><br />
+											<h4 class="price">
+												${item.price.toLocaleString()}đ
+											</h4>
+												<h5>
+													<strike>
+														${(item.price/((100-item.discount)/100)).toLocaleString() }đ
+													</strike>
+													<span style="color: green;">
+														${item.discount }%
+													</span>
+												</h5>
+										</div>
+									</li>`
+							}else{
+								html += `<li class="span3">
+										<div class="product-box">
+											<span class="sale_tag"></span>
+											<a href="/products/${item.code}"><img alt=""
+													src="${item.avt}"></a><br />
+											<a href="/products/${item.code}" class="title">
+												${item.name}
+											</a><br />
+											<h4 class="price">
+												${item.price.toLocaleString()}đ
+											</h4>
+										
+										</div>
+									</li>`
+							}
+							ul.innerHTML = html
+						});
+					}
 				</script>
 				<%- include("../layout/footer.ejs") %>

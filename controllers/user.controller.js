@@ -12,7 +12,7 @@ const getUser = async (req, res, next) => {
     const user = await UserModel.findOne({ accountId })
 
     // lấy orders đã đặt
-    const orders = await OrderModel.find({ owner: user._id })
+    var orders = await OrderModel.find({ owner: user._id }).sort("-orderDate")
     let message = req.flash('error')
     return res.render('user/user', {
         path: "/user",
@@ -26,7 +26,7 @@ const getUser = async (req, res, next) => {
 }
 const putUpdateUserInfo = async (req, res, next) => {
     try {
-        const { fullName, birthday, address, gender } = req.body
+        const { fullName, birthday,phone ,address, gender } = req.body
         const id = req.user.accountId
         if (await UserModel.exists({ accountId: id })) {
             const response = await UserModel.updateOne({ accountId: id }, {
@@ -34,6 +34,7 @@ const putUpdateUserInfo = async (req, res, next) => {
                     fullName: fullName,
                     birthday: birthday,
                     address: address,
+                    phone: phone,
                     gender: gender
                 }
             })

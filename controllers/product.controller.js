@@ -60,7 +60,7 @@ const getSearchProducts = async (req, res, next) => {
 
         // pagination
         if (!page) page = 1;
-        if (!perPage) perPage = 12;
+        if (!perPage) perPage = 9;
         const nSkip = (parseInt(page) - 1) * perPage;
 
         // query
@@ -116,10 +116,71 @@ const getSearchProducts = async (req, res, next) => {
         return res.json("lỗi search:", error)
     }
 }
+// api: tìm kiếm sản phẩm theo tên theo thương hiệu phân trang
+const apiGetSearchProducts = async (req, res, next) => {
+    try {
+        // ex: value ="laptop", priceMin=10000000, priceMax = 20000000, 
+        //page = 2, perPage=8, sortBy ="price"|"-price", discount="discount"|"-discount"
+        var { value, min, max, page, perPage, sortby } = req.query
+        if (!value) value = ""
+        if (!sortby) sortby = 'name'
+        if (!min) min = 0
+        if (!max) max = 1000000000
 
-// lọc sản phẩm
+        // pagination
+        if (!page) page = 1;
+        if (!perPage) perPage = 9;
+        const nSkip = (parseInt(page) - 1) * perPage;
 
+        // query
+        let numOfProduct = 0
+        let result = []
+        let query = {}
+        if (!value) {
+            query = {
+                "price": {
+                    $gt: min,
+                    $lt: max
+                }
+            }
+        } else {
+            query = {
+                $text: {
+                    $search: `${value}`,
+                },
+                "price": {
+                    $gt: min,
+                    $lt: max
+                }
+            }
+        }
 
+        // lọc theo điều kiện nếu có
+        // if (!value) {
+        numOfProduct = await ProductModel.find(query).countDocuments();
+        result = await ProductModel.find(query)
+            .skip(nSkip)
+            .limit(parseInt(perPage))
+            .sort(sortby)
+        // } else {
+        //     // trả về tất cả
+        //     numOfProduct = await ProductModel.find({}).countDocuments();
+        //     result = await ProductModel.find({})
+        //         .skip(nSkip)
+        //         .limit(parseInt(perPage))
+        //         .sort(sortby)
+        // }
+        if (result) {
+            return res.status(200).json({ products: result, numOfProduct: numOfProduct })
+        }
+
+    } catch (error) {
+        console.error('Search product error: ', error);
+        return res.json("lỗi search:", error)
+    }
+}
+
+// lấy sản phẩm bằng code
 const getProductByCode = async (req, res, next) => {
     try {
         const code = req.params.code
@@ -139,12 +200,11 @@ const getProductByCode = async (req, res, next) => {
             }
             return res.render('product/detailProduct', context);
         }
-        return res.status(400).json("code", code);
+        return res.status(400).json({ code: code });
     } catch (error) {
         return res.json(error);
     }
 }
-
 
 // lấy sản phẩm => display cart
 const getCart = async (req, res, next) => {
@@ -153,7 +213,6 @@ const getCart = async (req, res, next) => {
         user: req.user
     });
 }
-
 
 // trang thanh toán
 const getCheckout = async (req, res, next) => {
@@ -174,8 +233,16 @@ const postCheckout = async (req, res, next) => {
             return res.status(400).json("User không tồn tại!");
         }
 
+        // mỗi sản phẩm tạo 1 order => trừ số lượng tồn kho
         for (let i = 0; i < data.length; i++) {
-            await OrderModel.create({
+            // lấy sản phẩm 
+            const prod = await ProductModel.findById(data[i].id)
+            // nếu tồn tại sản phẩm và số lượng tồn >= số lượng mua
+            if (!prod || prod.stock < data[i].number) { 
+                return res.status(400).json("Sản phẩm không đủ số lượng cung cấp!");
+            }
+            // tạo đơn hàng
+            const newOrder = await OrderModel.create({
                 owner: user._id,
                 deliveryAdd: {
                     name: user.fullName,
@@ -198,9 +265,16 @@ const postCheckout = async (req, res, next) => {
                 transportMethod: shipMethod,
                 note: note
             })
+            // trừ số lượng tồn kho
+            if (!newOrder) {
+                return res.status(400).json("Lỗi tạo đơn hàng!");
+            }
+            await ProductModel.updateOne(
+                { _id: data[i].id },
+                { stock: prod.stock - data[i].number }
+            )
         }
-
-        return res.status(200).json("đặt oke");
+        return res.status(200).json("đặt thành công");
 
     } catch (error) {
         console.log(error);
@@ -216,6 +290,7 @@ module.exports = {
     getProductByCode,
     getProducts,
     getSearchProducts,
+    apiGetSearchProducts,
     getCart,
     getCheckout,
     postCheckout
