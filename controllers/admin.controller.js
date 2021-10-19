@@ -354,6 +354,21 @@ const getUsers2 = async (req, res, next) => {
     }
 }
 
+const delPostUser = async (req, res, next)=>{
+    try {
+        const { id } = req.body
+        const user = await UserModel.findById(id)
+        if(user){
+            // xoá người dùng
+            await UserModel.deleteOne({_id:id})
+        }
+
+        return res.status(200).json({message:"xoá thành công!"});
+    } catch (error) {
+        return res.status(400).json({message:"xoá không thành công!"});
+    }
+}
+
 
 
 const getOrders = async (req, res, next) => {
@@ -431,6 +446,7 @@ module.exports = {
     updateProduct,
     deleteProduct,
     getUsers,
+    delPostUser,
     getOrders,
     postOrders,
     getOrders2,

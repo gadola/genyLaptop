@@ -56,7 +56,7 @@ iconsDelete.forEach(item => {
         let url = '/admin/products/delete'
         if (confirm("Bạn có muốn xoá?")){
             fechPostProduct(url, { id: id }).then(data => {
-                window.location.href = "/"
+                window.location.href = "/admin/products"
             })
         }
     })

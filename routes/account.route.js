@@ -8,7 +8,8 @@ router.get('/login', accountController.getLogin);
 router.post('/login', accountController.postLogin);
 
 // Sign Up
-router.get('/signup', accountController.getSignUp);
+// router.get('/signup', accountController.getSignUp);
+router.get('/signup', accountController.getSignUp2);
 router.post('/signup', accountController.postSignUp);
 
 // Send verify code

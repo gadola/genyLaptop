@@ -63,8 +63,17 @@ const postSendVerifyCode = async (req, res) => {
 // fn: đăng ký tài khoản
 const getSignUp = async (req, res, next) => {
     let message = req.flash('error')
-    console.log(message);
     return res.render('account/signup', {
+        path: "/account/signup",
+        pageTitle: "Sign up",
+        errorMessage: message,
+        user: null
+    });
+}
+// fn: đăng ký tài khoản
+const getSignUp2 = async (req, res, next) => {
+    let message = req.flash('error')
+    return res.render('account/signup2', {
         path: "/account/signup",
         pageTitle: "Sign up",
         errorMessage: message,
@@ -89,14 +98,19 @@ const postSignUp = async (req, res, next) => {
         // kiểm tra tài khoản đã tồn tại hay chưa
         const account = await AccountModel.findOne({ email })
         if (account) {
-            let error = "Email đã được đăng ký!"
-            if (account) return res.status(400).json({ message: error });
+            // let error = "Email đã được đăng ký!"
+            // if (account) return res.status(400).json({ message: error });
+            req.flash('error', 'Email đã được đăng ký!')
+            return res.redirect('/account/signup')
         }
 
         // kiểm tra mã xác thực
         const isVerify = await helper.isVerifyEmail(email, verifyCode);
         if (!isVerify) {
-            return res.status(400).json({ message: 'Mã xác nhận không hợp lệ !' });
+            req.flash('error', 'Mã xác nhận không hợp lệ !')
+            return res.redirect('/account/signup')
+
+            // return res.status(400).json({ message: 'Mã xác nhận không hợp lệ !' });
         }
 
         // tạo tài khoản và user tương ứng
@@ -118,16 +132,21 @@ const postSignUp = async (req, res, next) => {
             // xoá mã xác nhận
             await VerifyModel.deleteOne({ email });
 
-            return res.status(200).json({ message: "sign up successfully!" })
+            // return res.status(200).json({ message: "sign up successfully!" })
+            return res.redirect('/account/login');
         } else {
-            return res.status(400).json({ message: "password and repassword don't match" })
+            req.flash('error', "Có lỗi xảy ra")
+            return res.redirect('/account/signup')
+            // return res.status(400).json({ message: "password and repassword don't match" })
         }
 
     } catch (error) {
-        return res.status(400).json({
-            message: 'Account Creation Failed.',
-            error,
-        });
+        req.flash('error', "Có lỗi xảy ra")
+        return res.redirect('/account/signup')
+        // return res.status(400).json({
+        //     message: 'Account Creation Failed.',
+        //     error,
+        // });
     }
 }
 
@@ -184,7 +203,9 @@ const postResetPassword = async (req, res, next) => {
         const isVerify = await helper.isVerifyEmail(email, verifyCode)
 
         if (!isVerify) {
-            return res.status(401).json({ message: "Mã xác nhận không hợp lệ" });
+            req.flash('error', 'Mã xác nhận không hợp lệ')
+            return res.redirect('/account/forgot-pw')
+            // return res.status(401).json({ message: "Mã xác nhận không hợp lệ" });
         }
 
         // check account => hash password => change password
@@ -199,21 +220,27 @@ const postResetPassword = async (req, res, next) => {
         if (response.modifiedCount == 1) {
             //xoá mã xác nhận
             await VerifyModel.deleteOne({ email });
-            return res.status(200).json({ message: 'Thay đổi mật khẩu thành công' });
+            req.flash('error', "Đổi mật khẩu thành công")
+            return res.redirect('/account/login');
+            // return res.status(200).json({ message: 'Thay đổi mật khẩu thành công' });
 
         } else {
-            return res.status(409).json({ message: 'Thay đổi mật khẩu thất bại' });
+            req.flash('error', "Thay đổi mật khẩu thất bại")
+            return res.redirect('/account/forgot-pw');
+            // return res.status(409).json({ message: 'Thay đổi mật khẩu thất bại' });
         }
 
 
     } catch (error) {
-        return res.status(409).json({ message: 'Thay đổi mật khẩu thất bại 1', error: error });
+        req.flash('error', "Có lỗi xảy ra")
+        return res.redirect('/account/forgot-pw');
+        // return res.status(409).json({ message: 'Thay đổi mật khẩu thất bại 1', error: error });
 
     }
 }
 const getResetPassword = async (req, res, next) => {
     let message = req.flash('error')
-    return res.render('account/forgot', {
+    return res.render('account/forgot2', {
         path: "/account/forgot-pw",
         pageTitle: "Reset password",
         errorMessage: message,
@@ -226,9 +253,9 @@ const getResetPassword = async (req, res, next) => {
 const getLogin = async (req, res, next) => {
     let message = req.flash('error')
     console.log(message);
-    return res.render('account/login', {
+    return res.render('account/login2', {
         path: "/account/login",
-        pageTitle: "Login",
+        // pageTitle: "Login",
         errorMessage: message,
         user: null
     });
@@ -237,15 +264,17 @@ const getLogin = async (req, res, next) => {
 // Note : login success -> create token -> save session -> redirect /
 const postLogin = async (req, res, next) => {
     try {
-        const { email, password, keepLogin ,nextPage} = req.body
+        const { email, password, keepLogin, nextPage } = req.body
         // Kiểm tra tài khoản có tồn tại không
         const account = await AccountModel.findOne({ email })
         if (!account) {
-            return res.render('account/login', {
-                path: '/account/login',
-                errorMessage: 'Sai email hoặc mật khẩu',
-                user: null
-            });
+            req.flash('error', "Tài khoản không tồn tại")
+            return res.redirect('/account/login');
+            // return res.render('account/login2', {
+            //     path: '/account/login',
+            //     errorMessage: 'Sai email hoặc mật khẩu',
+            //     user: null
+            // });
         }
 
         // Kiểm tra mật khẩu
@@ -266,17 +295,19 @@ const postLogin = async (req, res, next) => {
                     accountId: user.accountId
                 }
             )
-            console.log("token",token);
+            console.log("token", token);
             req.session.token = token
             return req.session.save(err => {
-                res.redirect(nextPage);
+                res.redirect('/');
             })
         }
-        return res.render('account/login', {
-            path: '/account/login',
-            errorMessage: 'Sai email hoặc mật khẩu',
-            user: null
-        });
+        req.flash('error', "Sai email hoặc mật khẩu")
+        return res.redirect('/account/login');
+        // return res.render('account/login', {
+        //     path: '/account/login',
+        //     errorMessage: 'Sai email hoặc mật khẩu',
+        //     user: null
+        // });
 
     } catch (error) {
         console.log(error);
@@ -329,14 +360,14 @@ const postChangePassword = async (req, res, next) => {
 
             const response = await AccountModel.updateOne({ email }, { password: hashPassword })
             if (response.modifiedCount == 1) {
-                return res.render('account/login',{
-                    path:"/account/login",
-                    errorMessage:"Thay đổi mật khẩu thành công!",
+                return res.render('account/login', {
+                    path: "/account/login",
+                    errorMessage: "Thay đổi mật khẩu thành công!",
                 });
             } else {
                 return res.status(409).json({ message: 'Thay đổi mật khẩu thất bại' });
             }
-        }else{
+        } else {
             return res.render('account/change-pw', {
                 path: "/account/change-pw",
                 pageTitle: "Đổi mật khẩu",
@@ -360,6 +391,7 @@ const postChangePassword = async (req, res, next) => {
 module.exports = {
     postSendVerifyCode,
     getSignUp,
+    getSignUp2,
     postSignUp,
     postSendCodeForgotPW,
     getResetPassword,
