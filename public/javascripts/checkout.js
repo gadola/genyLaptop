@@ -33,7 +33,7 @@ function handlerCheckoutSubmit(cart) {
             console.log(data);
             alert("Đặt hàng thành công!")
             localStorage.removeItem('cart')
-            window.location.href = "/"
+            window.location.href = "/user"
         })
         .catch(error=>{
             alert(error.message)

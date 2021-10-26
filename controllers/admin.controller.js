@@ -7,6 +7,11 @@ const helper = require('../helper/index')
 const { cloudinary } = require('../configs/cloudinary.config');
 const OrderModel = require("../models/order.model")
 const moment = require('moment')
+const bcrypt = require('bcryptjs');
+const jwtConfig = require('../configs/jwt.config');
+const jwt = require('jsonwebtoken');
+const mailConfig = require('../configs/email.config')
+const constants = require('../constants/index')
 
 
 
@@ -22,6 +27,58 @@ const uploadProductAvt = async (avtFile, productCode) => {
         throw error;
     }
 };
+
+// đăng nhập
+const getLogin = async (req, res, next) => {
+    let message = req.flash("info")
+    return res.render('admin/login', {
+        errorMessage: message,
+        user: null
+    });
+}
+const postLogin = async (req, res, next) => {
+    try {
+        const { email, password, keepLogin } = req.body
+        const admin = await AdminModel.findOne({ email })
+        if (!admin) {
+            req.flash("info", "Email không tồn tại!")
+            return res.redirect('/account/admin/login');
+        }
+        // Kiểm tra mật khẩu
+        const isMatch = await bcrypt.compare(password, admin.password)
+
+        if (isMatch) {
+            // đăng nhập thành công
+            req.session.isLoggedIn = true
+            req.session.isAdmin = true
+            req.user = user
+            // tạo token
+            const token = await jwtConfig.encodedToken(
+                process.env.JWT_SECRET_KEY,
+                {
+                    email: admin.email,
+                    adminId: admin._id
+                }
+            )
+            req.session.token = token
+            return req.session.save(err => {
+                res.redirect('/admin');
+            })
+        }
+        req.flash('info', "Email hoặc mật khẩu không đúng!")
+        return res.redirect('/account/admin/login');
+    } catch (error) {
+        return res.status(400).json("có lỗi xảy ra!");
+    }
+}
+
+//fn: đăng xuất => huỷ session
+const getLogout = async (req, res, next) => {
+    req.session.destroy(err => {
+        console.log(err);
+        res.redirect('/admin/login');
+    })
+}
 
 
 // dashboard
@@ -50,14 +107,14 @@ const dashboard = async (req, res, next) => {
             });
         }
         console.log(thisYearOrder);
-        return res.render('admin/dashboard',{
-            user:req.user,
-            thisYear:thisYear,
+        return res.render('admin/dashboard', {
+            user: req.user,
+            thisYear: thisYear,
         });
 
     } catch (error) {
         console.log(error);
-        return  res.json("looix roi");
+        return res.json("looix roi");
     }
 }
 const dashboard2 = async (req, res, next) => {
@@ -85,14 +142,14 @@ const dashboard2 = async (req, res, next) => {
             });
         }
         console.log(thisYearOrder);
-        return res.render('admin/testDashboard',{
-            user:req.user,
-            thisYear:thisYear,
+        return res.render('admin/testDashboard', {
+            user: req.user,
+            thisYear: thisYear,
         });
 
     } catch (error) {
         console.log(error);
-        return  res.json("looix roi");
+        return res.json("looix roi");
     }
 }
 
@@ -145,13 +202,13 @@ const getProductList2 = async (req, res, next) => {
         if (type == null) {
             var numOfProduct = await ProductModel.countDocuments({})
             var result = await ProductModel.find({})
-                // .skip(nSkip)
-                // .limit(parseInt(perPage))
+            // .skip(nSkip)
+            // .limit(parseInt(perPage))
         } else {
             var numOfProduct = await ProductModel.countDocuments({ type })
             var result = await ProductModel.find({ type })
-                // .skip(nSkip)
-                // .limit(parseInt(perPage))
+            // .skip(nSkip)
+            // .limit(parseInt(perPage))
         }
         let message = req.flash("info")
         return res.render('admin/testProducts', {
@@ -159,7 +216,9 @@ const getProductList2 = async (req, res, next) => {
             count: numOfProduct,
             data: result,
             hanlderRate: helper.hanlderRate,// xử lý rate
-            converTypeToString: helper.converTypeToString // đổi số thành loại hàng
+            converTypeToString: helper.converTypeToString, // đổi số thành loại hàng
+            user:req.user,
+
         });
     } catch (error) {
         throw error;
@@ -171,13 +230,15 @@ const getProductList2 = async (req, res, next) => {
 const getAddProduct = async (req, res, next) => {
     let message = req.flash('error')
     return res.render('admin/addProduct', {
-        message: message
+        message: message,
+        user:req.user,
     });
 }
 const getAddProduct2 = async (req, res, next) => {
     let message = req.flash('error')
     return res.render('admin/testAddProduct', {
-        message: message
+        message: message,
+        user:req.user,
     });
 }
 const postProduct = async (req, res, next) => {
@@ -309,15 +370,14 @@ const deleteProduct = async (req, res, next) => {
 
 }
 
-
 // quản lý người dùng
 const getUsers = async (req, res, next) => {
     try {
         const { page = 1, perPage = 10 } = req.query
         const nSkip = (parseInt(page) - 1) * parseInt(perPage)
         const users = await UserModel.find({})
-            .skip(nSkip)
-            .limit(perPage)
+            // .skip(nSkip)
+            // .limit(perPage)
         for (let i = 0; i < users.length; i++) {
             const id = users[i].accountId
             let account = await AccountModel.findById(id)
@@ -336,41 +396,105 @@ const getUsers2 = async (req, res, next) => {
     try {
         const { page = 1, perPage = 10 } = req.query
         const nSkip = (parseInt(page) - 1) * parseInt(perPage)
-        const users = await UserModel.find({})
-            // .skip(nSkip)
-            // .limit(perPage)
-        for (let i = 0; i < users.length; i++) {
-            const id = users[i].accountId
-            let account = await AccountModel.findById(id)
-            users[i].email = account.email
+        var accounts = await AccountModel.find({role:false})
+        // .skip(nSkip)
+        // .limit(perPage)
+        for (let i = 0; i < accounts.length; i++) {
+            const id = accounts[i]._id
+            let user = await UserModel.findOne({accountId:id})
+            accounts[i].user = user
         }
+        let message = req.flash('info')
         return res.render('admin/testUsers', {
             user: req.user,
-            users: users
+            accounts: accounts,
+            message:message
         });
 
     } catch (error) {
 
     }
 }
-
-const delPostUser = async (req, res, next)=>{
+// POST xoá người dùng
+const delPostUser = async (req, res, next) => {
     try {
         const { id } = req.body
-        const user = await UserModel.findById(id)
-        if(user){
+        const account = await AccountModel.findById(id)
+        if (account) {
             // xoá người dùng
-            await UserModel.deleteOne({_id:id})
+            await UserModel.deleteOne({ accountId: id })
+            // xoá tài khoản
+            await AccountModel.deleteOne({_id:id})
         }
-
-        return res.status(200).json({message:"xoá thành công!"});
+        return res.status(200).json({ message: "xoá thành công!" });
     } catch (error) {
-        return res.status(400).json({message:"xoá không thành công!"});
+        return res.status(400).json({ message: "xoá không thành công!" });
+    }
+}
+// PUT cập nhật user
+const putUser = async (req, res, next)=>{
+    try {
+        const { id,fullName,birthday,phone,address,gender } = req.body
+        const result = await UserModel.updateOne(
+            {_id:id},
+            {fullName,phone,birthday,gender,address}
+        )
+        if (result.modifiedCount == 1) {
+            req.flash('info', "cập thành thành công")
+            return  res.redirect('/admin/users');
+        }
+        req.flash('info', "cập thành không thành công")
+        return  res.redirect('/admin/users');
+    } catch (error) {
+        req.flash('info', "Có lỗi xảy ra")
+        return  res.redirect('/admin/users');    }
+}
+
+const getUserById = async (req, res, next)=>{
+    try {
+        const {id} = req.params
+        const account = await AccountModel.findById(id)
+        const user = await UserModel.findOne({accountId:account._id})
+        return res.status(200).json({message:"success",account:account, user:user});
+    } catch (error) {
+        return res.status(400).json({message:"false"});
+        
+    }
+}
+
+const postUpdateUser = async (req, res, next)=>{
+    try {
+        const {email,password,fullName,phone,birthday,address,gender} = req.body
+        // c
+        const account = await AccountModel.findOne({email})
+        const saltRounds = parseInt(process.env.SALT_ROUND)
+        const hashPassword = await bcrypt.hash(password, saltRounds)
+
+        const updateAccount = await AccountModel.updateOne(
+            {_id:account._id},
+            {password:hashPassword}
+        )
+        const updateUser = await UserModel.updateOne(
+            {accountId:account._id},
+            {fullName,phone,birthday,gender,address}
+        )
+        if(updateAccount.modifiedCount == 1 || updateUser.modifiedCount == 1){
+            req.flash('error',"cập nhật thành công")
+            return  res.redirect('/admin/admins');
+        }else{
+            console.log(updateAccount);
+            console.log(updateUser);
+            req.flash('error',"cập nhật sắp thành công")
+            return  res.redirect('/admin/admins');
+        }
+    } catch (error) {
+        req.flash('error',"cập nhật không thành công")
+        return  res.redirect('/admin/admins');
     }
 }
 
 
-
+// quản lý đơn hàng
 const getOrders = async (req, res, next) => {
     try {
         const { page = 1, perPage = 10 } = req.query
@@ -395,18 +519,30 @@ const getOrders2 = async (req, res, next) => {
         const { page = 1, perPage = 10 } = req.query
         const nSkip = (parseInt(page) - 1) * parseInt(perPage)
         const orders = await OrderModel.find({})
-            // .skip(nSkip)
-            // .limit(perPage)
+        // .skip(nSkip)
+        // .limit(perPage)
+        let message = req.flash('info')
+
         return res.render('admin/testOrder', {
             user: req.user,
             orders: orders,
             toStatusString: helper.convertNumberToOrderStatus,
             toPaymentMethodString: helper.convertNumberToPaymentMethod,
-            moment: moment
+            moment: moment,
+            message:message
 
         });
     } catch (error) {
 
+    }
+}
+const getOrderById = async (req, res, next)=>{
+    try {
+        const {id} = req.params
+        const order = await OrderModel.findById(id)
+        return res.status(200).json({message:"success", order:order});
+    } catch (error) {
+        return res.status(400).json({message:"error", order:error});
     }
 }
 
@@ -425,7 +561,7 @@ const postOrders = async (req, res, next) => {
             req.flash('info', "cập nhật thành công")
             return res.redirect('/admin/orders');
         } else {
-            req.flash('error', "cập nhật thất bại")
+            req.flash('info', "cập nhật thất bại")
             return res.redirect('/admin/orders');
         }
     } catch (error) {
@@ -435,23 +571,59 @@ const postOrders = async (req, res, next) => {
 }
 
 
+// quản lý admins
+const getAdmins = async (req, res, next)=>{
+    try {
+        const { page = 1, perPage = 10 } = req.query
+        const nSkip = (parseInt(page) - 1) * parseInt(perPage)
+        var accounts = await AccountModel.find({role:true})
+        // .skip(nSkip)
+        // .limit(perPage)
+        for (let i = 0; i < accounts.length; i++) {
+            const id = accounts[i]._id
+            let user = await UserModel.findOne({accountId:id})
+            accounts[i].user = user
+        }
+        let message = req.flash("error")
+        return res.render('admin/seeAdmins', {
+            user: req.user,
+            accounts: accounts,
+            errorMessage:message,
+        });
+
+    } catch (error) {
+
+    }
+}
+const postAdmins = async (req, res, next)=>{
+
+}
+
 
 
 module.exports = {
     dashboard,
+    getLogin,
+    postLogin,
+    getLogout,
     getProductById,
     getProductList,
     getAddProduct,
     postProduct,
     updateProduct,
     deleteProduct,
+    getUserById,
     getUsers,
     delPostUser,
+    postUpdateUser,
     getOrders,
     postOrders,
+    getOrderById,
     getOrders2,
     getProductList2,
     getUsers2,
     getAddProduct2,
     dashboard2,
+    getAdmins,
+    putUser,
 }

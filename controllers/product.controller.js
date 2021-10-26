@@ -251,17 +251,17 @@ const postCheckout = async (req, res, next) => {
                 },
                 orderDate: new Date(),
                 orderProd: {
-                    id: data[i].id,
-                    code: data[i].code,
-                    name: data[i].name,
-                    price: data[i].price,
-                    discount: data[i].discount
+                    id: prod._id,
+                    code: prod.code,
+                    name: prod.name,
+                    price: prod.price,
+                    discount: prod.discount
                 },
                 numOfProd: data[i].number,
                 orderStatus: 0,
                 paymentMethod: paymentMethod,
                 transportFee: 0,
-                totalPrice: data[i].price * data[i].number,
+                totalPrice: prod.price * data[i].number,
                 transportMethod: shipMethod,
                 note: note
             })

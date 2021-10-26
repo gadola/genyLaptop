@@ -1,6 +1,15 @@
 var express = require('express');
 var router = express.Router();
 const accountController = require('../controllers/account.controller')
+const adminController = require("../controllers/admin.controller")
+// login bằng admin
+router.get('/admin/login', adminController.getLogin);
+router.post('/admin/login', adminController.postLogin);
+router.get('/admin/logout', adminController.getLogout);
+
+// thêm account admin
+router.post('/admin/signup', accountController.postSignUpAdmin);
+
 
 
 // GET / login

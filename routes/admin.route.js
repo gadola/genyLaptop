@@ -5,10 +5,10 @@ var multer = require('multer');
 const adminController = require('../controllers/admin.controller')
 const statitisController = require("../controllers/statitis.controller")
 
+
 // dashboard
 router.get('/2', adminController.dashboard);
 router.get('/', adminController.dashboard2);
-
 
 
 // Lấy danh sách sản phẩm theo loại và trang
@@ -33,11 +33,24 @@ router.get('/products/:id', adminController.getProductById);
 router.get('/users2', adminController.getUsers)
 router.get('/users', adminController.getUsers2)
 router.post('/users/delete', adminController.delPostUser)
+router.post('/users/update', adminController.postUpdateUser)
+
+// lấy user by id
+router.get('/user/:id', adminController.getUserById)
+// lấy danh sách admin
+router.get('/admins', adminController.getAdmins)
+// router.post('/admins', adminController.postAdmins)
+
+// cập nhật thông tin user
+router.post('/user/update', adminController.putUser)
+
 
 // Lấy danh sách đơn hàng và phân trang
 router.get('/orders2', adminController.getOrders)
 router.get('/orders', adminController.getOrders2)
-// Lấy danh sách đơn hàng và phân trang
+// Lấy danh đơn hàng theo id
+router.get('/order/:id', adminController.getOrderById)
+
 
 // cập nhật đơn hàng
 router.post('/orders', adminController.postOrders)

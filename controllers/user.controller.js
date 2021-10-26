@@ -5,6 +5,7 @@ const DetailOrderModel = require("../models/detailOder.model")
 const moment = require('moment')
 const jwt = require("jsonwebtoken")
 const helper = require('../helper')
+const ProductModel = require('../models/product.model')
 
 // Info user lấy lịch sử đơn hàng
 const getUser = async (req, res, next) => {
@@ -24,9 +25,11 @@ const getUser = async (req, res, next) => {
         toString: helper.convertNumberToOrderStatus,
     })
 }
+
+// fn: Cập nhật thông tin người dùng
 const putUpdateUserInfo = async (req, res, next) => {
     try {
-        const { fullName, birthday,phone ,address, gender } = req.body
+        const { fullName, birthday, phone, address, gender } = req.body
         const id = req.user.accountId
         if (await UserModel.exists({ accountId: id })) {
             const response = await UserModel.updateOne({ accountId: id }, {
@@ -68,22 +71,59 @@ const putUpdateUserInfo = async (req, res, next) => {
 // lấy lịch sử chi tiết đơn hàng
 const getOrder = async (req, res, next) => {
     try {
-        const {id} = req.query
-        const detailOrders = await DetailOrderModel.find({ idOrder:id })
-
+        const { id } = req.query
+        const order = await OrderModel.findById(id)
         // lấy orders đã đặt
         return res.render('user/order', {
             user: req.user,
             pageTitle: "GENY Laptop",
-            detailOrders: detailOrders,
+            order: order,
+            convertNumberToOrderStatus: helper.convertNumberToOrderStatus,
+            convertNumberToPaymentMethod: helper.convertNumberToPaymentMethod,
+            convertNumberToTransportMethod: helper.convertNumberToTransportMethod,
         });
     } catch (error) {
 
     }
 }
 
+const postRateProduct = async (req, res, next) => {
+    try {
+        let backURL=req.header('Referer') || '/'
+        const { id, rating } = req.body
+        // lấy sản phẩm
+        const prod = await ProductModel.findById(id)
+        var rate = [...prod.rate]
+        console.log(rate);
+        let index = parseInt(rating) - 1
+        rate[index] += 1
+        if (!prod) {
+            return res.redirect('');
+        }
+
+        // cập nhật rate
+        const result = await ProductModel.updateOne(
+            { _id: id },
+            { rate: rate }
+        )
+        console.log(rate);
+
+        if (result.modifiedCount == 1) {
+            return res.redirect(backURL);
+            return res.status(200).json({message:"đánh giá thành công"});
+        } else {
+            return res.redirect('/404');
+            return res.status(400).json({message:"đánh giá không thành công"});
+        }
+    } catch (error) {
+        return res.redirect('/404');
+
+        return res.status(400).json({message:"có lỗi xảy ra"});
+    }
+}
 module.exports = {
     getUser,
     putUpdateUserInfo,
     getOrder,
+    postRateProduct,
 }

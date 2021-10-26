@@ -15,9 +15,10 @@ const accountSchema = new Schema({
         type: String,
         required: true,
     },
-    refreshToken: {
-        type: String,
-        default: null
+    // admin : true, user: false
+    role: {
+        type: Boolean,
+        default: false
     }
 
 })
@@ -36,6 +37,7 @@ accountSchema.pre('save', async function (next) {
         next(error)
     }
 })
+
 
 const AccountModel = mongoose.model('account', accountSchema, 'accounts')
 

@@ -11,5 +11,8 @@ router.post('/update', userController.putUpdateUserInfo)
 // Lịch sử giao dịch
 router.get('/order', userController.getOrder)
 
+// Đánh giá sản phẩm
+router.post('/rate', userController.postRateProduct)
+
 
 module.exports = router;

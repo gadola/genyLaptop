@@ -1,33 +1,178 @@
-<%- include("../layout/header.ejs") %>
-<div class="main-content">
-    <div class="row">
-        <div class="span2"></div>
-        <div class="span8">					
-            <h4 class="title"><span class="text"><strong>Chi tiết đơn hàng <%= detailOrders.idOrder %> </span></h4>
-            <form action="newcustomer.html" method="post" class="form-stacked">
-                <fieldset>
-                    <div class="control-group">
-                        <label class="control-label"><strong>Các đơn hàng của bạn</strong> </label>
+<%- include("../layout/shortHeader.ejs") %>
+<style>
+    @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+/*reset css*/
+div,label{margin:0;padding:0;}
+body{margin:20px;}
+h1{font-size:1.5em;margin:10px;}
+/****** Style Star Rating Widget *****/
+#rating{border:none;float:left;}
+#rating>input{display:none;}/*ẩn input radio - vì chúng ta đã có label là GUI*/
+#rating>label:before{margin:5px;font-size:1.25em;font-family:FontAwesome;display:inline-block;content:"\f005";}/*1 ngôi sao*/
+#rating>.half:before{content:"\f089";position:absolute;}/*0.5 ngôi sao*/
+#rating>label{color:#ddd;float:right;}/*float:right để lật ngược các ngôi sao lại đúng theo thứ tự trong thực tế*/
+/*thêm màu cho sao đã chọn và các ngôi sao phía trước*/
+#rating>input:checked~label,
+#rating:not(:checked)>label:hover, 
+#rating:not(:checked)>label:hover~label{color:#FFD700;}
+/* Hover vào các sao phía trước ngôi sao đã chọn*/
+#rating>input:checked+label:hover,
+#rating>input:checked~label:hover,
+#rating>label:hover~input:checked~label,
+#rating>input:checked~label:hover~label{color:#FFED85;}
+</style>
+    <div class="main-content">
+
+        <div class="row">
+            <div class="span2"></div>
+            <div class="span8">
+                <h4 class="title"><span class="text"><strong>Chi tiết đơn hàng <%= order._id %> </span></h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span2"></div>
+            <div class="span3">
+                <h5>Địa chỉ người nhận</h5>
+                <h6>
+                    <%= order.deliveryAdd.name %>
+                </h6>
+                <p>
+                    <%= order.deliveryAdd.phone %>
+                </p>
+                <p>
+                    <%= order.deliveryAdd.address %>
+                </p>
+            </div>
+            <div class="span3">
+                <h5>Hình thức giao hàng</h5>
+                <p>
+                    <%= convertNumberToTransportMethod(order.transportMethod) %>
+                </p>
+                <p>
+                    <%= convertNumberToOrderStatus(order.orderStatus) %>
+                </p>
+            </div>
+            <div class="span3">
+                <h5>Hình thức thanh toán</h5>
+                <p>
+                    <%= convertNumberToPaymentMethod(order.paymentMethod) %>
+                </p>
+            </div>
+
+        </div>
+        <br>
+        <div class="row">
+            <!-- The Modal -->
+            <div class="modal" id="myModal" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="/user/rate" method="post">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Đánh giá chất lượng sản phẩm</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <p><%= order.orderProd.name%></p>
+                                <br>
+                                <div id="rating">
+                                    <input name="id" type="hidden" value="<%=order.orderProd.id%>">
+                                    <input type="radio" id="star5" name="rating" value="5" />
+                                    <label class = "full" for="star5" title="Awesome - 5 stars"></label>
+                                 
+                                    <input type="radio" id="star4" name="rating" value="4" />
+                                    <label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+                                 
+                                    <input type="radio" id="star3" name="rating" value="3" />
+                                    <label class = "full" for="star3" title="Meh - 3 stars"></label>
+                                 
+                                    <input type="radio" id="star2" name="rating" value="2" />
+                                    <label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+                                 
+                                    <input type="radio" id="star1" name="rating" value="1" />
+                                    <label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                                </div>
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </form>
                     </div>
-                    <table class="table table-striped" id="table_orders">
-                        <tr>
-                            <th>Tên</th>
-                            <th>Giá</th>
-                            <th>Số lượng</th>
-                            <th>Giảm giá</th>
-                            <th>Thành tiền</th>
-                        </tr>
-                        <% for (const order of detailOrders) { %>
+                </div>
+            </div>
+            <div class="span2"></div>
+            <div class="span8">
+                <form action="newcustomer.html" method="post" class="form-stacked">
+                    <fieldset>
+
+                        <table class="table table-borderless" id="table_orders">
                             <tr>
-                                <td><a href="/products/<%=order.code%>"><%= order.orderProd.name%></a></td>
-                                <td><%= order.orderProd.price.toLocaleString() %>đ</td>
-                                <td><%= order.numOfProd %></td>
-                                <td><%= order.orderProd.discount %>%</td>
-                                <td><%= (order.orderProd.price*order.numOfProd).toLocaleString() %>đ</td>
+                                <th style="width: 350px;">Sản phẩm</th>
+                                <th>Giá</th>
+                                <th>Số lượng</th>
+                                <th>Giảm giá</th>
+                                <th>Thành tiền</th>
                             </tr>
-                        <% }  %> 
-                    </table>
-                    <!-- <li class="span3">
+                            <tr>
+                                <td><a href="/products/<%=order.orderProd.code%>">
+                                        <%= order.orderProd.name%>
+                                    </a></td>
+                                <td>
+                                    <%= parseInt(order.orderProd.price/((100-order.orderProd.discount)/100)).toLocaleString()
+                                        %>đ
+                                </td>
+                                <td>
+                                    <%= order.numOfProd %>
+                                </td>
+                                <td>
+                                    <%= order.orderProd.discount %>%
+                                </td>
+                                <td>
+                                    <%= (order.orderProd.price*order.numOfProd).toLocaleString() %>đ
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>Tạm tính</td>
+                                <td>
+                                    <%= (order.orderProd.price*order.numOfProd).toLocaleString() %>đ
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>Giảm giá</td>
+                                <td>
+                                    <%= parseInt((order.orderProd.price/((100-order.orderProd.discount)/100)
+                                        -order.orderProd.price)*order.numOfProd ).toLocaleString() %>đ
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>Phí vận chuyển</td>
+                                <td>0đ</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>Tổng cộng</td>
+                                <td>
+                                    <%= (order.orderProd.price*order.numOfProd).toLocaleString() %>đ
+                                </td>
+                            </tr>
+                        </table>
+                        <!-- <li class="span3">
                         <div class="product-box">												
                             <a href="product_detail.html"><img alt="" src="themes/images/cloth/laptop1.png"></a><br/>
                             <a href="product_detail.html" class="title">ASUS VivoBook Swift SF315</a><br/>
@@ -61,12 +206,19 @@
                             <p class="price">16.500.000 đ</p>
                         </div>
                     </li> -->
-                </fieldset>
-                
-            </form>					
-        </div>
-        <div class="span2"></div>
-    </div>
-</div>
+                    </fieldset>
+                    <!-- Button to Open the Modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                        Open modal
+                    </button>
 
-<%- include("../layout/footer.ejs") %>
+
+                </form>
+
+            </div>
+            <!-- <div class="span2"></div> -->
+        </div>
+
+    </div>
+
+    <%- include("../layout/footer.ejs") %>

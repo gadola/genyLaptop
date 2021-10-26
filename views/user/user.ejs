@@ -1,71 +1,86 @@
-<%- include("../layout/header.ejs") %>
+<%- include("../layout/shortHeader.ejs") %>
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css"> -->
 
-	</section>			
-	<section class="main-content">		
+		</style>
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+
+	</section>
+	<section class="main-content">
 		<div class="row">
-			<div class="span4">					
+			<div class="span11">
 				<h4 class="title"><span class="text"><strong>Thông tin</strong> cá nhân</span></h4>
-				<form action="/user/update" method="POST">
+				<form class="row" action="/user/update" method="POST">
 					<input type="hidden" name="next" value="/">
 					<fieldset>
-						<div class="control-group">
+						<div class="control-group span3">
 							<label class="control-label">Email</label>
 							<div class="controls">
-								<input readonly value="<%= user.email%>" type="text" class="output-xlarge" id="email" >
+								<input readonly value="<%= user.email%>" type="text" class="output-xlarge" id="email">
 							</div>
 						</div>
-						<div class="control-group">
+						<div class="control-group span3">
 							<label class="control-label">Họ tên</label>
 							<div class="controls">
-								<input type="text" name="fullName"  class="output-xlarge" id="fullName" value="<%= user.fullName%>">
+								<input type="text" name="fullName" class="output-xlarge" id="fullName"
+									value="<%= user.fullName%>">
 							</div>
 						</div>
-						<div class="control-group">
+						<div class="control-group span3">
 							<label class="control-label">Ngày tháng năm sinh</label>
 							<div class="controls">
-								<input type="date" name="birthday"  class="output-xlarge" id="address" value="<%= moment(user.birthday).format('YYYY-MM-DD') %>" >
+								<input type="date" name="birthday" class="output-xlarge" id="address"
+									value="<%= moment(user.birthday).format('YYYY-MM-DD') %>">
 							</div>
 						</div>
-						<div class="control-group">
+						<div class="control-group span3">
 							<label class="control-label">Số điện thoại</label>
 							<div class="controls">
-								<input type="text" name="phone" class="output-xlarge" id="address" value="<%= user.phone%>" >
+								<input type="text" name="phone" class="output-xlarge" id="address"
+									value="<%= user.phone%>">
 							</div>
 						</div>
-						<div class="control-group">
+						<div class="control-group span3">
 							<label class="control-label">Địa chỉ</label>
 							<div class="controls">
-								<input type="text" name="address" class="output-xlarge" id="address" value="<%= user.address%>" >
+								<input type="text" name="address" class="output-xlarge" id="address"
+									value="<%= user.address%>">
 							</div>
 						</div>
-						<div class="control-group">
+						<div class="control-group span3">
 							<label class="control-label">Giới tính</label>
 							<div class="controls">
 								<select name="gender" id="gender">
-                                    <% if (user.gender){ %> 
-                                        <option selected value="true">Nam</option>
-                                        <option  value="false">Nữ</option>
-                                    <% }else{%> 
-                                        <option value="true">Nam</option>
-                                        <option selected value="false">Nữ</option>
-                                    <% } %>
-                                </select>
+									<% if (user.gender){ %>
+										<option selected value="true">Nam</option>
+										<option value="false">Nữ</option>
+										<% }else{%>
+											<option value="true">Nam</option>
+											<option selected value="false">Nữ</option>
+											<% } %>
+								</select>
 							</div>
 						</div>
-						<div class="control-group">
-							<input tabindex="3" class="btn btn-primary large" type="submit" id="submit" onclick="" value="Thay đổi thông tin">
+						<div class="control-group span3">
+							<input tabindex="3" class="btn btn-primary btnsm" type="submit" id="submit" onclick=""
+								value="Thay đổi thông tin">
 							<hr>
 						</div>
 					</fieldset>
-				</form>				
+				</form>
 			</div>
-			<div class="span8">					
+		</div>
+		<div class="row">
+			<!-- <div class="span1"></div> -->
+			<div class="span11">
 				<h4 class="title"><span class="text"><strong>Lịch sử</strong> mua hàng</span></h4>
-				<form action="newcustomer.html" method="post" class="form-stacked">
-					<fieldset>
-						<div class="control-group">
-							<label class="control-label"><strong>Các sản phẩm đã mua</strong> </label>
-							<table class="table table-striped" id="table_orders">
+				<fieldset style="margin-left: 30px;">
+					<div class="control-group">
+						<label class="control-label"><strong>Các sản phẩm đã mua</strong> </label>
+						<table class="table table-striped" id="table_orders">
+							<thead>
 								<tr>
 									<th>Mã đơn hàng</th>
 									<th>Ngày mua</th>
@@ -73,21 +88,47 @@
 									<th>Tổng tiền</th>
 									<th>Trạng thái đơn hàng</th>
 								</tr>
+							</thead>
+							<tbody>
 								<% for (const order of orders) { %>
 									<tr>
-										<td><a href="/user/order?id=<%= order._id %>"><%= order._id %></a></td>
-										<td><%= moment(order.orderDate).format('DD-MM-YYYY')%></td>
-										<td><a href="/products/<%= order.orderProd.code %>"><%= order.orderProd.name %></a></td>
-										<td><%= order.totalPrice.toLocaleString() %>đ</td>
-										<td><%= toString(order.orderStatus) %></td>
+										<td><a href="/user/order?id=<%= order._id %>">
+												<%= order._id %>
+											</a></td>
+										<td>
+											<%= moment(order.orderDate).format('DD-MM-YYYY')%>
+										</td>
+										<td><a href="/products/<%= order.orderProd.code %>">
+												<%= order.orderProd.name %>
+											</a></td>
+										<td>
+											<%= order.totalPrice.toLocaleString() %>đ
+										</td>
+										<td>
+											<%= toString(order.orderStatus) %>
+										</td>
 									</tr>
-								<% }  %> 
-							</table>
-					</fieldset>
-					
-				</form>					
+									<% } %>
+							</tbody>
+
+							<!-- <tfoot>
+									<tr>
+										<th>Mã đơn hàng</th>
+										<th>Ngày mua</th>
+										<th>Sản phẩm</th>
+										<th>Tổng tiền</th>
+										<th>Trạng thái đơn hàng</th>
+									</tr>
+								</tfoot> -->
+						</table>
+				</fieldset>
+
 			</div>
-							
 		</div>
-	</section>			
+	</section>
+	<script>
+		$(document).ready(function () {
+			$('#table_orders').DataTable();
+		});
+	</script>
 	<%- include("../layout/footer.ejs") %>

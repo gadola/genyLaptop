@@ -57,6 +57,9 @@ iconsDelete.forEach(item => {
         if (confirm("Bạn có muốn xoá?")){
             fechPostProduct(url, { id: id }).then(data => {
                 window.location.href = "/admin/products"
+            }).catch(err=>{
+                alert("có lỗi xảy ra")
+                window.location.href = "/admin/products"
             })
         }
     })

@@ -127,7 +127,12 @@ const hanlderRate = (arr) => {
     for (var i = 1; i <= 5; i++) {
         rate.push(arr[i - 1] * i)
     }
-    return rate.reduce((p, c) => p + c, 0) / arr.length;
+    var avg = arr[0] + arr[1] + arr[2] + arr[3] +arr[4]
+    if(avg!=0){
+        let result = rate.reduce((p, c) => p + c, 0) / avg;
+        return result.toFixed(2)
+    }
+    return 0
 }
 // đổi loại sản phẩm từ số thành string
 const converTypeToString = (number = 0) => {
@@ -207,6 +212,19 @@ const convertNumberToPaymentMethod = (number = 0) => {
             return "Tiền mặt"
     }
 }
+// đổi số => hình thức giao hàng
+const convertNumberToTransportMethod = (number = 0) => {
+    switch (number) {
+        case 0:
+            return "tiêu chuẩn"
+
+        case 1:
+            return "tiết kiệm"
+        case 2:
+            return "nhanh"
+
+    }
+}
 
 module.exports = {
     generateVerifyCode,
@@ -218,5 +236,6 @@ module.exports = {
     convertSerisToString,
     convertNumberToOrderStatus,
     convertNumberToPaymentMethod,
+    convertNumberToTransportMethod,
 };
 

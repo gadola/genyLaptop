@@ -24,6 +24,7 @@ var adminRouter = require('./routes/admin.route');
 var productRouter = require('./routes/product.route')
 const isAuth = require('./middlewares/is.auth')
 const isLogin = require('./middlewares/is.login')
+const isAdmin = require('./middlewares/is.admin')
 
 var app = express();
 
@@ -112,7 +113,9 @@ app.use('/user',isAuth, usersRouter);
 app.use('/account', accountRouter);
 
 // admin
-app.use('/admin',isAuth, adminRouter);
+// app.use('/admin', adminRouter);
+app.use('/admin',isAdmin, adminRouter);
+
 
 app.use('/products',isLogin , productRouter)
 
@@ -132,7 +135,7 @@ app.use(function(err, req, res, next) {
 
     // render the error page
     res.status(err.status || 500);
-    res.render('error');
+    res.render('error',{pageTitle :"404",user:req.user});
 });
 
 module.exports = app;

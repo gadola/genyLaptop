@@ -117,7 +117,7 @@
           <img src="/images/smile.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block"><%= user.fullName %></a>
         </div>
       </div>
 
@@ -189,7 +189,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="admin/admin" class="nav-link">
+                <a href="/admin/admins" class="nav-link">
                     <i class="nav-icon fa fa-address-card" aria-hidden="true"></i>
                     <p>
                         Admin users
@@ -226,13 +226,88 @@
     <section class="content">
       <div class="container-fluid">
         <div class="row">
+          <!-- form update info user  -->
+            <!-- The Modal -->
+            <div class="modal" id="updateUserForm">
+              <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Chỉnh sửa thông tin sản phẩm</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+
+                  <!-- Modal body -->
+                  <div class="modal-body">
+                    <form id="userForm" action="/admin/user/update" method="post">
+                      <input type="hidden" name="id">
+                      <div class="card card-primary">
+                        <div class="card-header">
+                          <h3 class="card-title">Thông tin người dùng</h3>
+                        </div>
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-4">
+                              <label for="">Email</label>
+                              <input readonly name="email" type="email" class="form-control" >
+                            </div>
+                            
+                            <div class="col-4">
+                              <label for="">Tên</label>
+                              <input required name="fullName" type="text" class="form-control" >
+                            </div>
+                            <div class="col-4">
+                              <label for="">Ngày tháng năm sinh</label>
+                              <input required name="birthday" type="date" class="form-control" >
+                            </div>
+                          </div>
+                          <br>
+                          <div class="row">
+                            
+                            <div class="col-4">
+                              <label for="">Số điện thoại</label>
+                              <input required name="phone" type="text" class="form-control" >
+                            </div>
+                            <div class="col-4">
+                              <label for="">Địa chỉ</label>
+                              <input required name="address" type="text" class="form-control" >
+                            </div>
+                            <div class="col-4">
+                              <label for="">Giới tính</label>
+                              <select class="form-control select2" name="gender" id="">
+                                <option value="true">Nam</option>
+                                <option value="false">Nữ</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- /.card-body -->
+                      </div>
+            
+                      <input class="btn btn-success" type="submit" name="" id="" value="Cập nhật">
+                    </form>
+                  </div>
+
+                  <!-- Modal footer -->
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <!-- endForm -->
           <div class="col-12">
             <div class="card">
-              <!-- <div class="card-header">
-                <h3 class="card-title">Danh sách các đơn hàng</h3>
-              </div> -->
-              <!-- /.card-header -->
+            
               <div class="card-body">
+                <% if (message.length >0) { %>
+                  <div class="alert alert-info alert-dismissible">
+                      <button type="button" class="close" data-dismiss="alert">&times;</button>
+                      <strong>Info!</strong> <%= message %>
+                    </div>
+                  <% } %>
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                     <tr>
@@ -247,17 +322,19 @@
                     </tr>
                   </thead>
                  <tbody>
-                    <% for(user of users) {%>
+                    <% for(account of accounts) {%>
                         <tr>
-                            <td><%= user.id %></td>
-                            <td><%= user.email %></td>
-                            <td><%= user.fullName %></td>
-                            <td><%= user.phone %></td>
-                            <td><%= user.birthday %></td>
-                            <td><%= user.address %></td>
-                            <td><% if(user.gender) {%>Nam<% }else {%>Nữ<% } %></td>
+                            <td><%= account.user._id %></td>
+                            <td><%= account.email %></td>
+                            <td><%= account.user.fullName %></td>
+                            <td><%= account.user.phone %></td>
+                            <td><%= account.user.birthday %></td>
+                            <td><%= account.user.address %></td>
+                            <td><% if(account.user.gender) {%>Nam<% }else {%>Nữ<% } %></td>
                             <td>
-                                <i id="<%= user.id %>" class="fa fa-trash js_icon_delete" style="color: red;cursor: pointer;" aria-hidden="true"></i>
+                              <i id="<%= account._id %>" class="fa fa-pencil-square-o js_icon_update" style="color: blue;cursor: pointer;" data-toggle="modal" data-target="#updateUserForm" aria-hidden="true"></i>
+
+                                <!-- <i id="<%= account.user._id %>" class="fa fa-trash js_icon_delete" style="color: red;cursor: pointer;" aria-hidden="true"></i> -->
                             </td>
                         </tr>
                         <% } %>  

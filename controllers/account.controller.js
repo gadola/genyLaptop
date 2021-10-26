@@ -8,7 +8,7 @@ const mailConfig = require('../configs/email.config')
 const helper = require('../helper/index')
 const constants = require('../constants/index')
 
-
+// TIỀN XỬ LÝ, TÁC VỤ PHỤ
 // fn: Gửi mã xác thực để đăng ký
 const postSendVerifyCode = async (req, res) => {
     try {
@@ -57,6 +57,51 @@ const postSendVerifyCode = async (req, res) => {
             message: " Gửi mã thất bại",
             error: error
         });
+    }
+}
+
+//fn: Gửi mã xác thực để lấy lại mật khẩu
+const postSendCodeForgotPW = async (req, res, next) => {
+    try {
+        const { email } = req.body
+        console.log(email);
+
+        // Kiểm tra tài khoản có tồn tại không
+        const account = AccountModel.findOne({ email })
+        if (!account) {
+            return res.status(400).json({ message: "Tài khoản không tồn tại" });
+        }
+
+        // Cấu hình mail
+        const verifyCode = helper.generateVerifyCode(constants.NUMBER_VERIFY_CODE)
+        const mail = {
+            to: email,
+            subject: "Thay đổi mật khẩu",
+            html: mailConfig.htmlResetPassword(verifyCode)
+        }
+
+        // Lưu mã vào database để xác thực sau này
+        await VerifyModel.findOneAndDelete({ email })
+        await VerifyModel.create({
+            code: verifyCode,
+            email,
+            dateCreated: Date.now()
+        })
+
+        // Tiến hành gửi mail
+        const resutl = await mailConfig.sendEmail(mail)
+
+        // if thành công
+        if (resutl) {
+            return res.status(200).json({ message: "Mã xác nhận đã được gửi tới email của bạn" })
+        }
+
+    } catch (error) {
+        return res.status(409).json({
+            message: "Gửi mã thất bại",
+            error
+        })
+
     }
 }
 
@@ -149,51 +194,67 @@ const postSignUp = async (req, res, next) => {
         // });
     }
 }
-
-//fn: Gửi mã xác thực để lấy lại mật khẩu
-const postSendCodeForgotPW = async (req, res, next) => {
+// fn: tạo tài khoản quản trị viên
+const postSignUpAdmin = async (req, res, next)=>{
     try {
-        const { email } = req.body
-        console.log(email);
-
-        // Kiểm tra tài khoản có tồn tại không
-        const account = AccountModel.findOne({ email })
-        if (!account) {
-            return res.status(400).json({ message: "Tài khoản không tồn tại" });
-        }
-
-        // Cấu hình mail
-        const verifyCode = helper.generateVerifyCode(constants.NUMBER_VERIFY_CODE)
-        const mail = {
-            to: email,
-            subject: "Thay đổi mật khẩu",
-            html: mailConfig.htmlResetPassword(verifyCode)
-        }
-
-        // Lưu mã vào database để xác thực sau này
-        await VerifyModel.findOneAndDelete({ email })
-        await VerifyModel.create({
-            code: verifyCode,
+        const {
             email,
-            dateCreated: Date.now()
-        })
+            password,
+            repassword,
+            fullName,
+            phone,
+            birthday,
+            gender,
+            address,
+        } = req.body
 
-        // Tiến hành gửi mail
-        const resutl = await mailConfig.sendEmail(mail)
+        // kiểm tra tài khoản đã tồn tại hay chưa
+        const account = await AccountModel.findOne({ email })
+        if (account) {
+            // let error = "Email đã được đăng ký!"
+            // if (account) return res.status(400).json({ message: error });
+            req.flash('error', 'Email đã được đăng ký!')
+            return res.redirect('/admin/admins')
+        }
 
-        // if thành công
-        if (resutl) {
-            return res.status(200).json({ message: "Mã xác nhận đã được gửi tới email của bạn" })
+        // tạo tài khoản và user admin tương ứng
+        if (repassword == password) {
+            const newAcc = await AccountModel.create({
+                email:email,
+                password:password,
+                role:true,
+            })
+            if (newAcc) {
+                await UserModel.create({
+                    accountId: newAcc._id,
+                    fullName,
+                    phone,
+                    birthday,
+                    gender,
+                    address,
+                })
+            }
+
+            // return res.status(200).json({ message: "sign up successfully!" })
+            req.flash('error', 'Thêm thành công')
+            return res.redirect('/admin/admins')
+        } else {
+            req.flash('error', "Có lỗi xảy ra")
+            return res.redirect('/admin/admins')
+            // return res.status(400).json({ message: "password and repassword don't match" })
         }
 
     } catch (error) {
-        return res.status(409).json({
-            message: "Gửi mã thất bại",
-            error
-        })
-
+        req.flash('error', "Có lỗi xảy ra")
+        return res.redirect('/admin/admins')
+        // return res.status(400).json({
+        //     message: 'Account Creation Failed.',
+        //     error,
+        // });
     }
 }
+
+
 
 // fn: Đặt lại mật khẩu
 const postResetPassword = async (req, res, next) => {
@@ -270,11 +331,6 @@ const postLogin = async (req, res, next) => {
         if (!account) {
             req.flash('error', "Tài khoản không tồn tại")
             return res.redirect('/account/login');
-            // return res.render('account/login2', {
-            //     path: '/account/login',
-            //     errorMessage: 'Sai email hoặc mật khẩu',
-            //     user: null
-            // });
         }
 
         // Kiểm tra mật khẩu
@@ -295,19 +351,22 @@ const postLogin = async (req, res, next) => {
                     accountId: user.accountId
                 }
             )
-            console.log("token", token);
             req.session.token = token
+            // Kiểm tra có phải admin?
+            if (account.role) {
+                req.session.isAdmin = true
+                return req.session.save(err => {
+                    res.redirect('/admin');
+                })
+            }
+
+            req.session.isAdmin = false
             return req.session.save(err => {
                 res.redirect('/');
             })
         }
         req.flash('error', "Sai email hoặc mật khẩu")
         return res.redirect('/account/login');
-        // return res.render('account/login', {
-        //     path: '/account/login',
-        //     errorMessage: 'Sai email hoặc mật khẩu',
-        //     user: null
-        // });
 
     } catch (error) {
         console.log(error);
@@ -326,6 +385,7 @@ const getLogout = async (req, res, next) => {
         res.redirect('/');
     })
 }
+
 
 // fn: Đổi mật khẩu
 const getChangePassword = async (req, res, next) => {
@@ -393,6 +453,7 @@ module.exports = {
     getSignUp,
     getSignUp2,
     postSignUp,
+    postSignUpAdmin,
     postSendCodeForgotPW,
     getResetPassword,
     postResetPassword,

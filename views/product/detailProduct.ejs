@@ -92,7 +92,7 @@
                         <h2><%= product.price.toLocaleString() %>đ</h2>
                         <% if(product.discount > 0){ %> 
                         <h5>
-                            <strike><%= (product.price/((100-product.discount)/100)).toLocaleString() %>đ</strike>
+                            <strike><%= parseInt(product.price/((100-product.discount)/100)).toLocaleString() %>đ</strike>
                             <span style="color: green;"><%= product.discount %>% </span>
                         </h5>
                         <% } %> 
