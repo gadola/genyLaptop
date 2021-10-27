@@ -518,7 +518,7 @@ const getOrders2 = async (req, res, next) => {
     try {
         const { page = 1, perPage = 10 } = req.query
         const nSkip = (parseInt(page) - 1) * parseInt(perPage)
-        const orders = await OrderModel.find({})
+        const orders = await OrderModel.find({}).sort("-orderDate")
         // .skip(nSkip)
         // .limit(perPage)
         let message = req.flash('info')

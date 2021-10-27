@@ -239,7 +239,8 @@ const postCheckout = async (req, res, next) => {
             const prod = await ProductModel.findById(data[i].id)
             // nếu tồn tại sản phẩm và số lượng tồn >= số lượng mua
             if (!prod || prod.stock < data[i].number) { 
-                return res.status(400).json("Sản phẩm không đủ số lượng cung cấp!");
+                return res.status(400).json("Số lượng sản phẩm đã thay đổi, vui lòng thử lại!");
+                break
             }
             // tạo đơn hàng
             const newOrder = await OrderModel.create({

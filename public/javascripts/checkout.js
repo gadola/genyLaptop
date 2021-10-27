@@ -37,7 +37,8 @@ function handlerCheckoutSubmit(cart) {
         })
         .catch(error=>{
             alert(error.message)
-
+            localStorage.removeItem('cart')
+            window.location.href = "/products/cart"
         })
     })
 }
