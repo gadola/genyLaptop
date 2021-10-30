@@ -64,6 +64,12 @@ const orderSchema = new Schema({
 
   // ghi chú cho đơn hàng
   note: { type: String, trim: true, maxlength: 200 },
+  // đã đánh giá đơn hàng
+  rated:{
+    type:Number,
+    enum: [0, 1, 2 ,3 ,4 ,5],
+    default:0,
+  }
 });
 
 const OrderModel = mongoose.model('order', orderSchema, 'orders');

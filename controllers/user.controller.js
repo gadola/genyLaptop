@@ -90,11 +90,16 @@ const getOrder = async (req, res, next) => {
 const postRateProduct = async (req, res, next) => {
     try {
         let backURL=req.header('Referer') || '/'
-        const { id, rating } = req.body
+        const { id, rating, idOrder } = req.body
+        // check đã đánh giá chưa?
+        const order = await OrderModel.findById(idOrder)
+
+        if(order.rated != 0 || !order.rated){
+            return res.status(300).json({message:"Bạn đã đánh giá đơn hàng này rồi"});
+        }
         // lấy sản phẩm
         const prod = await ProductModel.findById(id)
         var rate = [...prod.rate]
-        console.log(rate);
         let index = parseInt(rating) - 1
         rate[index] += 1
         if (!prod) {
@@ -109,6 +114,7 @@ const postRateProduct = async (req, res, next) => {
         console.log(rate);
 
         if (result.modifiedCount == 1) {
+            await OrderModel.updateOne({_id:idOrder},{rated:rating})
             return res.redirect(backURL);
             return res.status(200).json({message:"đánh giá thành công"});
         } else {

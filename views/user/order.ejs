@@ -79,6 +79,7 @@ h1{font-size:1.5em;margin:10px;}
                                 <br>
                                 <div id="rating">
                                     <input name="id" type="hidden" value="<%=order.orderProd.id%>">
+                                    <input name="idOrder" type="hidden" value="<%=order._id%>">
                                     <input type="radio" id="star5" name="rating" value="5" />
                                     <label class = "full" for="star5" title="Awesome - 5 stars"></label>
                                  
@@ -208,10 +209,15 @@ h1{font-size:1.5em;margin:10px;}
                     </li> -->
                     </fieldset>
                     <!-- Button to Open the Modal -->
+                    <% if(order.rated == 0){ %> 
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                        Open modal
+                        Đánh giá
                     </button>
-
+                    <% }else{ %>
+                        <p> Bạn đã đánh giá sản phẩm: <%= order.rated %><i
+                        style="color: rgb(229, 233, 0);font-size: 14px;" class="fa fa-star"
+                        aria-hidden="true"></i></p>
+                    <% } %>  
 
                 </form>
 

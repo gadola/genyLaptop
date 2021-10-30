@@ -92,10 +92,20 @@
           <i class="fas fa-expand-arrows-alt"></i>
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="far fa-user"></i>
         </a>
+        <div class="dropdown-menu dropdown-menu dropdown-menu-right">
+          <div class="dropdown-divider"></div>
+          <a href="/user" class="dropdown-item">
+            Tài khoản
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="/account/logout" class="dropdown-item">
+            Đăng xuất
+          </a>
+        </div>
       </li>
     </ul>
   </nav>
@@ -234,13 +244,13 @@
 
                   <!-- Modal Header -->
                   <div class="modal-header">
-                    <h4 class="modal-title">Chỉnh sửa thông tin sản phẩm</h4>
+                    <h4 class="modal-title">Chỉnh sửa thông tin người dùng</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                   </div>
 
                   <!-- Modal body -->
+                  <form id="userForm" action="/admin/user/update" method="post">
                   <div class="modal-body">
-                    <form id="userForm" action="/admin/user/update" method="post">
                       <input type="hidden" name="id">
                       <div class="card card-primary">
                         <div class="card-header">
@@ -285,14 +295,14 @@
                         <!-- /.card-body -->
                       </div>
             
+                    </div>
+                    
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
                       <input class="btn btn-success" type="submit" name="" id="" value="Cập nhật">
-                    </form>
-                  </div>
-
-                  <!-- Modal footer -->
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                  </div>
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                    </div>
+                  </form>
 
                 </div>
               </div>
@@ -367,11 +377,12 @@
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.2.0-rc
+    <strong>Copyright &copy; 2021 <a href="https://www.facebook.com/CoktailDail/">GENY Laptop</a>.</strong>
+    All rights reserved.
+    <div class="float-right d-none d-sm-inline-block">
+        <b>Version</b> 1.0.0-rc
     </div>
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
-  </footer>
+</footer>
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
