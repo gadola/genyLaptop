@@ -217,7 +217,7 @@ const getProductList2 = async (req, res, next) => {
             data: result,
             hanlderRate: helper.hanlderRate,// xử lý rate
             converTypeToString: helper.converTypeToString, // đổi số thành loại hàng
-            user:req.user,
+            user: req.user,
 
         });
     } catch (error) {
@@ -231,14 +231,14 @@ const getAddProduct = async (req, res, next) => {
     let message = req.flash('error')
     return res.render('admin/addProduct', {
         message: message,
-        user:req.user,
+        user: req.user,
     });
 }
 const getAddProduct2 = async (req, res, next) => {
     let message = req.flash('error')
     return res.render('admin/testAddProduct', {
         message: message,
-        user:req.user,
+        user: req.user,
     });
 }
 const postProduct = async (req, res, next) => {
@@ -376,8 +376,8 @@ const getUsers = async (req, res, next) => {
         const { page = 1, perPage = 10 } = req.query
         const nSkip = (parseInt(page) - 1) * parseInt(perPage)
         const users = await UserModel.find({})
-            // .skip(nSkip)
-            // .limit(perPage)
+        // .skip(nSkip)
+        // .limit(perPage)
         for (let i = 0; i < users.length; i++) {
             const id = users[i].accountId
             let account = await AccountModel.findById(id)
@@ -396,19 +396,19 @@ const getUsers2 = async (req, res, next) => {
     try {
         const { page = 1, perPage = 10 } = req.query
         const nSkip = (parseInt(page) - 1) * parseInt(perPage)
-        var accounts = await AccountModel.find({role:false})
+        var accounts = await AccountModel.find({ role: false })
         // .skip(nSkip)
         // .limit(perPage)
         for (let i = 0; i < accounts.length; i++) {
             const id = accounts[i]._id
-            let user = await UserModel.findOne({accountId:id})
+            let user = await UserModel.findOne({ accountId: id })
             accounts[i].user = user
         }
         let message = req.flash('info')
         return res.render('admin/testUsers', {
             user: req.user,
             accounts: accounts,
-            message:message
+            message: message
         });
 
     } catch (error) {
@@ -424,7 +424,7 @@ const delPostUser = async (req, res, next) => {
             // xoá người dùng
             await UserModel.deleteOne({ accountId: id })
             // xoá tài khoản
-            await AccountModel.deleteOne({_id:id})
+            await AccountModel.deleteOne({ _id: id })
         }
         return res.status(200).json({ message: "xoá thành công!" });
     } catch (error) {
@@ -432,64 +432,66 @@ const delPostUser = async (req, res, next) => {
     }
 }
 // PUT cập nhật user
-const putUser = async (req, res, next)=>{
+const putUser = async (req, res, next) => {
     try {
-        const { id,fullName,birthday,phone,address,gender } = req.body
+        const { id, fullName, birthday, phone, address, gender } = req.body
         const result = await UserModel.updateOne(
-            {_id:id},
-            {fullName,phone,birthday,gender,address}
+            { _id: id },
+            { fullName, phone, birthday, gender, address }
         )
         if (result.modifiedCount == 1) {
             req.flash('info', "cập thành thành công")
-            return  res.redirect('/admin/users');
+            return res.redirect('/admin/users');
         }
         req.flash('info', "cập thành không thành công")
-        return  res.redirect('/admin/users');
+        return res.redirect('/admin/users');
     } catch (error) {
         req.flash('info', "Có lỗi xảy ra")
-        return  res.redirect('/admin/users');    }
-}
-
-const getUserById = async (req, res, next)=>{
-    try {
-        const {id} = req.params
-        const account = await AccountModel.findById(id)
-        const user = await UserModel.findOne({accountId:account._id})
-        return res.status(200).json({message:"success",account:account, user:user});
-    } catch (error) {
-        return res.status(400).json({message:"false"});
-        
+        return res.redirect('/admin/users');
     }
 }
 
-const postUpdateUser = async (req, res, next)=>{
+const getUserById = async (req, res, next) => {
     try {
-        const {email,password,fullName,phone,birthday,address,gender} = req.body
-        // c
-        const account = await AccountModel.findOne({email})
-        const saltRounds = parseInt(process.env.SALT_ROUND)
-        const hashPassword = await bcrypt.hash(password, saltRounds)
-
-        const updateAccount = await AccountModel.updateOne(
-            {_id:account._id},
-            {password:hashPassword}
-        )
-        const updateUser = await UserModel.updateOne(
-            {accountId:account._id},
-            {fullName,phone,birthday,gender,address}
-        )
-        if(updateAccount.modifiedCount == 1 || updateUser.modifiedCount == 1){
-            req.flash('error',"cập nhật thành công")
-            return  res.redirect('/admin/admins');
-        }else{
-            console.log(updateAccount);
-            console.log(updateUser);
-            req.flash('error',"cập nhật sắp thành công")
-            return  res.redirect('/admin/admins');
-        }
+        const { id } = req.params
+        const account = await AccountModel.findById(id)
+        const user = await UserModel.findOne({ accountId: account._id })
+        return res.status(200).json({ message: "success", account: account, user: user });
     } catch (error) {
-        req.flash('error',"cập nhật không thành công")
-        return  res.redirect('/admin/admins');
+        return res.status(400).json({ message: "false" });
+
+    }
+}
+
+const postUpdateAdmin = async (req, res, next) => {
+    try {
+        const { email, password, fullName, phone, birthday, address, gender } = req.body
+        const account = await AccountModel.findOne({ email })
+        if (password) {
+            const saltRounds = parseInt(process.env.SALT_ROUND)
+            const hashPassword = await bcrypt.hash(password, saltRounds)
+
+            await AccountModel.updateOne(
+                { _id: account._id },
+                { password: hashPassword }
+            )
+        }
+        const updateUser = await UserModel.updateOne(
+            { accountId: account._id },
+            { fullName, phone, birthday, gender, address }
+        )
+        if ( updateUser.modifiedCount == 1) {
+            req.flash('error', "cập nhật thành công")
+            return res.redirect('/admin/admins');
+        } else {
+            console.log(updateUser);
+            req.flash('error', "cập nhật sắp thành công")
+            return res.redirect('/admin/admins');
+        }
+
+    } catch (error) {
+        req.flash('error', "cập nhật không thành công")
+        return res.redirect('/admin/admins');
     }
 }
 
@@ -529,20 +531,20 @@ const getOrders2 = async (req, res, next) => {
             toStatusString: helper.convertNumberToOrderStatus,
             toPaymentMethodString: helper.convertNumberToPaymentMethod,
             moment: moment,
-            message:message
+            message: message
 
         });
     } catch (error) {
 
     }
 }
-const getOrderById = async (req, res, next)=>{
+const getOrderById = async (req, res, next) => {
     try {
-        const {id} = req.params
+        const { id } = req.params
         const order = await OrderModel.findById(id)
-        return res.status(200).json({message:"success", order:order});
+        return res.status(200).json({ message: "success", order: order });
     } catch (error) {
-        return res.status(400).json({message:"error", order:error});
+        return res.status(400).json({ message: "error", order: error });
     }
 }
 
@@ -572,30 +574,30 @@ const postOrders = async (req, res, next) => {
 
 
 // quản lý admins
-const getAdmins = async (req, res, next)=>{
+const getAdmins = async (req, res, next) => {
     try {
         const { page = 1, perPage = 10 } = req.query
         const nSkip = (parseInt(page) - 1) * parseInt(perPage)
-        var accounts = await AccountModel.find({role:true})
+        var accounts = await AccountModel.find({ role: true })
         // .skip(nSkip)
         // .limit(perPage)
         for (let i = 0; i < accounts.length; i++) {
             const id = accounts[i]._id
-            let user = await UserModel.findOne({accountId:id})
+            let user = await UserModel.findOne({ accountId: id })
             accounts[i].user = user
         }
         let message = req.flash("error")
         return res.render('admin/seeAdmins', {
             user: req.user,
             accounts: accounts,
-            errorMessage:message,
+            errorMessage: message,
         });
 
     } catch (error) {
 
     }
 }
-const postAdmins = async (req, res, next)=>{
+const postAdmins = async (req, res, next) => {
 
 }
 
@@ -615,7 +617,7 @@ module.exports = {
     getUserById,
     getUsers,
     delPostUser,
-    postUpdateUser,
+    postUpdateAdmin,
     getOrders,
     postOrders,
     getOrderById,

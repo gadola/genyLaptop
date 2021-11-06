@@ -33,7 +33,9 @@ router.get('/products/:id', adminController.getProductById);
 router.get('/users2', adminController.getUsers)
 router.get('/users', adminController.getUsers2)
 router.post('/users/delete', adminController.delPostUser)
-router.post('/users/update', adminController.postUpdateUser)
+router.post('/users/update', adminController.postUpdateAdmin)
+// cập nhật thông tin user
+router.post('/user/update', adminController.putUser)
 
 // lấy user by id
 router.get('/user/:id', adminController.getUserById)
@@ -41,8 +43,6 @@ router.get('/user/:id', adminController.getUserById)
 router.get('/admins', adminController.getAdmins)
 // router.post('/admins', adminController.postAdmins)
 
-// cập nhật thông tin user
-router.post('/user/update', adminController.putUser)
 
 
 // Lấy danh sách đơn hàng và phân trang

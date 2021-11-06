@@ -69,18 +69,20 @@
                                             <h4>Phương thức thanh toán</h4>
                                             <div>
                                                 <div class="">
-                                                    <input checked value="0" type="radio" name="paymentMethod" class="input-lg">
+                                                    <input id="paymentCOD" checked value="0" type="radio" name="paymentMethod" class="input-lg">
                                                     <label style="font-size:15px" for="">
                                                         <b>Thanh toán khi nhận hàng (COD)</b>
                                                     </label>
                                                     <p style="font-size:15px">Thanh toán bằng tiền mặt khi nhận hàng tại nhà hoặc showroom.</p>
                                                 </div>
                                                 <div class="">
-                                                    <input id="" value="1" type="radio" name="paymentMethod" class="input-lg">
+                                                    <input id="paymentOnline" value="1" type="radio" name="paymentMethod" class="input-lg">
                                                     <label style="font-size:15px" for="">
-                                                        <b> Thanh toán Online qua cổng VNPAY</b>
+                                                        <b> Thanh toán Online qua ví điện tử Momo</b>
                                                     </label>
-                                                    <p style="font-size:15px">Thanh toán qua Internet Banking, Visa, Master, JCB, VNPAY-QR.</p>
+                                                    <p style="font-size:15px">Vui lòng quét mã QR bên dưới để thanh toán</p>
+                                                    <canvas style="display: none;" id="qrcodeMomo"></canvas>
+                                                    <div style="display: none;" id="thongtinchutaikhoan"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -124,5 +126,6 @@
             </div>
         </div>
     </section>
+    <script src="/javascripts/qrcode.min.js"></script>
     <script src="/javascripts/checkout.js"></script>
     <%- include("../layout/footer.ejs") %>
