@@ -1,0 +1,12 @@
+
+.phuongthucthanhtoan{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 80%;
+}
+.phuongthucthanhtoan-items {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}

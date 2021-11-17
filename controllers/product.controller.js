@@ -7,6 +7,17 @@ const helper = require("../helper/index");
 const AccountModel = require("../models/account.model");
 const UserModel = require("../models/user.model");
 
+// lấy ngẫu nhiên 2 sản phẩm
+const getRandom2Product = async (num = 2)=>{
+    const count = await ProductModel.find({}).countDocuments()
+
+    var random = Math.floor(Math.random()*count - num)
+    while(random < 0){
+        random = Math.floor(Math.random()*count - num)
+    }
+    const prod = await ProductModel.find({}).skip(random).limit(num)
+    return prod
+}
 
 // lấy 12 sản phẩm mới nhất
 const get12NewProduct = async (numOfProduct = 12) => {
@@ -101,9 +112,11 @@ const getSearchProducts = async (req, res, next) => {
         //         .limit(parseInt(perPage))
         //         .sort(sortby)
         // }
+        var random2prod = await getRandom2Product()
         if (result) {
             return res.render('product/searchProducts', {
                 products: result,
+                randomProduct: random2prod,
                 numOfProduct: numOfProduct,
                 key: value,
                 user: req.user,

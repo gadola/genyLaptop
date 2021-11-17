@@ -1,0 +1,18 @@
+.extraProduct{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.extraProduct button {
+    padding: 7px 20px;
+    font-size: large;
+}
+.extraProduct button a{
+    padding: 7px 20px;
+    font-size: large;
+    color: black;
+}
+.extraProduct button:hover a{
+    color: blue;    
+}
+

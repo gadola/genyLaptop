@@ -192,7 +192,7 @@
 							</div>
 							<div class="block">
 								<h4 class="title">
-									<span class="pull-left"><span class="text">Ngẫu nhiên</span></span>
+									<span class="pull-left"><span class="text">Đề xuất</span></span>
 									<span class="pull-right">
 										<a class="left button" href="#myCarousel" data-slide="prev"></a><a
 											class="right button" href="#myCarousel" data-slide="next"></a>
@@ -200,17 +200,16 @@
 								</h4>
 								<div id="myCarousel" class="carousel slide">
 									<div class="carousel-inner">
+				
 										<div class="active item">
 											<ul class="thumbnails listing-products">
 												<li class="span3">
 													<div class="product-box">
 														<span class="sale_tag"></span>
-														<a href="product_detail.html"><img alt=""
-																src="themes/images/cloth/laptop2.jpg"></a><br />
-														<a href="product_detail.html" class="title">Lenovo IdeaPad
-															320</a><br />
-														<a href="#" class="category">7130U/4GB/128GB/Win10</a>
-														<p class="price">10.490.000đ</p>
+														<a href="/products/<%= randomProduct[0].code %>"><img alt=""
+																src="<%= randomProduct[0].avt %>"></a><br />
+														<a href="/products/<%= randomProduct[0].code %>" class="title"><%= randomProduct[0].name %></a><br />
+														<h4 class="price"><%= randomProduct[0].price.toLocaleString() %>đ</h4>
 													</div>
 												</li>
 											</ul>
@@ -219,12 +218,10 @@
 											<ul class="thumbnails listing-products">
 												<li class="span3">
 													<div class="product-box">
-														<a href="product_detail.html"><img alt=""
-																src="themes/images/cloth/laptop4.png"></a><br />
-														<a href="product_detail.html" class="title">Lenovo IdeaPad
-															320</a><br />
-														<a href="#" class="category">6006U/4GB/1TB/Win10</a>
-														<p class="price">9.600.000đ</p>
+														<a href="/products/<%= randomProduct[1].code %>"><img alt=""
+																src="<%= randomProduct[1].avt %>"></a><br />
+														<a href="/products/<%= randomProduct[1].code %>" class="title"><%= randomProduct[1].name %></a><br />
+														<h4 class="price"><%= randomProduct[1].price.toLocaleString() %>đ</h4>
 													</div>
 												</li>
 											</ul>

@@ -12,3 +12,11 @@ btnUpdates.forEach(btn => {
         form.orderStatus.value=data.order.orderStatus
     })
 })
+
+// CLICK SORT BY DATE
+window.onload = ()=>{
+    const dateField = document.querySelector("#dateField")
+    console.log(dateField);
+    $('#dateField').click()
+}
+

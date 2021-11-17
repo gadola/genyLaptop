@@ -1,0 +1,13 @@
+
+.pagination{
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    justify-content: flex-end;
+}
+
+.pagination .page-item{
+    padding: 5px 10px;
+    font-size: medium;
+    border: 1px solid gray;
+}

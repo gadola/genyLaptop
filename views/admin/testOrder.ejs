@@ -324,9 +324,9 @@
                   <table id="example1" class="table table-bordered table-striped">
                     <thead>
                       <tr>
+                        <th id="dateField">Date</th>
                         <th>Client</th>
                         <th>ID</th>
-                        <th>Date</th>
                         <th>Product Name</th>
                         <th>Cost</th>
                         <th>Payment</th>
@@ -338,13 +338,13 @@
                       <% for(order of orders) {%>
                         <tr>
                           <td>
+                            <%= moment(order.orderDate).format('YYYY/MM/DD') %>
+                          </td>
+                          <td>
                             <%= order.owner %>
                           </td>
                           <td>
                             <%= order.id %>
-                          </td>
-                          <td>
-                            <%= moment(order.orderDate).format('DD-MM-YYYY') %>
                           </td>
                           <td>
                             <%= order.orderProd.name %>

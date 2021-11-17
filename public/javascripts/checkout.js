@@ -18,7 +18,7 @@ function LoadPage() {
 function handlerCheckoutSubmit(cart) {
     let shipMethod = document.querySelector("input[name='shipMethod']:checked")
     let paymentMethod = document.querySelector("input[name='paymentMethod']:checked")
-    let note = document.querySelector("input[name='note']")
+    let note = document.querySelector("textarea[name='note']")
 
     console.log('shipMethod', shipMethod.value, "paymentMethod", paymentMethod.value);
     var data = {
@@ -137,16 +137,19 @@ function displayQRCode() {
     let p = document.createElement('small')
     p.textContent = "Phạm Minh Hoàng Nam - 0855457078"
     div.appendChild(p)
-
 }
 
 $("#paymentCOD").click(function(){
     $('#qrcodeMomo').hide()
     $('#thongtinchutaikhoan').hide()
+    $('#btnVerifyPayment').hide()
+
 })
 $("#paymentOnline").click(function(){
     $('#qrcodeMomo').show()
     $('#thongtinchutaikhoan').show()
+    $('#btnVerifyPayment').show()
+
 })
 
 

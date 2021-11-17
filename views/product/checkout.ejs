@@ -1,5 +1,5 @@
 <%- include("../layout/header.ejs") %>
-
+    <link rel="stylesheet" href="/stylesheets/checkoutPage.css">
     <section class="header_text sub">
         <h4><span>Thanh Toán</span></h4>
     </section>
@@ -49,43 +49,42 @@
                                         <div class="control-group">
                                             <label class="control-label">Ghi chú (tuỳ chọn)</label>
                                             <div class="controls">
-                                                <input required type="text" name="note" class="input-xlarge">
+                                                <!-- <input required type="text" name="note" class="input-xlarge"> -->
+                                                <textarea style=" width: 268px;" name="note" id="" rows="3"></textarea>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="span6">
-                                        <h4>Thông tin vật chuyển</h4>
+                                        <h4>Thông tin vật chuyển</h4><br>
                                         <div class="control-group">
                                             <div class="controls">
-                                                <input checked type="radio" name="shipMethod" value="0">
-                                                <label style="font-size:15px" for="">giao hàng tiêu chuẩn</label>
-                                                <input type="radio" name="shipMethod" value="1">
-                                                <label style="font-size:15px" for="">giao hàng tiết kiệm</label>
-                                                <input type="radio" name="shipMethod" value="2">
-                                                <label style="font-size:15px" for="">giao hàng nhanh</label>
-                                            </div>
-                                        </div>
-                                        <div id="menu-filter">
-                                            <h4>Phương thức thanh toán</h4>
-                                            <div>
-                                                <div class="">
-                                                    <input id="paymentCOD" checked value="0" type="radio" name="paymentMethod" class="input-lg">
-                                                    <label style="font-size:15px" for="">
-                                                        <b>Thanh toán khi nhận hàng (COD)</b>
-                                                    </label>
-                                                    <p style="font-size:15px">Thanh toán bằng tiền mặt khi nhận hàng tại nhà hoặc showroom.</p>
+                                                <div>
+                                                    <div class="phuongthucthanhtoan-items">
+                                                        <input checked type="radio" name="shipMethod" value="0">
+                                                        <label style="font-size:15px" for=""><b>Giao hàng tiêu
+                                                            chuẩn</b></label>
+                                                    </div>
+                                                    <p>Giao hàng sau 3 - 5 ngày làm việc</p>
                                                 </div>
-                                                <div class="">
-                                                    <input id="paymentOnline" value="1" type="radio" name="paymentMethod" class="input-lg">
-                                                    <label style="font-size:15px" for="">
-                                                        <b> Thanh toán Online qua ví điện tử Momo</b>
-                                                    </label>
-                                                    <p style="font-size:15px">Vui lòng quét mã QR bên dưới để thanh toán</p>
-                                                    <canvas style="display: none;" id="qrcodeMomo"></canvas>
-                                                    <div style="display: none;" id="thongtinchutaikhoan"></div>
+                                                <br>
+                                                <div>
+                                                    <div class="phuongthucthanhtoan-items">
+                                                        <input type="radio" name="shipMethod" value="1">
+                                                        <label style="font-size:15px" for=""><b>Giao hàng tiết kiệm</b></label>
+                                                    </div>
+                                                    <p>Giao hàng sau 5 - 7 ngày làm việc</p>
+                                                </div>
+                                                <br>
+                                                <div>
+                                                    <div class="phuongthucthanhtoan-items">
+                                                        <input type="radio" name="shipMethod" value="2">
+                                                        <label style="font-size:15px" for=""><b> Giao hàng nhanh</b></label>
+                                                    </div>
+                                                    <p>Giao hàng sau 1 - 3 ngày làm việc</p>
                                                 </div>
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -115,8 +114,49 @@
                                             <th>Tổng cộng</th>
                                         </tr>
                                     </table>
-                                    <button id="btn_checkout" class="btn btn-primary pull-right">Đặt hàng ngay</button>
-                                    
+                                </div>
+                                <div class="row-fluid">
+                                    <div id="menu-filter">
+                                        <h4>Phương thức thanh toán</h4>
+                                        <div class="phuongthucthanhtoan">
+                                            <div>
+                                                <div class="phuongthucthanhtoan-items">
+                                                    <input id="paymentCOD" checked value="0" type="radio"
+                                                        name="paymentMethod" class="input-lg">
+                                                    <label style="font-size:15px" for="">
+                                                        <b>Thanh toán khi nhận hàng (COD)</b>
+                                                    </label>
+                                                </div>
+                                                <p style="font-size:15px">Thanh toán bằng tiền mặt khi nhận hàng tại nhà
+                                                    hoặc showroom.</p>
+                                            </div>
+
+                                            <div>
+                                                <div class="phuongthucthanhtoan-items">
+                                                    <input id="paymentOnline" value="1" type="radio"
+                                                        name="paymentMethod" class="input-lg">
+                                                    <label style="font-size:15px" for="">
+                                                        <b> Thanh toán Online qua ví điện tử Momo</b>
+                                                    </label>
+                                                </div>
+                                                <p style="font-size:15px">Vui lòng quét mã QR bên dưới để thanh toán</p>
+                                                <canvas style="display: none;" id="qrcodeMomo"></canvas>
+                                                <div style="display: none;" id="thongtinchutaikhoan"></div>
+                                                <button style="display: none;" id="btnVerifyPayment"
+                                                    class="btn btn-primary">
+                                                    <!-- <a style="color: white;"
+                                                        class="accordion-toggle" data-toggle="collapse"
+                                                        data-parent="#accordion2" href="#collapseThree">Thanh toán thành
+                                                        công!
+                                                    </a> -->
+                                                    Thanh toán thành công!
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <button style="padding: 10px;font-size: large;" id="btn_checkout"
+                                        class="btn btn-lg btn-primary pull-right">Đặt hàng ngay</button>
                                     <a href="/products/cart" class="pull-center">Quay lại giỏ hàng</a>
                                 </div>
                             </div>
