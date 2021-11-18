@@ -94,7 +94,7 @@ const postRateProduct = async (req, res, next) => {
         // check đã đánh giá chưa?
         const order = await OrderModel.findById(idOrder)
 
-        if(order.rated != 0 || !order.rated){
+        if(order.rated != 0){
             return res.status(300).json({message:"Bạn đã đánh giá đơn hàng này rồi"});
         }
         // lấy sản phẩm

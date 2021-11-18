@@ -50,6 +50,9 @@ router.get('/orders2', adminController.getOrders)
 router.get('/orders', adminController.getOrders2)
 // Lấy danh đơn hàng theo id
 router.get('/order/:id', adminController.getOrderById)
+// Chi tiết đơn hàng
+// router.get('/orderss/:id', adminController.getOrderById)
+
 
 
 // cập nhật đơn hàng

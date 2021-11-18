@@ -572,6 +572,19 @@ const postOrders = async (req, res, next) => {
     }
 }
 
+const prinfOrder = async (req, res, next)=>{
+    const { id } = req.params
+    console.log(id);
+    var order = await OrderModel.findById(id)
+    return res.render("admin/detailOrder",{
+        user: req.user,
+        order: order,
+        toStatusString: helper.convertNumberToOrderStatus,
+        toPaymentMethodString: helper.convertNumberToPaymentMethod,
+        moment: moment,
+    });
+}
+
 
 // quản lý admins
 const getAdmins = async (req, res, next) => {
@@ -622,6 +635,7 @@ module.exports = {
     postOrders,
     getOrderById,
     getOrders2,
+    prinfOrder,
     getProductList2,
     getUsers2,
     getAddProduct2,
