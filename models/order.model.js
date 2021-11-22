@@ -15,7 +15,7 @@ const orderSchema = new Schema({
   },
 
   // mã đơn hàng
-  // orderCode: { type: String, unique: true, required: true },
+  orderCode: { type: String, unique: true, required: true },
 
   // ngày mua
   orderDate: { type: Date, required: true, default: new Date() },

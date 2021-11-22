@@ -4,6 +4,7 @@ const OrderModel = require("../models/order.model")
 const DetailOrderModel = require("../models/detailOder.model")
 const { Model } = require('mongoose');
 const helper = require("../helper/index");
+const constants = require('../constants/index')
 const AccountModel = require("../models/account.model");
 const UserModel = require("../models/user.model");
 
@@ -257,6 +258,7 @@ const postCheckout = async (req, res, next) => {
             }
             // tạo đơn hàng
             const newOrder = await OrderModel.create({
+                orderCode:helper.generateVerifyCode(constants.NUMBER_VERIFY_CODE),
                 owner: user._id,
                 deliveryAdd: {
                     name: user.fullName,

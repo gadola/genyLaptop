@@ -93,7 +93,7 @@
 								<% for (const order of orders) { %>
 									<tr>
 										<td><a href="/user/order?id=<%= order._id %>">
-												<%= order._id %>
+												<%= order.orderCode %>
 											</a></td>
 										<td>
 											<%= moment(order.orderDate).format('DD-MM-YYYY')%>
