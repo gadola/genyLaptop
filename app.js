@@ -20,6 +20,7 @@ const fileupload = require('express-fileupload');
 var indexRouter = require('./routes/index.route');
 var usersRouter = require('./routes/users');
 var accountRouter = require('./routes/account.route');
+var ordersRouter = require('./routes/order.route');
 var adminRouter = require('./routes/admin.route');
 var productRouter = require('./routes/product.route')
 const isAuth = require('./middlewares/is.auth')
@@ -108,6 +109,8 @@ if (dev) {
 
 // người dùng
 app.use('/user',isAuth, usersRouter);
+
+app.use('/order', ordersRouter);
 
 // tài khoản
 app.use('/account', accountRouter);

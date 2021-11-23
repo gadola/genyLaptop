@@ -29,6 +29,10 @@ window.onload = () => {
 btnViews.forEach(btn => {
     btn.addEventListener('click', async (e) => {
         let id = e.target.id.split("_")[1]
+        displayQRCode(id)
+        let img = document.querySelector('#img_qrcode')
+        var dataUrl = document.getElementById('qrcode').toDataURL()
+        img.src = dataUrl
         const response = await fetch(`/admin/order/${id}`)
         const data = await response.json()
         console.log(data);
@@ -58,6 +62,8 @@ btnViews.forEach(btn => {
 // click nút in
 btnPrint.addEventListener('click',(e)=>{
     var divContents = document.getElementById("htmlOrder").innerHTML;
+    var dataUrl = document.getElementById('qrcode').toDataURL()
+
             var a = window.open('', '', 'height=900, width=1300');
             a.document.write('<html>');
             a.document.write(divContents);
@@ -115,4 +121,31 @@ const convertNumberToTransportMethod = (number = 0) => {
             return "nhanh"
 
     }
+}
+
+// hiển thị QR code 
+function displayQRCode(id) {
+    var canvas = document.getElementById('qrcode')
+    canvas.width = 700;
+    canvas.height = 700;
+    const imgDim = { width: 30, height: 30 }; //logo dimention
+    var context = canvas.getContext("2d");
+    var imageObj = new Image();
+    imageObj.src = "/images/logo.jpg";
+
+    imageObj.onload = function () {
+        context.drawImage(
+            imageObj,
+            canvas.width / 2 - imgDim.width / 2,
+            canvas.height / 2 - imgDim.height / 2,
+            imgDim.width,
+            imgDim.height
+        );
+    };
+
+    QRCode.toCanvas(canvas, `${window.location.hostname}/order?id=${id}`, function (error) {
+        if (error) console.error(error)
+        console.log('success!');
+    })
+ 
 }

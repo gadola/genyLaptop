@@ -200,12 +200,22 @@ const getProductByCode = async (req, res, next) => {
         const code = req.params.code
         // lấy sản phẩm
         const product = await ProductModel.findOne({ code })
+        // lấy sản phẩm cùng thương hiệu
+        const brand = product.brand
+        var query = {
+            $text: {
+                $search: `${brand}`,
+            }
+        }
+        const relatedProducts = await ProductModel.find(query)
+            .limit(6)
 
         if (product) {
             const productDetail = await LaptopModel.findOne({ idProduct: product._id })
             let context = {
                 product: product,
                 productDetail: productDetail,
+                relatedProducts:relatedProducts,
                 convertSerisToString: helper.convertSerisToString,
                 hanlderRate: helper.hanlderRate,
                 user: req.user,

@@ -315,7 +315,7 @@
               <!-- The Modal -->
               <form id="view_form" action="" method="post">
                 <div class="modal" id="view_order_modal">
-                  <div class="modal-dialog  modal-lg">
+                  <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                       <!-- Modal Header -->
                       <div class="modal-header">
@@ -330,10 +330,14 @@
                           </div>
                           <div class="card-body">
                             <div class="row">
-                              <div class="col-sm-6">
+                              <div class="col-sm-3">
+                                <img id="img_qrcode" src="" alt="">
+                                <canvas style="display: none;" id="qrcode"></canvas>
+                              </div>
+                              <div class="col-sm-5">
                                 <div id="owner"></div>
                               </div>
-                              <div class="col-sm-6">
+                              <div class="col-sm-4">
                                 <div id="orderInfo"></div>
                               </div>
                             </div>
@@ -507,6 +511,7 @@
       });
     });
   </script>
+      <script src="/javascripts/qrcode.min.js"></script>
   <script src="/javascripts/admin/orders.js"></script>
 </body>
 

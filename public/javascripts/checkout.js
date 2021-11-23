@@ -124,10 +124,6 @@ function displayQRCode() {
         total += item.price * item.number
     })
 
-    // QRCode.toCanvas(canvas,`071210386894952103069704150410Vietinbank0522CN 7 - TP HCM - HOI SO10037040102100819PHAM MINH HOANG NAM02021000020163048CCB`, function (error) {
-    //     if (error) console.error(error)
-    //     console.log('success!');
-    // })
     QRCode.toCanvas(canvas,`2|99|0855457078|PHAM MINH HOANG NAM|efert269@gmail.com|0|0|${total}`, function (error) {
         if (error) console.error(error)
         console.log('success!');
