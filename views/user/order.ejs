@@ -284,7 +284,7 @@
                 if (error) console.error(error)
                 console.log('success!');
             })
-         
+
         }
     </script>
     <script>
@@ -294,7 +294,14 @@
             var dataUrl = document.getElementById('qrcode').toDataURL()
             var divContents = document.getElementById("orderInfo").innerHTML;
             var a = window.open('', '', 'height=900, width=1300');
-            a.document.write('<html>');
+            a.document.write(`<html>
+                <!-- bootstrap -->
+                <link rel="stylesheet" href="/bootstrap/css/font-awesome.min.css">
+                <link rel="stylesheet" type="text/css" href="/themes/css/font-awesome.min.css">
+                <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+                <link href="/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+                <link href="/themes/css/bootstrappage.css" rel="stylesheet" />
+            `);
             a.document.write(`<img src="${dataUrl}">`)
             a.document.write(divContents);
             a.document.write('</body></html>');

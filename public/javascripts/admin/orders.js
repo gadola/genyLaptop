@@ -65,7 +65,15 @@ btnPrint.addEventListener('click',(e)=>{
     var dataUrl = document.getElementById('qrcode').toDataURL()
 
             var a = window.open('', '', 'height=900, width=1300');
-            a.document.write('<html>');
+            a.document.write(`<html>
+                <!-- Google Font: Source Sans Pro -->
+                
+                <link rel="stylesheet" href="/adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+                <link rel="stylesheet" href="/adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+                <link rel="stylesheet" href="/adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+                <!-- Theme style -->
+                <link rel="stylesheet" href="/adminlte/dist/css/adminlte.min.css">
+            `);
             a.document.write(divContents);
             a.document.write('</body></html>');
             a.document.close();

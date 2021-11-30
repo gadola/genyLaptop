@@ -14,10 +14,18 @@
     - Trello.
     - Slack.
     - IDE: Visual Studio Code.
+
+
 - ## cấu hình file .env trước khi chạy**
 
 - ## 📦 **Cài đặt node_module trước khi chạy**
-
   ```
   > npm install
   ```
+- ## **Chạy project**
+
+```
+> npm start
+```
+
+- truy cập địa chỉ localhost:5000 để xem
